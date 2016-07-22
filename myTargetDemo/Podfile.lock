@@ -1,0 +1,15 @@
+PODS:
+  - FBAudienceNetwork (4.5.0)
+  - myTargetSDK (4.5.0)
+
+DEPENDENCIES:
+  - FBAudienceNetwork
+  - myTargetSDK
+
+SPEC CHECKSUMS:
+  FBAudienceNetwork: e43e37a65d2f067be97903c93618f948a16c2c96
+  myTargetSDK: 2222d0dade472b269605a961c18e1fd46b30caf4
+
+PODFILE CHECKSUM: 1e2a426bfc716e579695684101915bcd49b1afc9
+
+COCOAPODS: 1.0.1
