@@ -17,7 +17,7 @@ After you integrate the myTarget SDK, thousands of myTarget customers will becom
    ```ruby
    pod 'myTargetSDK'
    ```
-   Run `pod install`, and you should now have the latest parse release.
+   Run `pod install`.
 
 Integration instructions are available on our [website](https://target.my.com/partners/help/sdk/).
 
