@@ -11,7 +11,7 @@ After you integrate the myTarget SDK, thousands of myTarget customers will becom
 ## Integrate
 
 **Installation**
- - **[CocoaPods](https://cocoapods.org)**
+ - **[CocoaPods](https://cocoapods.org/pods/myTargetSDK)**
  
    Add the following line to your Podfile:
    ```ruby
