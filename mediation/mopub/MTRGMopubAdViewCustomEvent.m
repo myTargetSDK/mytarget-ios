@@ -1,0 +1,94 @@
+//
+//  MTRGMopubAdViewCustomEvent.m
+//  myTargetSDKMopubMediation
+//
+//  Created by Anton Bulankin on 12.03.15.
+//  Copyright (c) 2015 Mail.ru Group. All rights reserved.
+//
+
+#import "MTRGMopubAdViewCustomEvent.h"
+#import "MTRGAdView.h"
+#import "MTRGError.h"
+
+
+@interface MTRGMopubAdViewCustomEvent () <MTRGAdViewDelegate>
+
+
+@end
+
+@implementation MTRGMopubAdViewCustomEvent
+{
+	MTRGAdView *_adView;
+}
+
+- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
+{
+	NSUInteger slotId;
+	if (info)
+	{
+		id slotIdValue = [info valueForKey:@"slotId"];
+        slotId = [self parseSlotId:slotIdValue];
+        
+		if ([slotIdValue isKindOfClass:[NSString class]])
+		{
+			slotId = [slotIdValue integerValue];
+		}
+	}
+
+	UIViewController *ownerViewController = [self.delegate viewControllerForPresentingModalView];
+
+	if (slotId)
+	{
+		//Создаем вьюшку
+		_adView = [[MTRGAdView alloc] initWithSlotId:slotId withRefreshAd:NO];
+		_adView.viewController = ownerViewController;
+		_adView.delegate = self;
+		[_adView load];
+	}
+	else
+	{
+		MTRGError *mtrgError = [MTRGError errorWithTitle:@"Options is not correct. slotId not found"];
+		NSError *error = [mtrgError asError];
+		[self.delegate bannerCustomEvent:self didFailToLoadAdWithError:error];
+	}
+
+}
+
+-(NSUInteger) parseSlotId:(id)slotIdValue{
+    if ([slotIdValue isKindOfClass:[NSString class]])
+    {
+        NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
+        NSNumber * slotIdNum = [formatString numberFromString:slotIdValue];
+        return slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
+    }
+    else if ([slotIdValue isKindOfClass:[NSNumber class]])
+        return[((NSNumber*)slotIdValue) unsignedIntegerValue];
+    return 0;
+}
+
+#pragma mark --- MTRGAdViewDelegate
+
+- (void)onLoadWithAdView:(MTRGAdView *)adView
+{
+	[_adView start];
+	[self.delegate bannerCustomEvent:self didLoadAd:_adView];
+	[self.delegate trackImpression];
+}
+
+- (void)onNoAdWithReason:(NSString *)reason adView:(MTRGAdView *)adView
+{
+	NSError *error = nil;
+	if (reason)
+	{
+		MTRGError *mtrgError = [MTRGError errorWithTitle:@"No ad" desc:reason];
+		error = [mtrgError asError];
+	}
+	[self.delegate bannerCustomEvent:self didFailToLoadAdWithError:error];
+}
+
+- (void)onAdClickWithAdView:(MTRGAdView *)adView
+{
+	[self.delegate trackClick];
+}
+
+@end
