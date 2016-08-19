@@ -1,3 +1,7 @@
+## 4.5.6 (2016.08.19)
+
+Support NSURLSession on ios>6
+
 ## 4.5.5 (2016.08.18)
 
 Fixed properties in built-in visual components for native ads.
