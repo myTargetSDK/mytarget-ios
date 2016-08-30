@@ -1,6 +1,6 @@
 platform :ios, '6.0'
 
-workspace 'CocoaProject'
+workspace 'myTargetDemo'
 
 target :myTargetDemo do
     project 'myTargetDemo.xcodeproj'

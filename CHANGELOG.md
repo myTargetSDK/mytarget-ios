@@ -1,3 +1,8 @@
+## 4.5.7 (2016.08.30)
+
+Support on/off sound for video-banners
+Some improvements
+
 ## 4.5.6 (2016.08.19)
 
 Support NSURLSession on ios>6
