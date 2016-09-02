@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MyTargetSDK/MyTargetSDK.h>
 #import "MPNativeAdAdapter.h"
-#import "MTRGNativePromoBanner.h"
-#import "MTRGNativeAd.h"
 
 @interface MTRGMopubNativeAdAdapter : NSObject <MPNativeAdAdapter>
 

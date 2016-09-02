@@ -8,8 +8,7 @@
 
 #import "MTRGAdmobAdViewCustomEvent.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import "MTRGAdView.h"
-#import "MTRGError.h"
+#import <MyTargetSDK/MyTargetSDK.h>
 
 @interface MTRGAdmobAdViewCustomEvent () <GADCustomEventBanner, MTRGAdViewDelegate>
 
@@ -28,16 +27,17 @@
 	return MTRGGenderUnspecified;
 }
 
--(NSUInteger) parseSlotId:(id)slotIdValue{
-    if ([slotIdValue isKindOfClass:[NSString class]])
-    {
-        NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
-        NSNumber * slotIdNum = [formatString numberFromString:slotIdValue];
-        return slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
-    }
-    else if ([slotIdValue isKindOfClass:[NSNumber class]])
-        return[((NSNumber*)slotIdValue) unsignedIntegerValue];
-    return 0;
+- (NSUInteger)parseSlotId:(id)slotIdValue
+{
+	if ([slotIdValue isKindOfClass:[NSString class]])
+	{
+		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
+		NSNumber *slotIdNum = [formatString numberFromString:slotIdValue];
+		return slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
+	}
+	else if ([slotIdValue isKindOfClass:[NSNumber class]])
+		return [((NSNumber *) slotIdValue) unsignedIntegerValue];
+	return 0;
 }
 
 - (NSNumber *)ageFromBirthday:(NSDate *)birthday
@@ -71,7 +71,7 @@
 		if (info)
 		{
 			id slotIdValue = [info valueForKey:@"slotId"];
-            slotId = [self parseSlotId:slotIdValue];
+			slotId = [self parseSlotId:slotIdValue];
 		}
 	}
 
@@ -92,8 +92,8 @@
 	}
 	else
 	{
-		MTRGError *mtrgError = [MTRGError errorWithTitle:@"Options is not correct. slotId not found"];
-		NSError *error = [mtrgError asError];
+		NSDictionary * userInfo = @{NSLocalizedDescriptionKey : @"Options is not correct: slotId not found"};
+		NSError * error = [NSError errorWithDomain:@"MyTargetMediation" code:1000 userInfo:userInfo];
 		[_delegate customEventBanner:self didFailAd:error];
 	}
 }
@@ -118,8 +118,10 @@
 
 - (void)onNoAdWithReason:(NSString *)reason adView:(MTRGAdView *)adView
 {
-	MTRGError *mtrgError = [MTRGError errorWithTitle:@"No ad" desc:reason];
-	[_delegate customEventBanner:self didFailAd:[mtrgError asError]];
+	NSString * errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
+	NSDictionary * userInfo = @{NSLocalizedDescriptionKey : errorTitle};
+	NSError * error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];	
+	[_delegate customEventBanner:self didFailAd:error];
 }
 
 - (void)onAdClickWithAdView:(MTRGAdView *)adView

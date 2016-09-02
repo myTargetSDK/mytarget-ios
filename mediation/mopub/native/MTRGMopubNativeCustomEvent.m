@@ -7,10 +7,10 @@
 //
 
 #import "MTRGMopubNativeCustomEvent.h"
-#import "MTRGNativeAd.h"
+#import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMopubNativeAdAdapter.h"
 #import "MPNativeAd.h"
-#import "MTRGError.h"
+
 
 @interface MTRGMopubNativeCustomEvent () <MTRGNativeAdDelegate>
 
@@ -20,26 +20,28 @@
 
 - (void)requestAdWithCustomEventInfo:(NSDictionary *)info
 {
-    NSUInteger slotId;
-    if (info){
-        id slotIdValue = [info valueForKey:@"slotId"];
-        slotId = [self parseSlotId:slotIdValue];
-    }
+	NSUInteger slotId;
+	if (info)
+	{
+		id slotIdValue = [info valueForKey:@"slotId"];
+		slotId = [self parseSlotId:slotIdValue];
+	}
 	MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:slotId];
 	nativeAd.delegate = self;
 	[nativeAd load];
 }
 
--(NSUInteger) parseSlotId:(id)slotIdValue{
-    if ([slotIdValue isKindOfClass:[NSString class]])
-    {
-        NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
-        NSNumber * slotIdNum = [formatString numberFromString:slotIdValue];
-        return slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
-    }
-    else if ([slotIdValue isKindOfClass:[NSNumber class]])
-        return[((NSNumber*)slotIdValue) unsignedIntegerValue];
-    return 0;
+- (NSUInteger)parseSlotId:(id)slotIdValue
+{
+	if ([slotIdValue isKindOfClass:[NSString class]])
+	{
+		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
+		NSNumber *slotIdNum = [formatString numberFromString:slotIdValue];
+		return slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
+	}
+	else if ([slotIdValue isKindOfClass:[NSNumber class]])
+		return [((NSNumber *) slotIdValue) unsignedIntegerValue];
+	return 0;
 }
 
 - (void)onLoadWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd
@@ -66,13 +68,11 @@
 }
 
 - (void)onNoAdWithReason:(NSString *)reason nativeAd:(MTRGNativeAd *)nativeAd
-{
-	NSError *error = nil;
-	if (reason)
-	{
-		MTRGError *mtrgError = [MTRGError errorWithTitle:@"No ad" desc:reason];
-		error = [mtrgError asError];
-	}
+{	
+	NSString * errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
+	NSDictionary * userInfo = @{NSLocalizedDescriptionKey : errorTitle};
+	NSError * error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];
+	
 	[self.delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
 }
 

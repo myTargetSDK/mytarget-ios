@@ -8,10 +8,7 @@
 
 #import "MTRGAdmobInterstitialCustomEvent.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import "MTRGCustomParams.h"
-
-#import "MTRGInterstitialAd.h"
-#import "MTRGError.h"
+#import <MyTargetSDK/MyTargetSDK.h>
 
 @interface MTRGAdmobInterstitialCustomEvent () <GADCustomEventInterstitial>
 @end
@@ -43,16 +40,17 @@
 	return MTRGGenderUnspecified;
 }
 
--(NSUInteger) parseSlotId:(id)slotIdValue{
-    if ([slotIdValue isKindOfClass:[NSString class]])
-    {
-        NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
-        NSNumber * slotIdNum = [formatString numberFromString:slotIdValue];
-        return slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
-    }
-    else if ([slotIdValue isKindOfClass:[NSNumber class]])
-        return[((NSNumber*)slotIdValue) unsignedIntegerValue];
-    return 0;
+- (NSUInteger)parseSlotId:(id)slotIdValue
+{
+	if ([slotIdValue isKindOfClass:[NSString class]])
+	{
+		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
+		NSNumber *slotIdNum = [formatString numberFromString:slotIdValue];
+		return slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
+	}
+	else if ([slotIdValue isKindOfClass:[NSNumber class]])
+		return [((NSNumber *) slotIdValue) unsignedIntegerValue];
+	return 0;
 }
 
 - (NSNumber *)ageFromBirthday:(NSDate *)birthday
@@ -85,7 +83,7 @@
 		if (info)
 		{
 			id slotIdValue = [info valueForKey:@"slotId"];
-            slotId = [self parseSlotId:slotIdValue];
+			slotId = [self parseSlotId:slotIdValue];
 		}
 	}
 	if (slotId)
@@ -101,8 +99,9 @@
 	}
 	else
 	{
-		MTRGError *mtrgError = [MTRGError errorWithTitle:@"Options is not correct. slotId not found"];
-		[self.delegate customEventInterstitial:self didFailAd:[mtrgError asError]];
+		NSDictionary * userInfo = @{NSLocalizedDescriptionKey : @"Options is not correct: slotId not found"};
+		NSError * error = [NSError errorWithDomain:@"MyTargetMediation" code:1000 userInfo:userInfo];
+		[self.delegate customEventInterstitial:self didFailAd:error];
 	}
 }
 
@@ -131,8 +130,10 @@
 
 - (void)onNoAdWithReason:(NSString *)reason interstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	MTRGError *mtrgError = [MTRGError errorWithTitle:@"No ad" desc:reason];
-	[self.delegate customEventInterstitial:self didFailAd:[mtrgError asError]];
+	NSString * errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
+	NSDictionary * userInfo = @{NSLocalizedDescriptionKey : errorTitle};
+	NSError * error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];
+	[self.delegate customEventInterstitial:self didFailAd:error];
 }
 
 - (void)onClickWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
