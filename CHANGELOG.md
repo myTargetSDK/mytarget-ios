@@ -1,3 +1,7 @@
+## 4.5.8 (2016.09.07)
+
+Support additional callbacks onShowModal, onDismissModal, onLeaveApplication in MTRGInterstitialAd.
+
 ## 4.5.7 (2016.08.30)
 
 Support on/off sound for video-banners
