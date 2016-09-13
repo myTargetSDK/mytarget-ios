@@ -22,8 +22,6 @@
 	MTRGInterstitialAd *_interstitialAd;
 	BOOL _allowShow;
 	BOOL _isStarted;
-	BOOL _isClosed;
-	BOOL _isActiveModal;
 }
 
 - (instancetype)init
@@ -33,8 +31,6 @@
 	{
 		_allowShow = NO;
 		_isStarted = NO;
-		_isActiveModal = NO;
-		_isClosed = NO;
 	}
 	return self;
 }
@@ -117,8 +113,6 @@
 	[self.delegate customEventInterstitialWillPresent:self];
 	[_interstitialAd showWithController:rootViewController];
 	_isStarted = YES;
-	_isClosed = NO;
-	_isActiveModal = NO;
 }
 
 - (id <GADCustomEventInterstitialDelegate>)delegate
@@ -154,9 +148,7 @@
 
 - (void)onCloseWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	if (_isStarted && !_isClosed && !_isActiveModal)
-		[self.delegate customEventInterstitialDidDismiss:self];
-	_isClosed = YES;
+	[self.delegate customEventInterstitialDidDismiss:self];
 }
 
 - (void)onVideoCompleteWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
@@ -167,18 +159,6 @@
 - (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
 	// empty
-}
-
-- (void)onShowModalWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
-{
-	_isActiveModal = YES;
-}
-
-- (void)onDismissModalWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
-{
-	if (_isStarted && _isClosed && _isActiveModal)
-		[self.delegate customEventInterstitialDidDismiss:self];	
-	_isActiveModal = NO;
 }
 
 - (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
