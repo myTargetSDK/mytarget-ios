@@ -1,15 +1,19 @@
+## 4.5.9 (2016.09.13)
+
+Remove mistaken callbacks onShowModal, onDismissModal in MTRGInterstitialAd.
+
 ## 4.5.8 (2016.09.07)
 
 Support additional callbacks onShowModal, onDismissModal, onLeaveApplication in MTRGInterstitialAd.
 
 ## 4.5.7 (2016.08.30)
 
-Support on/off sound for video-banners
+Support on/off sound for video-banners.
 Some improvements
 
 ## 4.5.6 (2016.08.19)
 
-Support NSURLSession on ios>6
+Support NSURLSession on ios>6.
 
 ## 4.5.5 (2016.08.18)
 
