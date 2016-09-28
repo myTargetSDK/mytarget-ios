@@ -1,3 +1,7 @@
+## 4.5.11 (2016.09.28)
+
+Some improvements in InstreamAd.
+
 ## 4.5.10 (2016.09.14)
 
 Fixed erros on iOS 6.
