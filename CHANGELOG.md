@@ -1,3 +1,7 @@
+## 4.5.12 (2016.10.13)
+
+Support video banners in NativeAd.
+
 ## 4.5.11 (2016.09.28)
 
 Some improvements in InstreamAd.

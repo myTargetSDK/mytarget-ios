@@ -10,6 +10,8 @@
 #import "DefaultSlots.h"
 #import <MyTargetSDK/MyTargetSDK.h>
 
+static const float kHeightForFooterInSection = 50.0f;
+
 @interface InterstitialAdItem : AdItem
 
 @property(nonatomic) MTRGInterstitialAd *ad;
@@ -31,12 +33,71 @@
 
 @end
 
+@interface CheckboxView : UIView
+
+@property (nonatomic, assign) BOOL canShowModal;
+
+@end
+
+@implementation CheckboxView
+{
+	UILabel *_checkboxLabel;
+	UISwitch *_checkboxSwitch;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+	self = [super initWithFrame:frame];
+	if (self)
+	{
+		self.canShowModal = NO;
+
+		_checkboxLabel = [[UILabel alloc] init];
+		_checkboxLabel.text = @"Open fullscreen in Modal view instead of Сontroller";
+		_checkboxLabel.font = [UIFont fontWithName:@"Helvetica" size:14];
+		_checkboxLabel.textColor = [UIColor grayColor];
+		[self addSubview:_checkboxLabel];
+
+		_checkboxSwitch = [[UISwitch alloc] init];
+		[_checkboxSwitch addTarget:self action:@selector(checkboxTapped:) forControlEvents:UIControlEventTouchUpInside];
+		[self addSubview:_checkboxSwitch];
+	}
+	return self;
+}
+
+- (void)checkboxTapped:(UISwitch *)sender
+{
+	self.canShowModal = sender.isOn;
+}
+
+- (void)layoutSubviews
+{
+	[super layoutSubviews];
+
+	CGFloat padding = 8.0f;
+	CGFloat width = CGRectGetWidth(self.frame);
+	CGFloat height = CGRectGetHeight(self.frame);
+
+	CGFloat checkboxWidth = CGRectGetWidth(_checkboxSwitch.frame);
+	CGFloat checkboxHeight = CGRectGetHeight(_checkboxSwitch.frame);
+	_checkboxSwitch.frame = CGRectMake(width - checkboxWidth - padding, 0.5 * (height - checkboxHeight), checkboxWidth, checkboxHeight);
+
+	[_checkboxLabel sizeToFit];
+	CGFloat labelHeight = CGRectGetHeight(_checkboxLabel.frame);
+	_checkboxLabel.frame = CGRectMake(padding, 0.5 * (height - labelHeight), _checkboxSwitch.frame.origin.x - 2 * padding, labelHeight);
+}
+
+@end
+
 
 @interface InterstitialAdsViewController () <MTRGInterstitialAdDelegate>
 
 @end
 
 @implementation InterstitialAdsViewController
+{
+	CheckboxView *_checkboxView;
+}
 
 - (instancetype)initWithAdItem:(AdItem *)adItem
 {
@@ -93,8 +154,15 @@
 	InterstitialAdItem *interstitialAdItem = (InterstitialAdItem *) adItem;
 	if (interstitialAdItem.isLoadedSuccess)
 	{
-		[interstitialAdItem.ad showWithController:self];
-		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+		if (_checkboxView.canShowModal)
+		{
+			[interstitialAdItem.ad showModalWithController:self];
+		}
+		else
+		{
+			[interstitialAdItem.ad showWithController:self];
+			[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+		}
 	}
 }
 
@@ -114,6 +182,10 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+
+	CGRect frame = CGRectMake(0, 0, self.tableView.frame.size.width, kHeightForFooterInSection);
+	_checkboxView = [[CheckboxView alloc] initWithFrame:frame];
+	
 	[self reloadAds];
 }
 
@@ -133,6 +205,18 @@
 		if (((InterstitialAdItem *) adItem).ad == interstitialAd)
 			return (InterstitialAdItem *) adItem;
 	return nil;
+}
+
+#pragma mark - TableView Delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	return kHeightForFooterInSection;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	return _checkboxView;
 }
 
 #pragma mark -- MTRGInterstitialAdDelegate

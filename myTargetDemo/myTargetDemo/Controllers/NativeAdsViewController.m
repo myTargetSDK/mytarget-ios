@@ -21,9 +21,11 @@
 @implementation NativeAdsViewController
 {
 	ContentStreamExampleView *_contentStreamExampleView;
+	ContentStreamExampleView *_contentStreamVideoExampleView;
 	NewsFeedExampleView *_newsFeedExampleView;
 	ChatListExampleView *_chatListExampleView;
 	ContentWallExampleView *_contentWallExampleView;
+	ContentWallExampleView *_contentWallVideoExampleView;
 	NSUInteger _slotId;
 }
 
@@ -45,6 +47,12 @@
 
 		_contentWallExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:_slotId];
 		[self addPageWithTitle:@"CONTENT WALL" view:_contentWallExampleView];
+
+		_contentStreamVideoExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:kSlotNativeAdVideo];
+		[self addPageWithTitle:@"CONTENT STREAM VIDEO" view:_contentStreamVideoExampleView];
+
+		_contentWallVideoExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:kSlotNativeAdVideo];
+		[self addPageWithTitle:@"CONTENT WALL VIDEO" view:_contentWallVideoExampleView];
 	}
 	return self;
 }
@@ -63,9 +71,11 @@
 - (void)reloadAds
 {
 	[_contentStreamExampleView reloadAd];
+	[_contentStreamVideoExampleView reloadAd];
 	[_newsFeedExampleView reloadAd];
 	[_chatListExampleView reloadAd];
 	[_contentWallExampleView reloadAd];
+	[_contentWallVideoExampleView reloadAd];
 }
 
 
