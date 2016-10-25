@@ -34,6 +34,7 @@
 	{
 		_interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:slotId];
 		_interstitialAd.delegate = self;
+		[_interstitialAd.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
 		[_interstitialAd load];
 	}
 	else

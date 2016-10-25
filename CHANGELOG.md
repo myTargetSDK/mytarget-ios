@@ -1,3 +1,8 @@
+## 4.5.13 (2016.10.25)
+
+Support Rewarded Video mediation with Admob and Mopub.
+Fixed errors in NativeAd.
+
 ## 4.5.12 (2016.10.13)
 
 Support video banners in NativeAd.

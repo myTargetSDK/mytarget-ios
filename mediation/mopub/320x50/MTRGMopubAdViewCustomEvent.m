@@ -40,6 +40,7 @@
 		_adView = [[MTRGAdView alloc] initWithSlotId:slotId withRefreshAd:NO];
 		_adView.viewController = ownerViewController;
 		_adView.delegate = self;
+		[_adView.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
 		[_adView load];
 	}
 	else

@@ -97,6 +97,7 @@
 			_interstitialAd.customParams.gender = [self MTRGGenderWithAdmobGender:request.userGender];
 			_interstitialAd.customParams.age = [self ageFromBirthday:request.userBirthday];
 		}
+		[_interstitialAd.customParams setCustomParam:kMTRGCustomParamsMediationAdmob forKey:kMTRGCustomParamsMediationKey];
 		[_interstitialAd load];
 	}
 	else

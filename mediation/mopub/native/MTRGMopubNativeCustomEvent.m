@@ -28,6 +28,7 @@
 	}
 	MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:slotId];
 	nativeAd.delegate = self;
+	[nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
 	[nativeAd load];
 }
 

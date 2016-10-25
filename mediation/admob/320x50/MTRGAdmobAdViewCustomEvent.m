@@ -88,6 +88,7 @@
 			_adView.customParams.age = [self ageFromBirthday:request.userBirthday];
 		}
 		_adView.delegate = self;
+		[_adView.customParams setCustomParam:kMTRGCustomParamsMediationAdmob forKey:kMTRGCustomParamsMediationKey];
 		[_adView load];
 	}
 	else
