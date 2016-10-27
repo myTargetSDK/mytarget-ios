@@ -1,3 +1,7 @@
+## 4.5.14 (2016.10.27)
+
+New instream ad API.
+
 ## 4.5.13 (2016.10.25)
 
 Support Rewarded Video mediation with Admob and Mopub.
