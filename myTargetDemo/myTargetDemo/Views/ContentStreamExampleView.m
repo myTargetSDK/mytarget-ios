@@ -38,6 +38,7 @@ static NSUInteger kContentStreamExampleViewAdIndex = 3;
 
 		_flowLayout = [[UICollectionViewFlowLayout alloc] init];
 		[_flowLayout setItemSize:CGSizeMake(200, 200)];
+		[_flowLayout setEstimatedItemSize:CGSizeMake(200, 200)];
 		[_flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
 
 		_collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_flowLayout];
@@ -78,7 +79,6 @@ static NSUInteger kContentStreamExampleViewAdIndex = 3;
 {
 	[super layoutSubviews];
 	_collectionView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-	[_flowLayout invalidateLayout];
 }
 
 - (UIView *)viewForIndexPath:(NSIndexPath *)indexPath
