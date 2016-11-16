@@ -19,6 +19,7 @@
 @property(nonatomic) NSUInteger tag;
 @property(nonatomic) BOOL isLoading;
 @property(nonatomic) NSUInteger slotId;
+@property(nonatomic) NSUInteger slotIdVideo;
 @property(nonatomic) CustomAdItem *customItem;
 @property(nonatomic) BOOL canRemove;
 

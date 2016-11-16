@@ -11,6 +11,6 @@
 
 @interface NativeAdsViewController : ScrollMenuViewController
 
-- (instancetype)initWithTitle:(NSString *)title slotId:(NSUInteger)slotId;
+- (instancetype)initWithTitle:(NSString *)title slotId:(NSUInteger)slotId slotIdVideo:(NSUInteger)slotIdVideo;
 
 @end

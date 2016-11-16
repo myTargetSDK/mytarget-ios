@@ -27,14 +27,16 @@
 	ContentWallExampleView *_contentWallExampleView;
 	ContentWallExampleView *_contentWallVideoExampleView;
 	NSUInteger _slotId;
+	NSUInteger _slotIdVideo;
 }
 
-- (instancetype)initWithTitle:(NSString *)title slotId:(NSUInteger)slotId
+- (instancetype)initWithTitle:(NSString *)title slotId:(NSUInteger)slotId slotIdVideo:(NSUInteger)slotIdVideo
 {
 	self = [super initWithTitle:title];
 	if (self)
 	{
 		_slotId = slotId;
+		_slotIdVideo = slotIdVideo;
 
 		_contentStreamExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotId];
 		[self addPageWithTitle:@"CONTENT STREAM" view:_contentStreamExampleView];
@@ -48,10 +50,10 @@
 		_contentWallExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:_slotId];
 		[self addPageWithTitle:@"CONTENT WALL" view:_contentWallExampleView];
 
-		_contentStreamVideoExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:kSlotNativeAdVideo];
+		_contentStreamVideoExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotIdVideo];
 		[self addPageWithTitle:@"CONTENT STREAM VIDEO" view:_contentStreamVideoExampleView];
 
-		_contentWallVideoExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:kSlotNativeAdVideo];
+		_contentWallVideoExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:_slotIdVideo];
 		[self addPageWithTitle:@"CONTENT WALL VIDEO" view:_contentWallVideoExampleView];
 	}
 	return self;

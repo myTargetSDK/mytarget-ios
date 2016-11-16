@@ -69,6 +69,7 @@ static NSUInteger kContentStreamExampleViewAdIndex = 3;
 		_adView = nil;
 	}
 	[_collectionView reloadData];
+	[_flowLayout invalidateLayout];
 
 	_nativeAd = [[MTRGNativeAd alloc] initWithSlotId:_slotId];
 	_nativeAd.delegate = self;

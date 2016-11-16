@@ -1,3 +1,7 @@
+## 4.5.15 (2016.11.15)
+
+Fixed pause/resume video banners in NativeAd.
+
 ## 4.5.14 (2016.10.27)
 
 New instream ad API.
