@@ -154,8 +154,8 @@ static NSUInteger kContentStreamExampleViewAdIndex = 3;
 		CGFloat padding = 6;
 		MTRGContentStreamAdView *adView = (MTRGContentStreamAdView *) view;
 		CGFloat adWidth = collectionView.frame.size.width - 2 * padding;
-		[adView setFixedWidth:adWidth];
-		adView.frame = CGRectMake(padding, padding, adWidth, adView.frame.size.height);
+		CGSize adViewSize = [adView sizeThatFits:CGSizeMake(adWidth, CGFLOAT_MAX)];
+		adView.frame = CGRectMake(padding, padding, adViewSize.width, adViewSize.height);
 		height = adView.frame.size.height + 2 * padding;
 	}
 	else

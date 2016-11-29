@@ -1,3 +1,12 @@
+## 4.6.0 (2016.11.28)
+
+Support carousel in NativeAd.
+Fixed errors.
+
+## 4.5.16 (2016.11.21)
+
+Fixed 320x50 banner in Unity.
+
 ## 4.5.15 (2016.11.15)
 
 Fixed pause/resume video banners in NativeAd.

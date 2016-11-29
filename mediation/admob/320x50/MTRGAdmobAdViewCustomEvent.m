@@ -93,8 +93,8 @@
 	}
 	else
 	{
-		NSDictionary * userInfo = @{NSLocalizedDescriptionKey : @"Options is not correct: slotId not found"};
-		NSError * error = [NSError errorWithDomain:@"MyTargetMediation" code:1000 userInfo:userInfo];
+		NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Options is not correct: slotId not found"};
+		NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1000 userInfo:userInfo];
 		[_delegate customEventBanner:self didFailAd:error];
 	}
 }
@@ -119,9 +119,9 @@
 
 - (void)onNoAdWithReason:(NSString *)reason adView:(MTRGAdView *)adView
 {
-	NSString * errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
-	NSDictionary * userInfo = @{NSLocalizedDescriptionKey : errorTitle};
-	NSError * error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];	
+	NSString *errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
+	NSDictionary *userInfo = @{NSLocalizedDescriptionKey : errorTitle};
+	NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];
 	[_delegate customEventBanner:self didFailAd:error];
 }
 

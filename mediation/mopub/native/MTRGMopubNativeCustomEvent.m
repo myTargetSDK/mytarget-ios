@@ -69,11 +69,11 @@
 }
 
 - (void)onNoAdWithReason:(NSString *)reason nativeAd:(MTRGNativeAd *)nativeAd
-{	
-	NSString * errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
-	NSDictionary * userInfo = @{NSLocalizedDescriptionKey : errorTitle};
-	NSError * error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];
-	
+{
+	NSString *errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
+	NSDictionary *userInfo = @{NSLocalizedDescriptionKey : errorTitle};
+	NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];
+
 	[self.delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
 }
 
