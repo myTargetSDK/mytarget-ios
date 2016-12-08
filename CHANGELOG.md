@@ -1,3 +1,7 @@
+## 4.6.1 (2016.12.07)
+
+Added support fullscreen slider format.
+
 ## 4.6.0 (2016.11.28)
 
 Support carousel in NativeAd.
