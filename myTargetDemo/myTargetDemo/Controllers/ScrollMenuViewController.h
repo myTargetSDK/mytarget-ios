@@ -8,10 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger
+{
+	NativeAdTypeStatic,
+	NativeAdTypeVideo,
+	NativeAdTypeCarousel,
+} NativeAdType;
+
 @interface ScrollMenuViewController : UIViewController
 
 - (instancetype)initWithTitle:(NSString *)title;
 
-- (void)addPageWithTitle:(NSString *)title view:(UIView *)view;
+- (void)addPageWithTitle:(NSString *)title view:(UIView *)view adType:(NativeAdType)adType;
 
 @end

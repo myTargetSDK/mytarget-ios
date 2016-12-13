@@ -22,39 +22,45 @@
 {
 	ContentStreamExampleView *_contentStreamExampleView;
 	ContentStreamExampleView *_contentStreamVideoExampleView;
+	ContentStreamExampleView *_contentStreamCarouselExampleView;
 	NewsFeedExampleView *_newsFeedExampleView;
 	ChatListExampleView *_chatListExampleView;
 	ContentWallExampleView *_contentWallExampleView;
 	ContentWallExampleView *_contentWallVideoExampleView;
 	NSUInteger _slotId;
 	NSUInteger _slotIdVideo;
+	NSUInteger _slotIdCarousel;
 }
 
-- (instancetype)initWithTitle:(NSString *)title slotId:(NSUInteger)slotId slotIdVideo:(NSUInteger)slotIdVideo
+- (instancetype)initWithTitle:(NSString *)title slotId:(NSUInteger)slotId slotIdVideo:(NSUInteger)slotIdVideo slotIdCarousel:(NSUInteger)slotIdCarousel
 {
 	self = [super initWithTitle:title];
 	if (self)
 	{
 		_slotId = slotId;
 		_slotIdVideo = slotIdVideo;
+		_slotIdCarousel = slotIdCarousel;
 
 		_contentStreamExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotId];
-		[self addPageWithTitle:@"CONTENT STREAM" view:_contentStreamExampleView];
+		[self addPageWithTitle:@"CONTENT STREAM" view:_contentStreamExampleView adType:NativeAdTypeStatic];
 
 		_newsFeedExampleView = [[NewsFeedExampleView alloc] initWithController:self slotId:_slotId];
-		[self addPageWithTitle:@"NEWS FEED" view:_newsFeedExampleView];
+		[self addPageWithTitle:@"NEWS FEED" view:_newsFeedExampleView adType:NativeAdTypeStatic];
 
 		_chatListExampleView = [[ChatListExampleView alloc] initWithController:self slotId:_slotId];
-		[self addPageWithTitle:@"CHAT LIST" view:_chatListExampleView];
+		[self addPageWithTitle:@"CHAT LIST" view:_chatListExampleView adType:NativeAdTypeStatic];
 
 		_contentWallExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:_slotId];
-		[self addPageWithTitle:@"CONTENT WALL" view:_contentWallExampleView];
+		[self addPageWithTitle:@"CONTENT WALL" view:_contentWallExampleView adType:NativeAdTypeStatic];
 
 		_contentStreamVideoExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotIdVideo];
-		[self addPageWithTitle:@"CONTENT STREAM VIDEO" view:_contentStreamVideoExampleView];
+		[self addPageWithTitle:@"CONTENT STREAM VIDEO" view:_contentStreamVideoExampleView adType:NativeAdTypeVideo];
 
 		_contentWallVideoExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:_slotIdVideo];
-		[self addPageWithTitle:@"CONTENT WALL VIDEO" view:_contentWallVideoExampleView];
+		[self addPageWithTitle:@"CONTENT WALL VIDEO" view:_contentWallVideoExampleView adType:NativeAdTypeVideo];
+
+		_contentStreamCarouselExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotIdCarousel];
+		[self addPageWithTitle:@"CONTENT STREAM CAROUSEL" view:_contentStreamCarouselExampleView adType:NativeAdTypeCarousel];
 	}
 	return self;
 }
@@ -63,8 +69,7 @@
 {
 	[super viewDidLoad];
 
-	UIBarButtonItem *updateButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-	                                                                              target:self action:@selector(updateTapped:)];
+	UIBarButtonItem *updateButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(updateTapped:)];
 	self.navigationItem.rightBarButtonItems = @[updateButton];
 
 	[self reloadAds];
@@ -78,8 +83,8 @@
 	[_chatListExampleView reloadAd];
 	[_contentWallExampleView reloadAd];
 	[_contentWallVideoExampleView reloadAd];
+	[_contentStreamCarouselExampleView reloadAd];
 }
-
 
 - (void)updateTapped:(id)sender
 {

@@ -119,8 +119,6 @@
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)aniamted calledDelegate:(BOOL)calledDelgate
 {
-	if (_selectedIndex == selectedIndex)
-		return;
 	UIButton *towardsButton = _menuButtons[selectedIndex];
 	towardsButton.selected = YES;
 	UIButton *prousButton = _menuButtons[_selectedIndex];
@@ -132,14 +130,16 @@
 	{
 		[self moveToCenter:selectedMenuButton];
 
-	}                completion:^(BOOL finished)
+	}
+					 completion:^(BOOL finished)
 	{
 		if (aniamted)
 		{
 			[UIView animateWithDuration:0.15 delay:0 options:UIViewAnimationOptionCurveLinear animations:^
 			{
 				_indicatorView.frame = [self calcIndicatorForButtonFrame:selectedMenuButton.frame];
-			}                completion:^(BOOL finished)
+			}
+							 completion:^(BOOL finished)
 			{
 				if (calledDelgate)
 				{

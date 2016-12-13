@@ -83,6 +83,7 @@ const int kMainViewControllerItemAddUnit = 4;
 	adItem.image = [UIImage imageNamed:@"myTarget-native.png"];
 	adItem.slotId = kSlotNativeAd;
 	adItem.slotIdVideo = kSlotNativeAdVideo;
+	adItem.slotIdCarousel = kSlotNativeAdCarousel;
 	[self addAdItem:adItem];
 
 	for (CustomAdItem *customItem in _customAdItems)
@@ -109,6 +110,7 @@ const int kMainViewControllerItemAddUnit = 4;
 		{
 			adItem.slotId = customItem.slotId;
 			adItem.slotIdVideo = customItem.slotId;
+			adItem.slotIdCarousel = customItem.slotId;
 			adItem.customItem = customItem;
 			adItem.canRemove = YES;
 			[self addAdItem:adItem];
@@ -141,7 +143,7 @@ const int kMainViewControllerItemAddUnit = 4;
 		}
 		case kMainViewControllerItemNativeAds:
 		{
-			NativeAdsViewController *controller = [[NativeAdsViewController alloc] initWithTitle:adItem.title slotId:adItem.slotId slotIdVideo:adItem.slotIdVideo];
+			NativeAdsViewController *controller = [[NativeAdsViewController alloc] initWithTitle:adItem.title slotId:adItem.slotId slotIdVideo:adItem.slotIdVideo slotIdCarousel:adItem.slotIdCarousel];
 			[self.navigationController pushViewController:controller animated:YES];
 			break;
 		}

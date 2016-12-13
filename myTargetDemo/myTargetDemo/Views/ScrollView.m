@@ -30,6 +30,17 @@
 	[self addSubview:view];
 }
 
+- (void)removeTabViews
+{
+	for (NSInteger index = _tabViews.count - 1; index >= 0; index--)
+	{
+		UIView *view = [_tabViews objectAtIndex:index];
+		[view removeFromSuperview];
+		[_tabViews removeObjectAtIndex:index];
+	}
+	_activePageIndex = 0;
+}
+
 - (void)layoutSubviews
 {
 	[super layoutSubviews];

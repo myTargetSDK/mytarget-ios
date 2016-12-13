@@ -9,6 +9,8 @@
 
 - (void)addTabView:(UIView *)view;
 
+- (void)removeTabViews;
+
 - (void)scrollToIndex:(NSUInteger)pageIndex completion:(void (^)())completion;
 
 @end

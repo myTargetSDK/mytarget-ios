@@ -8,6 +8,7 @@
 extern NSUInteger const kSlotStandardBanner;
 extern NSUInteger const kSlotNativeAd;
 extern NSUInteger const kSlotNativeAdVideo;
+extern NSUInteger const kSlotNativeAdCarousel;
 extern NSUInteger const kSlotIntertitialAdPromo;
 extern NSUInteger const kSlotIntertitialAdImage;
 extern NSUInteger const kSlotIntertitialAdPromoVideo;
