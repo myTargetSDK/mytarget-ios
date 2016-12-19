@@ -1,3 +1,9 @@
+## 4.6.2 (2016.12.19)
+
+Support 300x250 format for banners.
+Support direct transition to apps from "Whitelist".
+Fixed erros.
+
 ## 4.6.1 (2016.12.07)
 
 Added support fullscreen slider format.
