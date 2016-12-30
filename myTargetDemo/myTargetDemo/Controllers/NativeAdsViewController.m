@@ -32,14 +32,14 @@
 	NSUInteger _slotIdCarousel;
 }
 
-- (instancetype)initWithTitle:(NSString *)title slotId:(NSUInteger)slotId slotIdVideo:(NSUInteger)slotIdVideo slotIdCarousel:(NSUInteger)slotIdCarousel
+- (instancetype)initWithAdItem:(AdItem *)adItem
 {
-	self = [super initWithTitle:title];
+	self = [super initWithTitle:adItem.title];
 	if (self)
 	{
-		_slotId = slotId;
-		_slotIdVideo = slotIdVideo;
-		_slotIdCarousel = slotIdCarousel;
+		_slotId = [adItem slotIdForType:AdItemSlotIdTypeDefault];
+		_slotIdVideo = [adItem slotIdForType:AdItemSlotIdTypeNativeVideo];
+		_slotIdCarousel = [adItem slotIdForType:AdItemSlotIdTypeNativeCarousel];
 
 		_contentStreamExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotId];
 		[self addPageWithTitle:@"CONTENT STREAM" view:_contentStreamExampleView adType:NativeAdTypeStatic];

@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ScrollMenuViewController.h"
+#import "AdItem.h"
 
 @interface NativeAdsViewController : ScrollMenuViewController
 
-- (instancetype)initWithTitle:(NSString *)title slotId:(NSUInteger)slotId slotIdVideo:(NSUInteger)slotIdVideo slotIdCarousel:(NSUInteger)slotIdCarousel;
+- (instancetype)initWithAdItem:(AdItem *)adItem;
 
 @end

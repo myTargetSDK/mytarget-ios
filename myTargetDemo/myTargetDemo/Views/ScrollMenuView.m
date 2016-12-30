@@ -10,6 +10,16 @@
 
 @implementation ScrollMenuItem
 
+- (instancetype)initWithTitle:(NSString *)title
+{
+	self = [super init];
+	if (self)
+	{
+		_title = title;
+	}
+	return self;
+}
+
 @end
 
 @interface ScrollMenuView () <UIScrollViewDelegate>

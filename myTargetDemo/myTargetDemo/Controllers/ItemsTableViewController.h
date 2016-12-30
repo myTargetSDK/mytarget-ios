@@ -7,26 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class CustomAdItem;
-
-@interface AdItem : NSObject
-
-@property(nonatomic) NSString *title;
-@property(nonatomic) NSString *info;
-@property(nonatomic) UIColor *color;
-@property(nonatomic) UIImage *image;
-@property(nonatomic) NSUInteger tag;
-@property(nonatomic) BOOL isLoading;
-@property(nonatomic) NSUInteger slotId;
-@property(nonatomic) NSUInteger slotIdVideo;
-@property(nonatomic) NSUInteger slotIdCarousel;
-@property(nonatomic) CustomAdItem *customItem;
-@property(nonatomic) BOOL canRemove;
-
-- (instancetype)initWithTitle:(NSString *)title info:(NSString *)info;
-
-@end
+#import "AdItem.h"
 
 @interface ItemsTableViewController : UITableViewController
 

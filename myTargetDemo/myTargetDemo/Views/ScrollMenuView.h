@@ -14,6 +14,8 @@
 
 @property(nonatomic, copy) NSString *title;
 
+- (instancetype)initWithTitle:(NSString *)title;
+
 @end
 
 @protocol ScrollMenuViewDelegate <NSObject>

@@ -7,26 +7,6 @@
 //
 
 #import "ItemsTableViewController.h"
-#import "CustomAdItem.h"
-
-@implementation AdItem
-
-- (instancetype)initWithTitle:(NSString *)title info:(NSString *)info
-{
-	self = [super init];
-	if (self)
-	{
-		_title = title;
-		_info = info;
-		_tag = 0;
-		_isLoading = NO;
-		_canRemove = NO;
-	}
-	return self;
-}
-
-@end
-
 
 @class AdItemView;
 

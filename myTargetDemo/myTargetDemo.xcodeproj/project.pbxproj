@@ -48,6 +48,7 @@
 		761D7BA46EFC3C7C10940401 /* myTarget-fullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 761D798A86932241E3101616 /* myTarget-fullscreen.png */; };
 		761D7D965FF4C740B0369820 /* SimpleTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D79224A95111A0640725B /* SimpleTextView.m */; };
 		761D7FE8D6552783965B9CDD /* ChatListExampleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D7C6FEE73ED5D6649A7FC /* ChatListExampleView.m */; };
+		89F78AB31E1546A70055C9EA /* AdItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F78AB21E1546A70055C9EA /* AdItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +135,8 @@
 		761D7DDB3732CDB7ED5DBCDD /* NewsFeedExampleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedExampleView.h; sourceTree = "<group>"; };
 		761D7DF374A03086DEE8F9D9 /* myTarget-banners-320x50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "myTarget-banners-320x50.png"; sourceTree = "<group>"; };
 		761D7F92874B80D81EDEE89A /* StandardBannersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardBannersViewController.h; sourceTree = "<group>"; };
+		89F78AB11E1546A70055C9EA /* AdItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdItem.h; sourceTree = "<group>"; };
+		89F78AB21E1546A70055C9EA /* AdItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,6 +326,8 @@
 		761D77224CE40EF0AFB6F2A9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				89F78AB11E1546A70055C9EA /* AdItem.h */,
+				89F78AB21E1546A70055C9EA /* AdItem.m */,
 				761D792ADD25E90CB090453C /* CustomAdItem.m */,
 				761D7A782484BF1C6FF959E7 /* CustomAdItem.h */,
 			);
@@ -478,6 +483,7 @@
 				38CEE92B1D1C352E00743C2F /* ItemsTableViewController.m in Sources */,
 				38CEE92E1D1D619800743C2F /* InterstitialAdsViewController.m in Sources */,
 				761D72581162CA5A6C25E3F0 /* ScrollView.m in Sources */,
+				89F78AB31E1546A70055C9EA /* AdItem.m in Sources */,
 				761D71FC960865FD20337B6D /* ContentStreamExampleView.m in Sources */,
 				386A29B21D2E9F2B00F5FF2E /* AdTypes.m in Sources */,
 				761D7D965FF4C740B0369820 /* SimpleTextView.m in Sources */,

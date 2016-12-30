@@ -4,10 +4,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "AdItem.h"
 
 @interface StandardBannersViewController : UIViewController
 
-- (instancetype)initWithTitle:(NSString *)title slotId:(NSUInteger)slotId;
+- (instancetype)initWithAdItem:(AdItem *)adItem;
 
 @end

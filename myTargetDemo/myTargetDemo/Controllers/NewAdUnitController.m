@@ -59,7 +59,7 @@
 		self.view.backgroundColor = [UIColor whiteColor];
 
 		_adTypes = @[
-				[[AdTypeItem alloc] initWithAdType:kAdTypeStandard title:@"Banner 320x50"],
+				[[AdTypeItem alloc] initWithAdType:kAdTypeStandard title:@"Banner"],
 				[[AdTypeItem alloc] initWithAdType:kAdTypeInterstitial title:@"Interstitial Ad"],
 				[[AdTypeItem alloc] initWithAdType:kAdTypeNative title:@"Native Ad"]
 		];

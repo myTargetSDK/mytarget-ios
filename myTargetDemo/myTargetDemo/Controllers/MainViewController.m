@@ -19,7 +19,7 @@
 
 @end
 
-const int kMainViewControllerItemBanners320x50 = 1;
+const int kMainViewControllerItemBanners = 1;
 const int kMainViewControllerItemInterstitialAds = 2;
 const int kMainViewControllerItemNativeAds = 3;
 const int kMainViewControllerItemAddUnit = 4;
@@ -66,9 +66,10 @@ const int kMainViewControllerItemAddUnit = 4;
 
 	AdItem *adItem;
 
-	adItem = [[AdItem alloc] initWithTitle:@"Banners 320x50" info:@"Standard 320x50 banners"];
-	adItem.tag = kMainViewControllerItemBanners320x50;
-	adItem.slotId = kSlotStandardBanner;
+	adItem = [[AdItem alloc] initWithTitle:@"Banners" info:@"320x50 and 300x250 banners"];
+	adItem.tag = kMainViewControllerItemBanners;
+	[adItem setSlotId:kSlotStandardBanner320x50 type:AdItemSlotIdTypeDefault];
+	[adItem setSlotId:kSlotStandardBanner300x250 type:AdItemSlotIdTypeStandard300x250];
 	adItem.image = [UIImage imageNamed:@"myTarget-banners-320x50.png"];
 	[self addAdItem:adItem];
 
@@ -81,9 +82,9 @@ const int kMainViewControllerItemAddUnit = 4;
 	adItem = [[AdItem alloc] initWithTitle:@"Native Ads" info:@"Advertisement inside app's content"];
 	adItem.tag = kMainViewControllerItemNativeAds;
 	adItem.image = [UIImage imageNamed:@"myTarget-native.png"];
-	adItem.slotId = kSlotNativeAd;
-	adItem.slotIdVideo = kSlotNativeAdVideo;
-	adItem.slotIdCarousel = kSlotNativeAdCarousel;
+	[adItem setSlotId:kSlotNativeAd type:AdItemSlotIdTypeDefault];
+	[adItem setSlotId:kSlotNativeAdVideo type:AdItemSlotIdTypeNativeVideo];
+	[adItem setSlotId:kSlotNativeAdCarousel type:AdItemSlotIdTypeNativeCarousel];
 	[self addAdItem:adItem];
 
 	for (CustomAdItem *customItem in _customAdItems)
@@ -92,8 +93,8 @@ const int kMainViewControllerItemAddUnit = 4;
 
 		if (customItem.adType == kAdTypeStandard)
 		{
-			adItem = [[AdItem alloc] initWithTitle:@"Banners 320x50" info:customItem.title];
-			adItem.tag = kMainViewControllerItemBanners320x50;
+			adItem = [[AdItem alloc] initWithTitle:@"Banners" info:customItem.title];
+			adItem.tag = kMainViewControllerItemBanners;
 		}
 		if (customItem.adType == kAdTypeInterstitial)
 		{
@@ -108,9 +109,7 @@ const int kMainViewControllerItemAddUnit = 4;
 
 		if (adItem)
 		{
-			adItem.slotId = customItem.slotId;
-			adItem.slotIdVideo = customItem.slotId;
-			adItem.slotIdCarousel = customItem.slotId;
+			[adItem setSlotId:customItem.slotId type:AdItemSlotIdTypeDefault];
 			adItem.customItem = customItem;
 			adItem.canRemove = YES;
 			[self addAdItem:adItem];
@@ -129,9 +128,9 @@ const int kMainViewControllerItemAddUnit = 4;
 {
 	switch (adItem.tag)
 	{
-		case kMainViewControllerItemBanners320x50:
+		case kMainViewControllerItemBanners:
 		{
-			StandardBannersViewController *controller = [[StandardBannersViewController alloc] initWithTitle:adItem.title slotId:adItem.slotId];
+			StandardBannersViewController *controller = [[StandardBannersViewController alloc] initWithAdItem:adItem];
 			[self.navigationController pushViewController:controller animated:YES];
 			break;
 		}
@@ -143,7 +142,7 @@ const int kMainViewControllerItemAddUnit = 4;
 		}
 		case kMainViewControllerItemNativeAds:
 		{
-			NativeAdsViewController *controller = [[NativeAdsViewController alloc] initWithTitle:adItem.title slotId:adItem.slotId slotIdVideo:adItem.slotIdVideo slotIdCarousel:adItem.slotIdCarousel];
+			NativeAdsViewController *controller = [[NativeAdsViewController alloc] initWithAdItem:adItem];
 			[self.navigationController pushViewController:controller animated:YES];
 			break;
 		}
