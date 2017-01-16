@@ -1,3 +1,8 @@
+## 4.6.3 (2017.01.12)
+
+SFSafariViewController instead UIWebView.
+Fixed erros in fullscreen slider.
+
 ## 4.6.2 (2016.12.19)
 
 Support 300x250 format for banners.
