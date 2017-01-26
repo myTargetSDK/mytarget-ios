@@ -44,8 +44,8 @@
 {
 	if (!birthday) return nil;
 
-	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents *components = [calendar components:NSYearCalendarUnit
+	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	NSDateComponents *components = [calendar components:NSCalendarUnitYear
 	                                           fromDate:birthday
 	                                             toDate:[NSDate date]
 	                                            options:0];
@@ -79,8 +79,18 @@
 
 	if (slotId)
 	{
+		MTRGAdSize adViewSize = MTRGAdSize_320x50;
+		if (CGSizeEqualToSize(adSize.size, kGADAdSizeMediumRectangle.size))
+		{
+			adViewSize = MTRGAdSize_300x250;
+		}
+		else if (CGSizeEqualToSize(adSize.size, kGADAdSizeLeaderboard.size))
+		{
+			adViewSize = MTRGAdSize_728x90;
+		}
+
 		//Создаем вьюшку
-		_adView = [[MTRGAdView alloc] initWithSlotId:slotId withRefreshAd:NO];
+		_adView = [[MTRGAdView alloc] initWithSlotId:slotId withRefreshAd:NO adSize:adViewSize];
 		_adView.viewController = ownerViewController;
 		if (request)
 		{
@@ -130,5 +140,19 @@
 	[_delegate customEventBannerWasClicked:self];
 }
 
+- (void)onShowModalWithAdView:(MTRGAdView *)adView
+{
+	[_delegate customEventBannerWillPresentModal:self];
+}
+
+- (void)onDismissModalWithAdView:(MTRGAdView *)adView
+{
+	[_delegate customEventBannerDidDismissModal:self];
+}
+
+- (void)onLeaveApplicationWithAdView:(MTRGAdView *)adView
+{
+	[_delegate customEventBannerWillLeaveApplication:self];
+}
 
 @end

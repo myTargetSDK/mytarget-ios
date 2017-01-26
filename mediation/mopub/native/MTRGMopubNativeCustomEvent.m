@@ -45,6 +45,8 @@
 	return 0;
 }
 
+#pragma marl - MTRGNativeAdDelegate
+
 - (void)onLoadWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd
 {
 	MTRGMopubNativeAdAdapter *adapter = [[MTRGMopubNativeAdAdapter alloc] initWithPromoBanner:promoBanner nativeAd:nativeAd];
@@ -79,8 +81,22 @@
 
 - (void)onAdClickWithNativeAd:(MTRGNativeAd *)nativeAd
 {
-	//Ничего не делаем
+	// empty
 }
 
+- (void)onShowModalWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	// empty
+}
+
+- (void)onDismissModalWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	// empty
+}
+
+- (void)onLeaveApplicationWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	// empty
+}
 
 @end

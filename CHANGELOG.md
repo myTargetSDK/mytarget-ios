@@ -1,3 +1,8 @@
+## 4.6.4 (2017.01.25)
+
+Support in-stream audio ads.
+Support 300x250 format in Admob mediation.
+
 ## 4.6.3 (2017.01.12)
 
 SFSafariViewController instead UIWebView.

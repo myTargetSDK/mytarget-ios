@@ -87,4 +87,19 @@
 	[self.delegate trackClick];
 }
 
+- (void)onShowModalWithAdView:(MTRGAdView *)adView
+{
+	[self.delegate bannerCustomEventWillBeginAction:self];
+}
+
+- (void)onDismissModalWithAdView:(MTRGAdView *)adView
+{
+	[self.delegate bannerCustomEventDidFinishAction:self];
+}
+
+- (void)onLeaveApplicationWithAdView:(MTRGAdView *)adView
+{
+	[self.delegate bannerCustomEventWillLeaveApplication:self];
+}
+
 @end

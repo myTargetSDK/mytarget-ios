@@ -70,6 +70,17 @@
 	return NO;
 }
 
+- (void)disappear
+{
+	if (!_alreadyDisappear)
+	{
+		[self.delegate interstitialCustomEventDidDisappear:self];
+		_alreadyDisappear = YES;
+	}
+}
+
+#pragma mark - MTRGInterstitialAdDelegate
+
 - (void)onLoadWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
 	[self.delegate interstitialCustomEvent:self didLoadAd:nil];
@@ -91,17 +102,22 @@
 
 - (void)onCloseWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	//empty
 	[self disappear];
 }
 
-- (void)disappear
+- (void)onVideoCompleteWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	if (!_alreadyDisappear)
-	{
-		[self.delegate interstitialCustomEventDidDisappear:self];
-		_alreadyDisappear = YES;
-	}
+	// empty
+}
+
+- (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	[self.delegate interstitialCustomEventDidAppear:self];
+}
+
+- (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	[self.delegate interstitialCustomEventWillLeaveApplication:self];
 }
 
 @end

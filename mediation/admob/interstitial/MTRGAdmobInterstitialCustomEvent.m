@@ -59,8 +59,8 @@
 {
 	if (!birthday) return nil;
 
-	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents *components = [calendar components:NSYearCalendarUnit
+	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	NSDateComponents *components = [calendar components:NSCalendarUnitYear
 	                                           fromDate:birthday
 	                                             toDate:[NSDate date]
 	                                            options:0];
@@ -159,7 +159,7 @@
 
 - (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	// empty
+	[self.delegate customEventInterstitialWillPresent:self];
 }
 
 - (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
