@@ -61,7 +61,8 @@
 		_adTypes = @[
 				[[AdTypeItem alloc] initWithAdType:kAdTypeStandard title:@"Banner"],
 				[[AdTypeItem alloc] initWithAdType:kAdTypeInterstitial title:@"Interstitial Ad"],
-				[[AdTypeItem alloc] initWithAdType:kAdTypeNative title:@"Native Ad"]
+				[[AdTypeItem alloc] initWithAdType:kAdTypeNative title:@"Native Ad"],
+				[[AdTypeItem alloc] initWithAdType:kAdTypeInstream title:@"Instream Ad"]
 		];
 
 		_adTypeLabel = [[UILabel alloc] init];
@@ -95,6 +96,7 @@
 
 		_slotIdTextField = [[UITextField alloc] init];
 		_slotIdTextField.text = @"";
+		_slotIdTextField.keyboardType = UIKeyboardTypeNumberPad;
 		_slotIdTextField.translatesAutoresizingMaskIntoConstraints = NO;
 		_slotIdTextField.borderStyle = UITextBorderStyleRoundedRect;
 		_slotIdTextField.delegate = self;
@@ -140,8 +142,8 @@
 		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[adTypeLabel(40)]-10-[slotIdLabel(40)]-10-[nameLabel(40)]" options:0 metrics:nil views:views]];
 		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[adTypeButton(40)]-10-[slotIdTextField(40)]-10-[nameTextField(40)]" options:0 metrics:nil views:views]];
 		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[nameLabel]-50-[saveButton(60)]" options:0 metrics:nil views:views]];
-		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-100-[saveButton(120)]" options:0 metrics:nil views:views]];
-
+		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[saveButton(120)]" options:0 metrics:nil views:views]];
+		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:_saveButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
 	}
 	return self;
 }
@@ -160,20 +162,19 @@
 
 - (void)adTypeButtonTapped:(id)sender
 {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] init];
-	actionSheet.delegate = self;
-	[actionSheet setTitle:@"Ad type"];
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Ad type" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:nil];
 	for (AdTypeItem *item in _adTypes)
+	{
 		[actionSheet addButtonWithTitle:item.title];
-	[actionSheet addButtonWithTitle:@"Cancel"];
+	}
 	[actionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if (buttonIndex >= 0 && buttonIndex < _adTypes.count)
+	if (0 < buttonIndex && buttonIndex <= _adTypes.count)
 	{
-		AdTypeItem *item = _adTypes[buttonIndex];
+		AdTypeItem *item = _adTypes[buttonIndex - 1];
 		_adType = item.adType;
 		[_adTypeButton setTitle:item.title forState:UIControlStateNormal];
 	}

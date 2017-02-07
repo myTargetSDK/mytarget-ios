@@ -57,8 +57,7 @@
 
 - (CGRect)calcIndicatorForButtonFrame:(CGRect)buttonFrame
 {
-	return CGRectMake(buttonFrame.origin.x, 50 - _indicatorHeight,
-			buttonFrame.size.width, _indicatorHeight);
+	return CGRectMake(buttonFrame.origin.x, 50 - _indicatorHeight, buttonFrame.size.width, _indicatorHeight);
 }
 
 - (UIButton *)createButtonForItem:(ScrollMenuItem *)menuItem
@@ -77,7 +76,7 @@
 	return button;
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
 	if (self)
@@ -102,8 +101,22 @@
 
 		[self addSubview:self.scrollView];
 		[self sendSubviewToBack:self.scrollView];
+
+		[self setupView];
 	}
 	return self;
+}
+
+- (void)setupView
+{
+	self.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.5];
+	self.tabTitleColor = [UIColor whiteColor];
+	self.backgroundColor = [UIColor colorWithRed:248 / 255.f green:48 / 255.f blue:63 / 255.f alpha:1];
+	self.tabTitleFont = [UIFont fontWithName:@"Helvetica-Bold" size:14];
+	self.layer.shadowColor = [UIColor grayColor].CGColor;
+	self.layer.shadowRadius = 5.0;
+	self.layer.shadowOpacity = 0.6;
+	self.layer.shadowOffset = CGSizeMake(0, 5.0);
 }
 
 - (void)setTabTitleColor:(UIColor *)tabTitleColor

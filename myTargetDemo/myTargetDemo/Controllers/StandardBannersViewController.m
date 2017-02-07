@@ -62,18 +62,9 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 	}
 
 	_scrollMenu = [[ScrollMenuView alloc] init];
+	_scrollMenu.delegate = self;
 	_scrollMenu.translatesAutoresizingMaskIntoConstraints = NO;
 	[self.view addSubview:_scrollMenu];
-
-	_scrollMenu.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.5];
-	_scrollMenu.tabTitleColor = [UIColor whiteColor];
-	_scrollMenu.backgroundColor = [UIColor colorWithRed:248 / 255.f green:48 / 255.f blue:63 / 255.f alpha:1];
-	_scrollMenu.tabTitleFont = [UIFont fontWithName:@"Helvetica-Bold" size:14];
-	_scrollMenu.layer.shadowColor = [UIColor grayColor].CGColor;
-	_scrollMenu.layer.shadowRadius = 5.0;
-	_scrollMenu.layer.shadowOpacity = 0.6;
-	_scrollMenu.layer.shadowOffset = CGSizeMake(0, 5.0);
-	_scrollMenu.delegate = self;
 
 	NSMutableArray *menuItems = [NSMutableArray new];
 	[menuItems addObject:[[ScrollMenuItem alloc] initWithTitle:@"320x50"]];

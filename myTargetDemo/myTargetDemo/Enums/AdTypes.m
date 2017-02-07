@@ -8,3 +8,4 @@
 NSUInteger const kAdTypeStandard = 100;
 NSUInteger const kAdTypeInterstitial = 101;
 NSUInteger const kAdTypeNative = 102;
+NSUInteger const kAdTypeInstream = 103;

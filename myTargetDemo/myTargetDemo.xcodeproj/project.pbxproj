@@ -49,6 +49,10 @@
 		761D7D965FF4C740B0369820 /* SimpleTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D79224A95111A0640725B /* SimpleTextView.m */; };
 		761D7FE8D6552783965B9CDD /* ChatListExampleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D7C6FEE73ED5D6649A7FC /* ChatListExampleView.m */; };
 		89F78AB31E1546A70055C9EA /* AdItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F78AB21E1546A70055C9EA /* AdItem.m */; };
+		89F78ABA1E2F52150055C9EA /* InstreamAdsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F78AB91E2F52150055C9EA /* InstreamAdsViewController.m */; };
+		89F78ABD1E2F776A0055C9EA /* VideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F78ABC1E2F776A0055C9EA /* VideoPlayerView.m */; };
+		89F78AC01E30FF400055C9EA /* VideoProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F78ABF1E30FF400055C9EA /* VideoProgressView.m */; };
+		89F78AC61E3250770055C9EA /* myTarget-instream.png in Resources */ = {isa = PBXBuildFile; fileRef = 89F78AC51E3250770055C9EA /* myTarget-instream.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +141,13 @@
 		761D7F92874B80D81EDEE89A /* StandardBannersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardBannersViewController.h; sourceTree = "<group>"; };
 		89F78AB11E1546A70055C9EA /* AdItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdItem.h; sourceTree = "<group>"; };
 		89F78AB21E1546A70055C9EA /* AdItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdItem.m; sourceTree = "<group>"; };
+		89F78AB81E2F52150055C9EA /* InstreamAdsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstreamAdsViewController.h; sourceTree = "<group>"; };
+		89F78AB91E2F52150055C9EA /* InstreamAdsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstreamAdsViewController.m; sourceTree = "<group>"; };
+		89F78ABB1E2F776A0055C9EA /* VideoPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerView.h; sourceTree = "<group>"; };
+		89F78ABC1E2F776A0055C9EA /* VideoPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerView.m; sourceTree = "<group>"; };
+		89F78ABE1E30FF400055C9EA /* VideoProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoProgressView.h; sourceTree = "<group>"; };
+		89F78ABF1E30FF400055C9EA /* VideoProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoProgressView.m; sourceTree = "<group>"; };
+		89F78AC51E3250770055C9EA /* myTarget-instream.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "myTarget-instream.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,6 +280,8 @@
 				761D7F92874B80D81EDEE89A /* StandardBannersViewController.h */,
 				761D7779A29A5BBCB7DFA907 /* NewAdUnitController.m */,
 				761D753D48A9FF390A2FF20A /* NewAdUnitController.h */,
+				89F78AB81E2F52150055C9EA /* InstreamAdsViewController.h */,
+				89F78AB91E2F52150055C9EA /* InstreamAdsViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -292,6 +305,10 @@
 				761D740CE285FD681A125A78 /* ContentWallExampleView.h */,
 				761D7640054365A62D2EC70C /* BorderCollectionViewCell.m */,
 				761D77658B5E453C6314E8D7 /* BorderCollectionViewCell.h */,
+				89F78ABB1E2F776A0055C9EA /* VideoPlayerView.h */,
+				89F78ABC1E2F776A0055C9EA /* VideoPlayerView.m */,
+				89F78ABE1E30FF400055C9EA /* VideoProgressView.h */,
+				89F78ABF1E30FF400055C9EA /* VideoProgressView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -308,6 +325,7 @@
 				761D798A86932241E3101616 /* myTarget-fullscreen.png */,
 				761D77D8AECCF5ED0F3B8F76 /* myTarget-native.png */,
 				761D7DF374A03086DEE8F9D9 /* myTarget-banners-320x50.png */,
+				89F78AC51E3250770055C9EA /* myTarget-instream.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -450,6 +468,7 @@
 				382450961D2C08880087C8EC /* myTarget-logo.png in Resources */,
 				382450E01D2CE88A0087C8EC /* LaunchScreen.storyboard in Resources */,
 				761D7656FEB28D32CAB05971 /* myTarget-banners-320x50.png in Resources */,
+				89F78AC61E3250770055C9EA /* myTarget-instream.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +493,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F78ABA1E2F52150055C9EA /* InstreamAdsViewController.m in Sources */,
 				38CEE96A1D22C21700743C2F /* ScrollMenuView.m in Sources */,
 				3894150B1D1BF2F200716978 /* AppDelegate.m in Sources */,
 				38CEE94A1D2155E300743C2F /* NativeAdsViewController.m in Sources */,
@@ -486,6 +506,7 @@
 				89F78AB31E1546A70055C9EA /* AdItem.m in Sources */,
 				761D71FC960865FD20337B6D /* ContentStreamExampleView.m in Sources */,
 				386A29B21D2E9F2B00F5FF2E /* AdTypes.m in Sources */,
+				89F78ABD1E2F776A0055C9EA /* VideoPlayerView.m in Sources */,
 				761D7D965FF4C740B0369820 /* SimpleTextView.m in Sources */,
 				761D75CF58B58B15039066CB /* NewsFeedExampleView.m in Sources */,
 				761D7FE8D6552783965B9CDD /* ChatListExampleView.m in Sources */,
@@ -493,6 +514,7 @@
 				761D79C3F67DB65C0C857FBE /* StandardBannersViewController.m in Sources */,
 				761D703E050FA51C5B1C5F10 /* NewAdUnitController.m in Sources */,
 				761D783FB2EE678F671F2B5D /* DefaultSlots.m in Sources */,
+				89F78AC01E30FF400055C9EA /* VideoProgressView.m in Sources */,
 				761D75AABE294168997E9D4F /* CustomAdItem.m in Sources */,
 				761D726F7C487C3B2CED6CDE /* BorderCollectionViewCell.m in Sources */,
 			);

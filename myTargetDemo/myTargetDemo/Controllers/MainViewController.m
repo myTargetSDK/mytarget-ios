@@ -10,6 +10,7 @@
 #import "InterstitialAdsViewController.h"
 #import "NativeAdsViewController.h"
 #import "StandardBannersViewController.h"
+#import "InstreamAdsViewController.h"
 #import "NewAdUnitController.h"
 #import "AdTypes.h"
 #import "CustomAdItem.h"
@@ -22,7 +23,8 @@
 const int kMainViewControllerItemBanners = 1;
 const int kMainViewControllerItemInterstitialAds = 2;
 const int kMainViewControllerItemNativeAds = 3;
-const int kMainViewControllerItemAddUnit = 4;
+const int kMainViewControllerItemInstreamAds = 4;
+const int kMainViewControllerItemAddUnit = 5;
 
 
 @interface MainViewController () <NewAdUnitControllerDelegate>
@@ -87,6 +89,12 @@ const int kMainViewControllerItemAddUnit = 4;
 	[adItem setSlotId:kSlotNativeAdCarousel type:AdItemSlotIdTypeNativeCarousel];
 	[self addAdItem:adItem];
 
+	adItem = [[AdItem alloc] initWithTitle:@"Instream Ads" info:@"Instream video ads"];
+	adItem.tag = kMainViewControllerItemInstreamAds;
+	adItem.image = [UIImage imageNamed:@"myTarget-instream.png"];
+	adItem.slotId = 9525;
+	[self addAdItem:adItem];
+
 	for (CustomAdItem *customItem in _customAdItems)
 	{
 		adItem = nil;
@@ -105,6 +113,11 @@ const int kMainViewControllerItemAddUnit = 4;
 		{
 			adItem = [[AdItem alloc] initWithTitle:@"Native Ads" info:customItem.title];
 			adItem.tag = kMainViewControllerItemNativeAds;
+		}
+		if (customItem.adType == kAdTypeInstream)
+		{
+			adItem = [[AdItem alloc] initWithTitle:@"Instream Ads" info:customItem.title];
+			adItem.tag = kMainViewControllerItemInstreamAds;
 		}
 
 		if (adItem)
@@ -143,6 +156,12 @@ const int kMainViewControllerItemAddUnit = 4;
 		case kMainViewControllerItemNativeAds:
 		{
 			NativeAdsViewController *controller = [[NativeAdsViewController alloc] initWithAdItem:adItem];
+			[self.navigationController pushViewController:controller animated:YES];
+			break;
+		}
+		case kMainViewControllerItemInstreamAds:
+		{
+			InstreamAdsViewController *controller = [[InstreamAdsViewController alloc] initWithAdItem:adItem];
 			[self.navigationController pushViewController:controller animated:YES];
 			break;
 		}

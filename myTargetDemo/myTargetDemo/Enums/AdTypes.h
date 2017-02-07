@@ -8,4 +8,4 @@
 extern NSUInteger const kAdTypeStandard;
 extern NSUInteger const kAdTypeInterstitial;
 extern NSUInteger const kAdTypeNative;
-
+extern NSUInteger const kAdTypeInstream;
