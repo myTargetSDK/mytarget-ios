@@ -1,3 +1,10 @@
+## 4.6.5 (2017.02.21)
+
+Support 728х90 format for banners.
+Support autoloading video in NativeAd.
+Fixed errors.
+Minimum supported iOS version since now is 7.0
+
 ## 4.6.4 (2017.01.25)
 
 Support in-stream audio ads.

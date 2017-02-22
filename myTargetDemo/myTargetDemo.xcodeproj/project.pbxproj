@@ -48,6 +48,8 @@
 		761D7BA46EFC3C7C10940401 /* myTarget-fullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 761D798A86932241E3101616 /* myTarget-fullscreen.png */; };
 		761D7D965FF4C740B0369820 /* SimpleTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D79224A95111A0640725B /* SimpleTextView.m */; };
 		761D7FE8D6552783965B9CDD /* ChatListExampleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D7C6FEE73ED5D6649A7FC /* ChatListExampleView.m */; };
+		89E1062F1E5DA6AD00A050D9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E1062E1E5DA6AD00A050D9 /* CoreGraphics.framework */; };
+		89E106311E5DA6B300A050D9 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E106301E5DA6B300A050D9 /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		89F78AB31E1546A70055C9EA /* AdItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F78AB21E1546A70055C9EA /* AdItem.m */; };
 		89F78ABA1E2F52150055C9EA /* InstreamAdsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F78AB91E2F52150055C9EA /* InstreamAdsViewController.m */; };
 		89F78ABD1E2F776A0055C9EA /* VideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F78ABC1E2F776A0055C9EA /* VideoPlayerView.m */; };
@@ -139,6 +141,8 @@
 		761D7DDB3732CDB7ED5DBCDD /* NewsFeedExampleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedExampleView.h; sourceTree = "<group>"; };
 		761D7DF374A03086DEE8F9D9 /* myTarget-banners-320x50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "myTarget-banners-320x50.png"; sourceTree = "<group>"; };
 		761D7F92874B80D81EDEE89A /* StandardBannersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardBannersViewController.h; sourceTree = "<group>"; };
+		89E1062E1E5DA6AD00A050D9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		89E106301E5DA6B300A050D9 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		89F78AB11E1546A70055C9EA /* AdItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdItem.h; sourceTree = "<group>"; };
 		89F78AB21E1546A70055C9EA /* AdItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdItem.m; sourceTree = "<group>"; };
 		89F78AB81E2F52150055C9EA /* InstreamAdsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstreamAdsViewController.h; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89E106311E5DA6B300A050D9 /* SafariServices.framework in Frameworks */,
+				89E1062F1E5DA6AD00A050D9 /* CoreGraphics.framework in Frameworks */,
 				38CEE93E1D1D79F700743C2F /* CoreMedia.framework in Frameworks */,
 				38CEE93C1D1D79F200743C2F /* AVFoundation.framework in Frameworks */,
 				38CEE93A1D1D79ED00743C2F /* CoreTelephony.framework in Frameworks */,
@@ -185,6 +191,8 @@
 		383B654A1D2E50D60035B93B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				89E106301E5DA6B300A050D9 /* SafariServices.framework */,
+				89E1062E1E5DA6AD00A050D9 /* CoreGraphics.framework */,
 				38CEE93D1D1D79F700743C2F /* CoreMedia.framework */,
 				38CEE93B1D1D79F200743C2F /* AVFoundation.framework */,
 				38CEE9391D1D79ED00743C2F /* CoreTelephony.framework */,
