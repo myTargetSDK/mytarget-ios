@@ -1,3 +1,8 @@
+## 4.6.6 (2017.03.03)
+
+Fixed errors in working with CoreTelephony framework.
+Some improvements.
+
 ## 4.6.5 (2017.02.21)
 
 Support 728х90 format for banners.
