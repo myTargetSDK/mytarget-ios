@@ -1,3 +1,7 @@
+## 4.6.7 (2017.03.07)
+
+Fixed errors in InstreamAudioAd.
+
 ## 4.6.6 (2017.03.03)
 
 Fixed errors in working with CoreTelephony framework.
