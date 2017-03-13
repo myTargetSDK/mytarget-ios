@@ -18,7 +18,7 @@ static NSUInteger kChatListExampleViewAdIndex = 3;
 
 @implementation ChatListExampleView
 {
-	UIViewController *_controller;
+	__weak UIViewController *_controller;
 	UICollectionView *_collectionView;
 	NSMutableArray *_views;
 	UICollectionViewFlowLayout *_flowLayout;
@@ -79,6 +79,10 @@ static NSUInteger kChatListExampleViewAdIndex = 3;
 
 	_nativeAd = [[MTRGNativeAd alloc] initWithSlotId:_slotId];
 	_nativeAd.delegate = self;
+
+	[_nativeAd.customParams setAge: @100];
+	[_nativeAd.customParams setGender: MTRGGenderUnknown];
+
 	[_nativeAd load];
 }
 

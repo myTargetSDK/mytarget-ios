@@ -161,6 +161,10 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 	NSUInteger slotId = (_adSize == MTRGAdSize_300x250) ? _slotId300x250 : _slotId;
 	_adView = [[MTRGAdView alloc] initWithSlotId:slotId adSize:_adSize];
 	_adView.delegate = self;
+
+	[_adView.customParams setAge: @100];
+	[_adView.customParams setGender: MTRGGenderUnknown];
+
 	[_adView load];
 	_adView.viewController = self;
 }

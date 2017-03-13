@@ -38,7 +38,7 @@
 
 @implementation AdItemView
 {
-	id <AdItemViewDelegate> _delegate;
+	__weak id <AdItemViewDelegate> _delegate;
 	__weak AdItem *_adItem;
 
 	UILabel *_titleLabel;

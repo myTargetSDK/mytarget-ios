@@ -26,7 +26,7 @@
 
 @interface ScrollMenuView : UIView
 
-@property(nonatomic) id <ScrollMenuViewDelegate> delegate;
+@property(nonatomic, weak) id <ScrollMenuViewDelegate> delegate;
 @property(nonatomic) UIScrollView *scrollView;
 @property(nonatomic) UIFont *tabTitleFont;
 @property(nonatomic) UIColor *tabTitleColor;

@@ -172,6 +172,10 @@ static const float kHeightForFooterInSection = 50.0f;
 	{
 		adItem.ad = [[MTRGInterstitialAd alloc] initWithSlotId:adItem.slotId];
 		adItem.ad.delegate = self;
+
+		[adItem.ad.customParams setAge: @100];
+		[adItem.ad.customParams setGender: MTRGGenderUnknown];
+
 		[adItem.ad load];
 		adItem.isLoadedSuccess = NO;
 		adItem.isLoading = YES;

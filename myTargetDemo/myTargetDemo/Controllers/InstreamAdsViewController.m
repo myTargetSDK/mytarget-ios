@@ -311,6 +311,10 @@ static double const kInstreamAdMainVideoDuration = 25.612;
 	[_instreamAd setDelegate:self];
 
 	[self configureMidrolls];
+
+	[_instreamAd.customParams setAge: @100];
+	[_instreamAd.customParams setGender: MTRGGenderUnknown];
+
 	[_instreamAd load];
 }
 
