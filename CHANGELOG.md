@@ -1,3 +1,7 @@
+## 4.6.8 (2017.03.16)
+
+Fixed errors.
+
 ## 4.6.7 (2017.03.07)
 
 Fixed errors in InstreamAudioAd.
