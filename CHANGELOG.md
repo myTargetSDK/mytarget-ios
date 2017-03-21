@@ -1,3 +1,7 @@
+## 4.6.9 (2017.03.21)
+
+Fixed errors in fullscreen slider.
+
 ## 4.6.8 (2017.03.16)
 
 Fixed errors.
