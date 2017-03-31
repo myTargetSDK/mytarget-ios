@@ -59,9 +59,12 @@
 		self.view.backgroundColor = [UIColor whiteColor];
 
 		_adTypes = @[
-				[[AdTypeItem alloc] initWithAdType:kAdTypeStandard title:@"Banner"],
+				[[AdTypeItem alloc] initWithAdType:kAdTypeStandard title:@"Banner 320x50"],
+				[[AdTypeItem alloc] initWithAdType:kAdTypeStandard300x250 title:@"Banner 300x250"],
 				[[AdTypeItem alloc] initWithAdType:kAdTypeInterstitial title:@"Interstitial Ad"],
 				[[AdTypeItem alloc] initWithAdType:kAdTypeNative title:@"Native Ad"],
+				[[AdTypeItem alloc] initWithAdType:kAdTypeNativeVideo title:@"Native Video"],
+				[[AdTypeItem alloc] initWithAdType:kAdTypeNativeCarousel title:@"Native Carousel"],
 				[[AdTypeItem alloc] initWithAdType:kAdTypeInstream title:@"Instream Ad"]
 		];
 

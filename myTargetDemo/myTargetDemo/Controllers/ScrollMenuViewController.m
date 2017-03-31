@@ -121,10 +121,40 @@
 	_tabBarItemVideo = [[UITabBarItem alloc] initWithTitle:@"Video" image:imageVideoUnselected selectedImage:imageVideoSelected];
 	_tabBarItemCarousel = [[UITabBarItem alloc] initWithTitle:@"Carousel" image:imageCarouselUnselected selectedImage:imageCarouselSelected];
 
-	_tabBar.items = @[_tabBarItemStatic, _tabBarItemVideo, _tabBarItemCarousel];
+	NSMutableOrderedSet<UITabBarItem *> *tabBarItems = [NSMutableOrderedSet new];
+	for (ScrollMenuPage *menuPage in _menuPages)
+	{
+		switch (menuPage.adType) {
+			case NativeAdTypeStatic:
+				[tabBarItems addObject:_tabBarItemStatic];
+				break;
+			case NativeAdTypeVideo:
+				[tabBarItems addObject:_tabBarItemVideo];
+				break;
+			case NativeAdTypeCarousel:
+				[tabBarItems addObject:_tabBarItemCarousel];
+				break;
+			default:
+				break;
+		}
+	}
+	_tabBar.items = [tabBarItems array];
 
-	[_tabBar setSelectedItem:_tabBarItemStatic];
-	[self setupMenuForAdType:NativeAdTypeStatic];
+	if ([tabBarItems containsObject:_tabBarItemStatic])
+	{
+		[_tabBar setSelectedItem:_tabBarItemStatic];
+		[self setupMenuForAdType:NativeAdTypeStatic];
+	}
+	else if ([tabBarItems containsObject:_tabBarItemVideo])
+	{
+		[_tabBar setSelectedItem:_tabBarItemVideo];
+		[self setupMenuForAdType:NativeAdTypeVideo];
+	}
+	else if ([tabBarItems containsObject:_tabBarItemCarousel])
+	{
+		[_tabBar setSelectedItem:_tabBarItemCarousel];
+		[self setupMenuForAdType:NativeAdTypeCarousel];
+	}
 }
 
 - (UIImage *)imageFromImage:(UIImage *)image withColor:(UIColor *)color
@@ -152,11 +182,18 @@
 		}
 	}
 
-	[_scrollView scrollToIndex:0 completion:nil];
-	[_scrollMenu setMenuItems:menuItems];
-	[_scrollMenu setSelectedIndex:0];
-	[_scrollMenu reloadData];
-	[_scrollMenu setSelectedIndex:0 animated:YES calledDelegate:NO];
+	if (_scrollView.tabsCount > 0)
+	{
+		[_scrollView scrollToIndex:0 completion:nil];
+	}
+
+	if (menuItems.count > 0)
+	{
+		[_scrollMenu setMenuItems:menuItems];
+		[_scrollMenu setSelectedIndex:0];
+		[_scrollMenu reloadData];
+		[_scrollMenu setSelectedIndex:0 animated:YES calledDelegate:NO];
+	}
 }
 
 - (void)constrainsInit

@@ -37,30 +37,54 @@
 	self = [super initWithTitle:adItem.title];
 	if (self)
 	{
-		_slotId = [adItem slotIdForType:AdItemSlotIdTypeDefault];
-		_slotIdVideo = [adItem slotIdForType:AdItemSlotIdTypeNativeVideo];
-		_slotIdCarousel = [adItem slotIdForType:AdItemSlotIdTypeNativeCarousel];
+		if (adItem.customItem && adItem.customItem.adType == kAdTypeNativeVideo)
+		{
+			_slotId = 0;
+			_slotIdVideo = [adItem slotIdForType:AdItemSlotIdTypeDefault];
+			_slotIdCarousel = 0;
+		}
+		else if (adItem.customItem && adItem.customItem.adType == kAdTypeNativeCarousel)
+		{
+			_slotId = 0;
+			_slotIdVideo = 0;
+			_slotIdCarousel = [adItem slotIdForType:AdItemSlotIdTypeDefault];
+		}
+		else
+		{
+			_slotId = [adItem slotIdForType:AdItemSlotIdTypeDefault];
+			_slotIdVideo = [adItem slotIdForType:AdItemSlotIdTypeNativeVideo];
+			_slotIdCarousel = [adItem slotIdForType:AdItemSlotIdTypeNativeCarousel];
+		}
 
-		_contentStreamExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotId];
-		[self addPageWithTitle:@"CONTENT STREAM" view:_contentStreamExampleView adType:NativeAdTypeStatic];
+		if (_slotId > 0)
+		{
+			_contentStreamExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotId];
+			[self addPageWithTitle:@"CONTENT STREAM" view:_contentStreamExampleView adType:NativeAdTypeStatic];
 
-		_newsFeedExampleView = [[NewsFeedExampleView alloc] initWithController:self slotId:_slotId];
-		[self addPageWithTitle:@"NEWS FEED" view:_newsFeedExampleView adType:NativeAdTypeStatic];
+			_newsFeedExampleView = [[NewsFeedExampleView alloc] initWithController:self slotId:_slotId];
+			[self addPageWithTitle:@"NEWS FEED" view:_newsFeedExampleView adType:NativeAdTypeStatic];
 
-		_chatListExampleView = [[ChatListExampleView alloc] initWithController:self slotId:_slotId];
-		[self addPageWithTitle:@"CHAT LIST" view:_chatListExampleView adType:NativeAdTypeStatic];
+			_chatListExampleView = [[ChatListExampleView alloc] initWithController:self slotId:_slotId];
+			[self addPageWithTitle:@"CHAT LIST" view:_chatListExampleView adType:NativeAdTypeStatic];
 
-		_contentWallExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:_slotId];
-		[self addPageWithTitle:@"CONTENT WALL" view:_contentWallExampleView adType:NativeAdTypeStatic];
+			_contentWallExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:_slotId];
+			[self addPageWithTitle:@"CONTENT WALL" view:_contentWallExampleView adType:NativeAdTypeStatic];
+		}
 
-		_contentStreamVideoExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotIdVideo];
-		[self addPageWithTitle:@"CONTENT STREAM VIDEO" view:_contentStreamVideoExampleView adType:NativeAdTypeVideo];
+		if (_slotIdVideo > 0)
+		{
+			_contentStreamVideoExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotIdVideo];
+			[self addPageWithTitle:@"CONTENT STREAM VIDEO" view:_contentStreamVideoExampleView adType:NativeAdTypeVideo];
 
-		_contentWallVideoExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:_slotIdVideo];
-		[self addPageWithTitle:@"CONTENT WALL VIDEO" view:_contentWallVideoExampleView adType:NativeAdTypeVideo];
+			_contentWallVideoExampleView = [[ContentWallExampleView alloc] initWithController:self slotId:_slotIdVideo];
+			[self addPageWithTitle:@"CONTENT WALL VIDEO" view:_contentWallVideoExampleView adType:NativeAdTypeVideo];
+		}
 
-		_contentStreamCarouselExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotIdCarousel];
-		[self addPageWithTitle:@"CONTENT STREAM CAROUSEL" view:_contentStreamCarouselExampleView adType:NativeAdTypeCarousel];
+		if (_slotIdCarousel > 0)
+		{
+			_contentStreamCarouselExampleView = [[ContentStreamExampleView alloc] initWithController:self slotId:_slotIdCarousel];
+			[self addPageWithTitle:@"CONTENT STREAM CAROUSEL" view:_contentStreamCarouselExampleView adType:NativeAdTypeCarousel];
+		}
 	}
 	return self;
 }

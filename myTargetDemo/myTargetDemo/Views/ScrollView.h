@@ -13,4 +13,6 @@
 
 - (void)scrollToIndex:(NSUInteger)pageIndex completion:(void (^)())completion;
 
+- (NSUInteger)tabsCount;
+
 @end

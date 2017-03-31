@@ -83,10 +83,6 @@ static NSString * const kAdItemSlotIdTypeStandard300x250 = @"Standard300x250";
 		{
 			slotId = slotIdValue.integerValue;
 		}
-		else
-		{
-			slotId = _slotId;
-		}
 	}
 	return slotId;
 }

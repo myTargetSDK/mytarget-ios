@@ -41,6 +41,11 @@
 	_activePageIndex = 0;
 }
 
+- (NSUInteger)tabsCount
+{
+	return _tabViews.count;
+}
+
 - (void)layoutSubviews
 {
 	[super layoutSubviews];

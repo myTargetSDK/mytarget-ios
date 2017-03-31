@@ -36,12 +36,21 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 	self = [super init];
 	if (self)
 	{
-		_adSize = MTRGAdSize_320x50;
 		_selectedIndex = 0;
 		
 		_title = adItem.title;
-		_slotId = [adItem slotIdForType:AdItemSlotIdTypeDefault];
-		_slotId300x250 = [adItem slotIdForType:AdItemSlotIdTypeStandard300x250];
+		if (adItem.customItem && adItem.customItem.adType == kAdTypeStandard300x250)
+		{
+			_slotId = 0;
+			_slotId300x250 = [adItem slotIdForType:AdItemSlotIdTypeDefault];
+			_adSize = MTRGAdSize_300x250;
+		}
+		else
+		{
+			_slotId = [adItem slotIdForType:AdItemSlotIdTypeDefault];
+			_slotId300x250 = [adItem slotIdForType:AdItemSlotIdTypeStandard300x250];
+			_adSize = MTRGAdSize_320x50;
+		}
 		_views = [NSMutableArray new];
 		_adConstraints = [NSMutableArray new];
 	}
@@ -67,13 +76,22 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 	[self.view addSubview:_scrollMenu];
 
 	NSMutableArray *menuItems = [NSMutableArray new];
-	[menuItems addObject:[[ScrollMenuItem alloc] initWithTitle:@"320x50"]];
-	[menuItems addObject:[[ScrollMenuItem alloc] initWithTitle:@"300x250"]];
+	if (_slotId > 0)
+	{
+		[menuItems addObject:[[ScrollMenuItem alloc] initWithTitle:@"320x50"]];
+	}
+	if (_slotId300x250 > 0)
+	{
+		[menuItems addObject:[[ScrollMenuItem alloc] initWithTitle:@"300x250"]];
+	}
 
-	[_scrollMenu setMenuItems:menuItems];
-	[_scrollMenu setSelectedIndex:0];
-	[_scrollMenu reloadData];
-	[_scrollMenu setSelectedIndex:0 animated:YES calledDelegate:NO];
+	if (menuItems.count > 0)
+	{
+		[_scrollMenu setMenuItems:menuItems];
+		[_scrollMenu setSelectedIndex:0];
+		[_scrollMenu reloadData];
+		[_scrollMenu setSelectedIndex:0 animated:YES calledDelegate:NO];
+	}
 
 	_tableView = [[UITableView alloc] init];
 	_tableView.delegate = self;

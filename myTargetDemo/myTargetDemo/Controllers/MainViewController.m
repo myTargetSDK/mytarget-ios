@@ -101,20 +101,35 @@ const int kMainViewControllerItemAddUnit = 5;
 
 		if (customItem.adType == kAdTypeStandard)
 		{
-			adItem = [[AdItem alloc] initWithTitle:@"Banners" info:customItem.title];
+			adItem = [[AdItem alloc] initWithTitle:@"Banner 320x50" info:customItem.title];
 			adItem.tag = kMainViewControllerItemBanners;
 		}
-		if (customItem.adType == kAdTypeInterstitial)
+		else if (customItem.adType == kAdTypeStandard300x250)
+		{
+			adItem = [[AdItem alloc] initWithTitle:@"Banner 300x250" info:customItem.title];
+			adItem.tag = kMainViewControllerItemBanners;
+		}
+		else if (customItem.adType == kAdTypeInterstitial)
 		{
 			adItem = [[AdItem alloc] initWithTitle:@"Interstitial Ads" info:customItem.title];
 			adItem.tag = kMainViewControllerItemInterstitialAds;
 		}
-		if (customItem.adType == kAdTypeNative)
+		else if (customItem.adType == kAdTypeNative)
 		{
 			adItem = [[AdItem alloc] initWithTitle:@"Native Ads" info:customItem.title];
 			adItem.tag = kMainViewControllerItemNativeAds;
 		}
-		if (customItem.adType == kAdTypeInstream)
+		else if (customItem.adType == kAdTypeNativeVideo)
+		{
+			adItem = [[AdItem alloc] initWithTitle:@"Native Video" info:customItem.title];
+			adItem.tag = kMainViewControllerItemNativeAds;
+		}
+		else if (customItem.adType == kAdTypeNativeCarousel)
+		{
+			adItem = [[AdItem alloc] initWithTitle:@"Native Carousel" info:customItem.title];
+			adItem.tag = kMainViewControllerItemNativeAds;
+		}
+		else if (customItem.adType == kAdTypeInstream)
 		{
 			adItem = [[AdItem alloc] initWithTitle:@"Instream Ads" info:customItem.title];
 			adItem.tag = kMainViewControllerItemInstreamAds;
