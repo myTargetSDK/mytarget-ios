@@ -1,3 +1,9 @@
+## 4.6.11 (2017.04.13)
+
+Support html-banners in InterstitialAd.
+Added ability to register list of visual components that can be clicked in NativeAd.
+Fixed errors in working with StoreKit.
+
 ## 4.6.10 (2017.04.06)
 
 Support html-banners in 320x50, 300x250 and 728x90 formats.

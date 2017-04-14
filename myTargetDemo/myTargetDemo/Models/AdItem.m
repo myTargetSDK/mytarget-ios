@@ -74,7 +74,7 @@ static NSString * const kAdItemSlotIdTypeStandard300x250 = @"Standard300x250";
 
 - (NSInteger)slotIdForType:(AdItemSlotIdType)type
 {
-	NSInteger slotId = 0;
+	NSInteger slotId = (type == AdItemSlotIdTypeDefault) ? _slotId : 0;
 	NSString *slotIdKey = [self slotIdKeyByType:type];
 	if (slotIdKey)
 	{
