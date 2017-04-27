@@ -1,3 +1,8 @@
+## 4.6.12 (2017.04.27)
+
+Improved layout in fullscreen slider.
+Fixed errors.
+
 ## 4.6.11 (2017.04.13)
 
 Support html-banners in InterstitialAd.
