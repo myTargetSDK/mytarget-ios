@@ -1,3 +1,7 @@
+## 4.6.13 (2017.04.28)
+
+Fixed crash when try to open StoreKit controller without internet connection.
+
 ## 4.6.12 (2017.04.27)
 
 Improved layout in fullscreen slider.
