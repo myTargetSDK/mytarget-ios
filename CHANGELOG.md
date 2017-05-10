@@ -1,3 +1,8 @@
+## 4.6.14 (2017.05.05)
+
+Fixed crash in SafariViewController.
+Fixed duplicate symbols error in Linker.
+
 ## 4.6.13 (2017.04.28)
 
 Fixed crash when try to open StoreKit controller without internet connection.
