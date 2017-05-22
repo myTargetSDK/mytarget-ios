@@ -42,19 +42,6 @@
 	return MTRGGenderUnspecified;
 }
 
-- (NSUInteger)parseSlotId:(id)slotIdValue
-{
-	if ([slotIdValue isKindOfClass:[NSString class]])
-	{
-		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
-		NSNumber *slotIdNum = [formatString numberFromString:slotIdValue];
-		return slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
-	}
-	else if ([slotIdValue isKindOfClass:[NSNumber class]])
-		return [((NSNumber *) slotIdValue) unsignedIntegerValue];
-	return 0;
-}
-
 - (NSNumber *)ageFromBirthday:(NSDate *)birthday
 {
 	if (!birthday) return nil;
@@ -73,22 +60,8 @@
 {
 	_allowShow = NO;
 	NSString *jsonString = [serverParameter copy];
-	NSUInteger slotId;
-	if (jsonString && [jsonString isKindOfClass:[NSString class]])
-	{
-
-		NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-		NSError *error;
-		NSDictionary *info = [NSJSONSerialization JSONObjectWithData:jsonData
-		                                                     options:0
-		                                                       error:&error];
-		if (info)
-		{
-			id slotIdValue = [info valueForKey:@"slotId"];
-			slotId = [self parseSlotId:slotIdValue];
-		}
-	}
-	if (slotId)
+	NSUInteger slotId = [self parseSlotIdFromJsonString:jsonString];
+	if (slotId > 0)
 	{
 		_interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:slotId];
 		_interstitialAd.delegate = self;
@@ -165,6 +138,32 @@
 - (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
 	[self.delegate customEventInterstitialWillLeaveApplication:self];
+}
+
+#pragma mark - helpers
+
+- (NSUInteger)parseSlotIdFromJsonString:(NSString *)jsonString
+{
+	NSUInteger slotId = 0;
+
+	NSError *error;
+	NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+	NSDictionary *info = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+	if (info)
+	{
+		id slotIdValue = [info valueForKey:@"slotId"];
+		if (slotIdValue && [slotIdValue isKindOfClass:[NSString class]])
+		{
+			NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
+			NSNumber *slotIdNum = [formatString numberFromString:slotIdValue];
+			slotId = slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
+		}
+		else if ([slotIdValue isKindOfClass:[NSNumber class]])
+		{
+			slotId = [((NSNumber *) slotIdValue) unsignedIntegerValue];
+		}
+	}
+	return slotId;
 }
 
 @end

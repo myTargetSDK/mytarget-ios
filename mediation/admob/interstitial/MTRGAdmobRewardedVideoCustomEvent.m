@@ -7,7 +7,7 @@
 //
 
 #import "MTRGAdmobRewardedVideoCustomEvent.h"
-#import "GADMRewardBasedVideoAdNetworkConnectorProtocol.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
 #import <MyTargetSDK/MyTargetSDK.h>
 
 @interface MTRGAdmobRewardedVideoCustomEvent () <GADMRewardBasedVideoAdNetworkAdapter, MTRGInterstitialAdDelegate>
@@ -38,7 +38,8 @@
 	if (!connector) return nil;
 
 	self = [super init];
-	if (self) {
+	if (self)
+	{
 		self.connector = connector;
 	}
 	return self;

@@ -20,16 +20,26 @@
 
 - (void)requestAdWithCustomEventInfo:(NSDictionary *)info
 {
-	NSUInteger slotId;
+	NSUInteger slotId = 0;
 	if (info)
 	{
 		id slotIdValue = [info valueForKey:@"slotId"];
 		slotId = [self parseSlotId:slotIdValue];
 	}
-	MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:slotId];
-	nativeAd.delegate = self;
-	[nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
-	[nativeAd load];
+
+	if (slotId > 0)
+	{
+		MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:slotId];
+		nativeAd.delegate = self;
+		[nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
+		[nativeAd load];
+	}
+	else
+	{
+		NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Options is not correct: slotId not found"};
+		NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1000 userInfo:userInfo];
+		[self.delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
+	}
 }
 
 - (NSUInteger)parseSlotId:(id)slotIdValue

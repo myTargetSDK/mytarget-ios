@@ -20,7 +20,7 @@
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {
-	NSUInteger slotId;
+	NSUInteger slotId = 0;
 	if (info)
 	{
 		id slotIdValue = [info valueForKey:@"slotId"];
@@ -34,7 +34,7 @@
 
 	UIViewController *ownerViewController = [self.delegate viewControllerForPresentingModalView];
 
-	if (slotId)
+	if (slotId > 0)
 	{
 		//Создаем вьюшку
 		_adView = [[MTRGAdView alloc] initWithSlotId:slotId withRefreshAd:NO];

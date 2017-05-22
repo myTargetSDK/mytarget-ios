@@ -22,7 +22,7 @@
 - (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info
 {
 	_alreadyDisappear = NO;
-	NSUInteger slotId;
+	NSUInteger slotId = 0;
 
 	if (info)
 	{
@@ -30,7 +30,7 @@
 		slotId = [self parseSlotId:slotIdValue];
 	}
 
-	if (slotId)
+	if (slotId > 0)
 	{
 		_interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:slotId];
 		_interstitialAd.delegate = self;
@@ -42,7 +42,6 @@
 		NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Options is not correct: slotId not found"};
 		NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1000 userInfo:userInfo];
 		[self.delegate interstitialCustomEvent:self didFailToLoadAdWithError:error];
-
 	}
 }
 
