@@ -1,3 +1,8 @@
+## 4.6.15 (2017.06.07)
+
+Support native ads in Admob mediation. 
+Fixed errors in fullscreen slider.
+
 ## 4.6.14 (2017.05.05)
 
 Fixed crash in SafariViewController.
