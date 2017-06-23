@@ -1,3 +1,8 @@
+## 4.6.16 (2017.06.22)
+
+Support OVV/MRC visibility statistics for in-stream video.
+Fixed errors while display video in native ads.
+
 ## 4.6.15 (2017.06.07)
 
 Support native ads in Admob mediation. 
