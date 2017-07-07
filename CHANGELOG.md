@@ -1,3 +1,7 @@
+## 4.6.17 (2017.07.06)
+
+Support VAST video-banners in InterstitialAd.
+
 ## 4.6.16 (2017.06.22)
 
 Support OVV/MRC visibility statistics for in-stream video.

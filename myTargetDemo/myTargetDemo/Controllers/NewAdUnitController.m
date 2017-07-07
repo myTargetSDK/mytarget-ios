@@ -84,6 +84,7 @@
 		[self.view addSubview:_nameLabel];
 
 		_adTypeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+		_adTypeButton.accessibilityIdentifier = @"adTypeButton";
 		[_adTypeButton setTitle:@"..." forState:UIControlStateNormal];
 		_adTypeButton.titleLabel.textAlignment = NSTextAlignmentLeft;
 		[_adTypeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -98,6 +99,7 @@
 		[_adTypeButton addTarget:self action:@selector(adTypeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 
 		_slotIdTextField = [[UITextField alloc] init];
+		_slotIdTextField.accessibilityIdentifier = @"slotIdTextField";
 		_slotIdTextField.text = @"";
 		_slotIdTextField.keyboardType = UIKeyboardTypeNumberPad;
 		_slotIdTextField.translatesAutoresizingMaskIntoConstraints = NO;
@@ -106,6 +108,7 @@
 		[self.view addSubview:_slotIdTextField];
 
 		_nameTextField = [[UITextField alloc] init];
+		_nameTextField.accessibilityIdentifier = @"nameTextField";
 		_nameTextField.text = @"";
 		_nameTextField.borderStyle = UITextBorderStyleRoundedRect;
 		_nameTextField.translatesAutoresizingMaskIntoConstraints = NO;
