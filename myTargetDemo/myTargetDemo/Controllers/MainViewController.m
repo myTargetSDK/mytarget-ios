@@ -61,17 +61,20 @@ const int kMainViewControllerItemAddUnit = 5;
 	}
 }
 
-
 - (void)updateItems
 {
 	[self clearItems];
 
 	AdItem *adItem;
 
-	adItem = [[AdItem alloc] initWithTitle:@"Banners" info:@"320x50 and 300x250 banners"];
+	BOOL isIPad = [[[UIDevice currentDevice] model] isEqualToString:@"iPad"];
+	NSString *bannersSubtitle = isIPad ? @"320x50, 300x250 and 728x90 banners" : @"320x50 and 300x250 banners";
+
+	adItem = [[AdItem alloc] initWithTitle:@"Banners" info:bannersSubtitle];
 	adItem.tag = kMainViewControllerItemBanners;
 	[adItem setSlotId:kSlotStandardBanner320x50 type:AdItemSlotIdTypeDefault];
 	[adItem setSlotId:kSlotStandardBanner300x250 type:AdItemSlotIdTypeStandard300x250];
+	[adItem setSlotId:kSlotStandardBanner728x90 type:AdItemSlotIdTypeStandard728x90];
 	adItem.image = [UIImage imageNamed:@"myTarget-banners-320x50.png"];
 	[self addAdItem:adItem];
 
@@ -107,6 +110,11 @@ const int kMainViewControllerItemAddUnit = 5;
 		else if (customItem.adType == kAdTypeStandard300x250)
 		{
 			adItem = [[AdItem alloc] initWithTitle:@"Banner 300x250" info:customItem.title];
+			adItem.tag = kMainViewControllerItemBanners;
+		}
+		else if (customItem.adType == kAdTypeStandard728x90 && isIPad)
+		{
+			adItem = [[AdItem alloc] initWithTitle:@"Banner 728x90" info:customItem.title];
 			adItem.tag = kMainViewControllerItemBanners;
 		}
 		else if (customItem.adType == kAdTypeInterstitial)

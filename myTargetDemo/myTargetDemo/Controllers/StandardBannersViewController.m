@@ -26,6 +26,7 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 	NSMutableArray *_adConstraints;
 	NSUInteger _slotId;
 	NSUInteger _slotId300x250;
+	NSUInteger _slotId728x90;
 	ScrollMenuView *_scrollMenu;
 	MTRGAdSize _adSize;
 	NSUInteger _selectedIndex;
@@ -43,12 +44,21 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 		{
 			_slotId = 0;
 			_slotId300x250 = [adItem slotIdForType:AdItemSlotIdTypeDefault];
+			_slotId728x90 = 0;
 			_adSize = MTRGAdSize_300x250;
+		}
+		if (adItem.customItem && adItem.customItem.adType == kAdTypeStandard728x90)
+		{
+			_slotId = 0;
+			_slotId300x250 = 0;
+			_slotId728x90 = [adItem slotIdForType:AdItemSlotIdTypeDefault];
+			_adSize = MTRGAdSize_728x90;
 		}
 		else
 		{
 			_slotId = [adItem slotIdForType:AdItemSlotIdTypeDefault];
 			_slotId300x250 = [adItem slotIdForType:AdItemSlotIdTypeStandard300x250];
+			_slotId728x90 = [adItem slotIdForType:AdItemSlotIdTypeStandard728x90];
 			_adSize = MTRGAdSize_320x50;
 		}
 		_views = [NSMutableArray new];
@@ -60,6 +70,8 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+
+	BOOL isIPad = [[[UIDevice currentDevice] model] isEqualToString:@"iPad"];
 
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.navigationItem.title = _title;
@@ -83,6 +95,10 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 	if (_slotId300x250 > 0)
 	{
 		[menuItems addObject:[[ScrollMenuItem alloc] initWithTitle:@"300x250"]];
+	}
+	if (_slotId728x90 > 0 && isIPad)
+	{
+		[menuItems addObject:[[ScrollMenuItem alloc] initWithTitle:@"728x90"]];
 	}
 
 	if (menuItems.count > 0)
@@ -162,6 +178,34 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 		[_adConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[adView]-0-|" options:0 metrics:nil views:views]];
 		[_adConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[adView]-0-|" options:0 metrics:nil views:views]];
 		[_adContainerView addConstraints:_adConstraints];
+		[self adjustContainerHeight:50];
+	}
+	else if (_adSize == MTRGAdSize_728x90)
+	{
+		[_views replaceObjectAtIndex:kStandardBannersViewControllerAdIndex withObject:[[SimpleTextView alloc] init]];
+		[_tableView reloadData];
+
+		_adView.translatesAutoresizingMaskIntoConstraints = NO;
+		[_adContainerView addSubview:_adView];
+		_adContainerView.hidden = NO;
+
+		NSDictionary *views = @{@"adView" : _adView};
+		[_adConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[adView]-0-|" options:0 metrics:nil views:views]];
+		[_adConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[adView]-0-|" options:0 metrics:nil views:views]];
+		[_adContainerView addConstraints:_adConstraints];
+		[self adjustContainerHeight:90];
+	}
+}
+
+- (void)adjustContainerHeight:(CGFloat)height
+{
+	for (NSLayoutConstraint *constraint in self.view.constraints)
+	{
+		if (constraint.firstItem == _adContainerView && constraint.firstAttribute == NSLayoutAttributeHeight)
+		{
+			constraint.constant = height;
+			break;
+		}
 	}
 }
 
@@ -176,7 +220,7 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 		_adContainerView.hidden = YES;
 		_adView = nil;
 	}
-	NSUInteger slotId = (_adSize == MTRGAdSize_300x250) ? _slotId300x250 : _slotId;
+	NSUInteger slotId = (_adSize == MTRGAdSize_300x250) ? _slotId300x250 : (_adSize == MTRGAdSize_728x90) ? _slotId728x90 : _slotId;
 	_adView = [[MTRGAdView alloc] initWithSlotId:slotId adSize:_adSize];
 	_adView.delegate = self;
 
@@ -198,6 +242,9 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 	{
 		case 1:
 			_adSize = MTRGAdSize_300x250;
+			break;
+		case 2:
+			_adSize = MTRGAdSize_728x90;
 			break;
 
 		default:

@@ -58,15 +58,20 @@
 		_delegate = delegate;
 		self.view.backgroundColor = [UIColor whiteColor];
 
-		_adTypes = @[
-				[[AdTypeItem alloc] initWithAdType:kAdTypeStandard title:@"Banner 320x50"],
-				[[AdTypeItem alloc] initWithAdType:kAdTypeStandard300x250 title:@"Banner 300x250"],
-				[[AdTypeItem alloc] initWithAdType:kAdTypeInterstitial title:@"Interstitial Ad"],
-				[[AdTypeItem alloc] initWithAdType:kAdTypeNative title:@"Native Ad"],
-				[[AdTypeItem alloc] initWithAdType:kAdTypeNativeVideo title:@"Native Video"],
-				[[AdTypeItem alloc] initWithAdType:kAdTypeNativeCarousel title:@"Native Carousel"],
-				[[AdTypeItem alloc] initWithAdType:kAdTypeInstream title:@"Instream Ad"]
-		];
+		BOOL isIPad = [[[UIDevice currentDevice] model] isEqualToString:@"iPad"];
+		NSMutableArray <AdTypeItem *> *adTypes = [NSMutableArray new];
+		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeStandard title:@"Banner 320x50"]];
+		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeStandard300x250 title:@"Banner 300x250"]];
+		if (isIPad)
+		{
+			[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeStandard728x90 title:@"Banner 728x90"]];
+		}
+		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeInterstitial title:@"Interstitial Ad"]];
+		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeNative title:@"Native Ad"]];
+		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeNativeVideo title:@"Native Video"]];
+		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeNativeCarousel title:@"Native Carousel"]];
+		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeInstream title:@"Instream Ad"]];
+		_adTypes = adTypes;
 
 		_adTypeLabel = [[UILabel alloc] init];
 		_adTypeLabel.text = @"Ad type";

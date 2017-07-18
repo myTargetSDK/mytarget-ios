@@ -14,7 +14,8 @@ typedef enum : NSUInteger
 	AdItemSlotIdTypeDefault,
 	AdItemSlotIdTypeNativeVideo,
 	AdItemSlotIdTypeNativeCarousel,
-	AdItemSlotIdTypeStandard300x250
+	AdItemSlotIdTypeStandard300x250,
+	AdItemSlotIdTypeStandard728x90
 } AdItemSlotIdType;
 
 @interface AdItem : NSObject

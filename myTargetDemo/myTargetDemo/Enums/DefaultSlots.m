@@ -7,6 +7,7 @@
 
 NSUInteger const kSlotStandardBanner320x50 = 30269;
 NSUInteger const kSlotStandardBanner300x250 = 64529;
+NSUInteger const kSlotStandardBanner728x90 = 81621;
 NSUInteger const kSlotNativeAd = 30294;
 NSUInteger const kSlotNativeAdVideo = 30152;
 NSUInteger const kSlotNativeAdCarousel = 54928;

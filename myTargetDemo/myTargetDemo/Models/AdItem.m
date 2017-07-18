@@ -12,6 +12,7 @@ static NSString * const kAdItemSlotIdTypeDefault = @"Default";
 static NSString * const kAdItemSlotIdTypeNativeVideo = @"NativeVideo";
 static NSString * const kAdItemSlotIdTypeNativeCarousel = @"NativeCarousel";
 static NSString * const kAdItemSlotIdTypeStandard300x250 = @"Standard300x250";
+static NSString * const kAdItemSlotIdTypeStandard728x90 = @"Standard728x90";
 
 @implementation AdItem
 {
@@ -46,6 +47,9 @@ static NSString * const kAdItemSlotIdTypeStandard300x250 = @"Standard300x250";
 			break;
 		case AdItemSlotIdTypeStandard300x250:
 			slotIdKey = kAdItemSlotIdTypeStandard300x250;
+			break;
+		case AdItemSlotIdTypeStandard728x90:
+			slotIdKey = kAdItemSlotIdTypeStandard728x90;
 			break;
 
 		default:
