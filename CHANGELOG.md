@@ -1,3 +1,7 @@
+## 4.6.18 (2017.07.19)
+
+Support HLS video.
+
 ## 4.6.17 (2017.07.06)
 
 Support VAST video-banners in InterstitialAd.
