@@ -1,3 +1,8 @@
+## 4.6.19 (2017.07.26)
+
+Added loadingTimeout property for in-stream ads.
+Improved carousel in NativeAd.
+
 ## 4.6.18 (2017.07.19)
 
 Support HLS video.

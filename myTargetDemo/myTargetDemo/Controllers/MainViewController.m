@@ -16,6 +16,8 @@
 #import "CustomAdItem.h"
 #import "DefaultSlots.h"
 
+#import <MyTargetSDK/MyTargetSDK.h>
+
 @interface MainViewController ()
 
 @end
@@ -43,6 +45,12 @@ const int kMainViewControllerItemAddUnit = 5;
 		_customAdItems = [CustomAdItem loadCustomAdItemsFromStorage];
 	}
 	return self;
+}
+
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	[MTRGAdView setDebugMode:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
