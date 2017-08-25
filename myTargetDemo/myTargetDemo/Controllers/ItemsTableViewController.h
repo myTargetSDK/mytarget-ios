@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AdItem.h"
+#import "InterstitialAdItem.h"
 
 @interface ItemsTableViewController : UITableViewController
 
@@ -16,6 +16,8 @@
 - (instancetype)initWithTitle:(NSString *)title;
 
 - (void)addAdItem:(AdItem *)adItem;
+
+- (InterstitialAdItem *)adItemForInterstitialAd:(MTRGInterstitialAd *)interstitialAd;
 
 - (void)itemClick:(AdItem *)adItem;
 

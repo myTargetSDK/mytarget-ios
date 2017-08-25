@@ -1,3 +1,8 @@
+## 4.6.20 (2017.08.24)
+
+Fixed errors.
+Some improvements.
+
 ## 4.6.19 (2017.07.26)
 
 Added loadingTimeout property for in-stream ads.

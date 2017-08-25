@@ -29,7 +29,7 @@ const int kMainViewControllerItemInstreamAds = 4;
 const int kMainViewControllerItemAddUnit = 5;
 
 
-@interface MainViewController () <NewAdUnitControllerDelegate>
+@interface MainViewController () <NewAdUnitControllerDelegate, MTRGInterstitialAdDelegate>
 @end
 
 @implementation MainViewController
@@ -127,7 +127,7 @@ const int kMainViewControllerItemAddUnit = 5;
 		}
 		else if (customItem.adType == kAdTypeInterstitial)
 		{
-			adItem = [[AdItem alloc] initWithTitle:@"Interstitial Ads" info:customItem.title];
+			adItem = [[InterstitialAdItem alloc] initWithTitle:@"Interstitial Ads" info:customItem.title];
 			adItem.tag = kMainViewControllerItemInterstitialAds;
 		}
 		else if (customItem.adType == kAdTypeNative)
@@ -180,8 +180,28 @@ const int kMainViewControllerItemAddUnit = 5;
 		}
 		case kMainViewControllerItemInterstitialAds:
 		{
-			InterstitialAdsViewController *controller = [[InterstitialAdsViewController alloc] initWithAdItem:adItem];
-			[self.navigationController pushViewController:controller animated:YES];
+			if ([adItem isKindOfClass:[InterstitialAdItem class]] && adItem.customItem != nil)
+			{
+				// Load and open custom item in current controller
+				MTRGInterstitialAd *interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:adItem.slotId];
+				interstitialAd.delegate = self;
+
+				[interstitialAd.customParams setAge: @100];
+				[interstitialAd.customParams setGender: MTRGGenderUnknown];
+
+				[interstitialAd load];
+
+				InterstitialAdItem *interstitialAdItem = (InterstitialAdItem *)adItem;
+				interstitialAdItem.ad = interstitialAd;
+				interstitialAdItem.isLoadedSuccess = NO;
+				interstitialAdItem.isLoading = YES;
+				[self updateStatusForAdItem:interstitialAdItem];
+			}
+			else
+			{
+				InterstitialAdsViewController *controller = [[InterstitialAdsViewController alloc] initWithAdItem:adItem];
+				[self.navigationController pushViewController:controller animated:YES];
+			}
 			break;
 		}
 		case kMainViewControllerItemNativeAds:
@@ -213,6 +233,37 @@ const int kMainViewControllerItemAddUnit = 5;
 {
 	[_customAdItems addObject:newCustomAdItem];
 	[CustomAdItem saveAdItemsToStorage:_customAdItems];
+}
+
+#pragma mark -- MTRGInterstitialAdDelegate
+
+- (void)onLoadWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	InterstitialAdItem *interstitialAdItem = [self adItemForInterstitialAd:interstitialAd];
+	if (interstitialAdItem)
+	{
+		interstitialAdItem.isLoadedSuccess = YES;
+		interstitialAdItem.isLoading = NO;
+		[self updateStatusForAdItem:interstitialAdItem];
+
+		[interstitialAdItem.ad showWithController:self];
+		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+	}
+}
+
+- (void)onNoAdWithReason:(NSString *)reason interstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	InterstitialAdItem *interstitialAdItem = [self adItemForInterstitialAd:interstitialAd];
+	if (interstitialAdItem)
+	{
+		interstitialAdItem.isLoading = NO;
+		[self updateStatusForAdItem:interstitialAdItem];
+	}
+}
+
+- (void)onCloseWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 }
 
 @end

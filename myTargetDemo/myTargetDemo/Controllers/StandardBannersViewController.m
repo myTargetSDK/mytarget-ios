@@ -47,7 +47,7 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 			_slotId728x90 = 0;
 			_adSize = MTRGAdSize_300x250;
 		}
-		if (adItem.customItem && adItem.customItem.adType == kAdTypeStandard728x90)
+		else if (adItem.customItem && adItem.customItem.adType == kAdTypeStandard728x90)
 		{
 			_slotId = 0;
 			_slotId300x250 = 0;

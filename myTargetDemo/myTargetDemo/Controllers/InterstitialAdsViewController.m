@@ -12,27 +12,6 @@
 
 static const float kHeightForFooterInSection = 50.0f;
 
-@interface InterstitialAdItem : AdItem
-
-@property(nonatomic) MTRGInterstitialAd *ad;
-@property(nonatomic) BOOL isLoadedSuccess;
-
-@end
-
-@implementation InterstitialAdItem
-
-- (instancetype)initWithTitle:(NSString *)title info:(NSString *)info
-{
-	self = [super initWithTitle:title info:info];
-	if (self)
-	{
-		_isLoadedSuccess = NO;
-	}
-	return self;
-}
-
-@end
-
 @interface CheckboxView : UIView
 
 @property (nonatomic, assign) BOOL canShowModal;
@@ -137,8 +116,7 @@ static const float kHeightForFooterInSection = 50.0f;
 			[self addAdItem:subItem];
 		}
 
-		UIBarButtonItem *updateButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-		                                                                              target:self action:@selector(updateTapped:)];
+		UIBarButtonItem *updateButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(updateTapped:)];
 		self.navigationItem.rightBarButtonItems = @[updateButton];
 	}
 	return self;
@@ -193,24 +171,6 @@ static const float kHeightForFooterInSection = 50.0f;
 	[self reloadAds];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];
-}
-
-- (void)didReceiveMemoryWarning
-{
-	[super didReceiveMemoryWarning];
-}
-
-- (InterstitialAdItem *)adItemForAd:(MTRGInterstitialAd *)interstitialAd
-{
-	for (AdItem *adItem in self.adItems)
-		if (((InterstitialAdItem *) adItem).ad == interstitialAd)
-			return (InterstitialAdItem *) adItem;
-	return nil;
-}
-
 #pragma mark - TableView Delegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -227,7 +187,7 @@ static const float kHeightForFooterInSection = 50.0f;
 
 - (void)onLoadWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	InterstitialAdItem *adItem = [self adItemForAd:interstitialAd];
+	InterstitialAdItem *adItem = [self adItemForInterstitialAd:interstitialAd];
 	if (adItem)
 	{
 		adItem.isLoadedSuccess = YES;
@@ -238,7 +198,7 @@ static const float kHeightForFooterInSection = 50.0f;
 
 - (void)onNoAdWithReason:(NSString *)reason interstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	InterstitialAdItem *adItem = [self adItemForAd:interstitialAd];
+	InterstitialAdItem *adItem = [self adItemForInterstitialAd:interstitialAd];
 	if (adItem)
 	{
 		adItem.isLoading = NO;
@@ -248,7 +208,7 @@ static const float kHeightForFooterInSection = 50.0f;
 
 - (void)onClickWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-
+	//
 }
 
 - (void)onCloseWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
@@ -258,12 +218,12 @@ static const float kHeightForFooterInSection = 50.0f;
 
 - (void)onVideoCompleteWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-
+	//
 }
 
 - (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-
+	//
 }
 
 @end

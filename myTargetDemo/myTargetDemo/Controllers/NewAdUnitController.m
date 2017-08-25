@@ -135,7 +135,7 @@
 
 		AdTypeItem *firstItem = _adTypes[0];
 		_adType = firstItem.adType;
-		[_adTypeButton setTitle:firstItem.title forState:UIControlStateNormal];
+		[self adTypeButtonSetTitle:firstItem.title];
 
 		NSDictionary *views = @{
 				@"adTypeLabel" : _adTypeLabel,
@@ -159,6 +159,11 @@
 	return self;
 }
 
+- (void)adTypeButtonSetTitle:(NSString *)title
+{
+	[_adTypeButton setTitle:[NSString stringWithFormat:@"%@ Unit", title] forState:UIControlStateNormal];
+}
+
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -171,24 +176,24 @@
 	self.navigationItem.title = @"New ad unit";
 }
 
-- (void)adTypeButtonTapped:(id)sender
+- (void)adTypeButtonTapped:(UIButton *)sender
 {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Ad type" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:nil];
+	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Ad type" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+	alertController.popoverPresentationController.sourceView = sender;
+
+	[alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+
 	for (AdTypeItem *item in _adTypes)
 	{
-		[actionSheet addButtonWithTitle:item.title];
+		UIAlertAction *alertAction = [UIAlertAction actionWithTitle:item.title style:UIAlertActionStyleDefault handler:^(UIAlertAction *action)
+		{
+			_adType = item.adType;
+			[self adTypeButtonSetTitle:item.title];
+		}];
+		[alertController addAction:alertAction];
 	}
-	[actionSheet showInView:self.view];
-}
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	if (0 < buttonIndex && buttonIndex <= _adTypes.count)
-	{
-		AdTypeItem *item = _adTypes[buttonIndex - 1];
-		_adType = item.adType;
-		[_adTypeButton setTitle:item.title forState:UIControlStateNormal];
-	}
+	[self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)saveButtonTapped:(id)sender

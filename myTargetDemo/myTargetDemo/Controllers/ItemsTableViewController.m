@@ -97,13 +97,11 @@
 		_removeButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		[_removeButton setTitle:@"\U000000D7" forState:UIControlStateNormal];
 		_removeButton.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:32];
-		//274C
 		[_removeButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 		_removeButton.hidden = YES;
 		[self addSubview:_removeButton];
 		_removeButton.backgroundColor = [UIColor clearColor];
 		[_removeButton addTarget:self action:@selector(removeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-
 	}
 	return self;
 }
@@ -119,18 +117,24 @@
 	_mainTextLabel.frame = CGRectMake(0, 0, _colorView.frame.size.width, _colorView.frame.size.height);
 
 	CGSize titleSize = [_titleLabel sizeThatFits:CGSizeMake(size.width - 2 * margin, 100)];
-	_titleLabel.frame = CGRectMake(margin, _colorView.frame.origin.y + _colorView.frame.size.height + margin,
-			titleSize.width, titleSize.height);
+	CGRect titleLabelFrame = CGRectZero;
+	titleLabelFrame.origin.x = margin;
+	titleLabelFrame.origin.y = _colorView.frame.origin.y + _colorView.frame.size.height + margin;
+	titleLabelFrame.size = titleSize;
+	_titleLabel.frame = titleLabelFrame;
+
 	CGSize infoSize = [_infoLabel sizeThatFits:CGSizeMake(size.width - 2 * margin, 100)];
-	_infoLabel.frame = CGRectMake(margin, _titleLabel.frame.origin.y + _titleLabel.frame.size.height + margin,
-			infoSize.width, infoSize.height);
+	CGRect infoLabelFrame = CGRectZero;
+	infoLabelFrame.origin.x = margin;
+	infoLabelFrame.origin.y = _titleLabel.frame.origin.y + _titleLabel.frame.size.height + margin;
+	infoLabelFrame.size = infoSize;
+	_infoLabel.frame = infoLabelFrame;
+
 	CGFloat imageMargin = 10;
 	CGFloat imageHeight = _colorView.frame.size.height - 2 * imageMargin;
 	CGFloat imageWidth = (int) (_imageView.image.size.width / _imageView.image.size.height * imageHeight);
 	_imageView.frame = CGRectMake(0.5f * (_colorView.frame.size.width - imageWidth), imageMargin, imageWidth, imageHeight);
-
 	_removeButton.frame = CGRectMake(size.width - 40, 0, 40, 40);
-
 }
 
 - (void)setItem:(AdItem *)adItem
@@ -255,9 +259,13 @@
 
 - (void)setItemViews:(NSArray <AdItemView *> *)adItemViews columns:(NSUInteger)columns
 {
-	if (_adItemViews)
-		for (AdItemView *itemView in _adItemViews)
+	for (AdItemView *itemView in _adItemViews)
+	{
+		if (itemView.superview == self)
+		{
 			[itemView removeFromSuperview];
+		}
+	}
 
 	_columns = columns;
 	_adItemViews = adItemViews;
@@ -271,13 +279,13 @@
 - (void)layoutSubviews
 {
 	[super layoutSubviews];
-	if (_columns == 0) return;
-	if (!_adItemViews) return;
+	if (_columns == 0 || !_adItemViews) return;
+
 	CGFloat margin = 10;
 	CGFloat itemWidth = (self.frame.size.width - (_columns + 1) * margin) / _columns;
 	CGFloat itemHeight = self.frame.size.height - margin;
 	NSUInteger idx = 0;
-	for (AdItemView *itemView  in _adItemViews)
+	for (AdItemView *itemView in _adItemViews)
 	{
 		itemView.frame = CGRectMake((int) (margin * (idx + 1) + idx * itemWidth), margin, itemWidth, itemHeight);
 		++idx;
@@ -308,7 +316,6 @@ static NSString *const reuseIdentifier = @"ItemsTableViewCell";
 		_adItems = [NSMutableArray new];
 		_colors = [ItemsTableViewController itemsColors];
 		_columns = 2;
-
 	}
 	return self;
 }
@@ -325,6 +332,23 @@ static NSString *const reuseIdentifier = @"ItemsTableViewCell";
 	[_adItemsViews addObject:adItemView];
 }
 
+- (InterstitialAdItem *)adItemForInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+{
+	InterstitialAdItem *result = nil;
+	for (AdItem *adItem in self.adItems)
+	{
+		if ([adItem isKindOfClass:[InterstitialAdItem class]])
+		{
+			InterstitialAdItem *interstitialAdItem = (InterstitialAdItem *)adItem;
+			if (interstitialAdItem.ad == interstitialAd)
+			{
+				result = interstitialAdItem;
+				break;
+			}
+		}
+	}
+	return result;
+}
 
 - (void)itemClick:(AdItem *)adItem
 {
@@ -420,9 +444,7 @@ static NSString *const reuseIdentifier = @"ItemsTableViewCell";
 	[self.navigationController.navigationBar setTranslucent:NO];
 	self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
-	NSDictionary *attributes = @{
-			NSForegroundColorAttributeName : [UIColor whiteColor]
-	};
+	NSDictionary *attributes = @{ NSForegroundColorAttributeName : [UIColor whiteColor] };
 	[self.navigationController.navigationBar setTitleTextAttributes:attributes];
 
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -441,12 +463,6 @@ static NSString *const reuseIdentifier = @"ItemsTableViewCell";
 	return NO;
 }
 
-- (void)didReceiveMemoryWarning
-{
-	[super didReceiveMemoryWarning];
-	// Dispose of any resources that can be recreated.
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -461,23 +477,23 @@ static NSString *const reuseIdentifier = @"ItemsTableViewCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	ItemsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-	NSUInteger first = _columns * indexPath.row;
-	NSRange range = NSMakeRange(first, first + _columns < _adItemsViews.count ? _columns : _adItemsViews.count - first);
-	NSArray *views = [_adItemsViews subarrayWithRange:range];
-	[cell setItemViews:views columns:_columns];
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
 	cell.backgroundColor = [UIColor clearColor];
+	if ([cell isKindOfClass:[ItemsTableViewCell class]])
+	{
+		ItemsTableViewCell *itemsTableViewCell = (ItemsTableViewCell *)cell;
+		NSUInteger first = _columns * indexPath.row;
+		NSRange range = NSMakeRange(first, first + _columns < _adItemsViews.count ? _columns : _adItemsViews.count - first);
+		NSArray *views = [_adItemsViews subarrayWithRange:range];
+		[itemsTableViewCell setItemViews:views columns:_columns];
+	}
 	return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	CGSize size = tableView.frame.size;
-	CGFloat height = 280;
-	if (size.width > size.height)
-	{
-		height = 220;
-	}
+	CGFloat height = (size.width > size.height) ? 220 : 280;
 	return height;
 }
 
