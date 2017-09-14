@@ -11,7 +11,7 @@
 
 static NSString *kContentStreamExampleViewTextCellId = @"TextCellId";
 static NSString *kContentStreamExampleViewAdCellId = @"AdCellId";
-static NSUInteger kContentStreamExampleViewAdIndex = 3;
+static NSUInteger kContentStreamExampleViewAdIndex = 1;
 
 @interface ContentStreamExampleView () <MTRGNativeAdDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @end

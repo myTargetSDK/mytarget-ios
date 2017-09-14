@@ -11,7 +11,7 @@
 
 static NSString *kChatListExampleViewTextCellId = @"TextCellId";
 static NSString *kChatListExampleViewAdCellId = @"AdCellId";
-static NSUInteger kChatListExampleViewAdIndex = 3;
+static NSUInteger kChatListExampleViewAdIndex = 1;
 
 @interface ChatListExampleView () <MTRGNativeAdDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @end
