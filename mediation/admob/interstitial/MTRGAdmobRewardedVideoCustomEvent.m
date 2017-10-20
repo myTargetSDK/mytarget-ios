@@ -6,9 +6,10 @@
 //  Copyright © 2016 Mail.ru Group. All rights reserved.
 //
 
+@import GoogleMobileAds;
+@import MyTargetSDK;
+
 #import "MTRGAdmobRewardedVideoCustomEvent.h"
-#import <GoogleMobileAds/GoogleMobileAds.h>
-#import <MyTargetSDK/MyTargetSDK.h>
 
 @interface MTRGAdmobRewardedVideoCustomEvent () <GADMRewardBasedVideoAdNetworkAdapter, MTRGInterstitialAdDelegate>
 

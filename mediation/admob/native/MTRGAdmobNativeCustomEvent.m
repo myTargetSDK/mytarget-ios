@@ -6,8 +6,8 @@
 //  Copyright © 2017 Mail.ru Group. All rights reserved.
 //
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
-#import <MyTargetSDK/MyTargetSDK.h>
+@import GoogleMobileAds;
+@import MyTargetSDK;
 
 #import "MTRGAdmobNativeCustomEvent.h"
 #import "MTRGMediatedNativeAd.h"

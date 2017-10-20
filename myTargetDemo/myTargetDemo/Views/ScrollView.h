@@ -11,7 +11,7 @@
 
 - (void)removeTabViews;
 
-- (void)scrollToIndex:(NSUInteger)pageIndex completion:(void (^)())completion;
+- (void)scrollToIndex:(NSUInteger)pageIndex completion:(void (^)(void))completion;
 
 - (NSUInteger)tabsCount;
 

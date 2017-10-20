@@ -6,7 +6,7 @@
 //  Copyright © 2017 Mail.ru Group. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface MTRGAdmobNativeCustomEvent : NSObject
 

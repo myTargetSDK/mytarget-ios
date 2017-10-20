@@ -81,7 +81,7 @@
 	return CGRectMake(pageIndex * size.width, 0, size.width, size.height);
 }
 
-- (void)scrollToIndex:(NSUInteger)pageIndex completion:(void (^)())completion
+- (void)scrollToIndex:(NSUInteger)pageIndex completion:(void (^)(void))completion
 {
 	CGRect visibleRect = [self frameForPage:pageIndex];
 	_activePageIndex = pageIndex;

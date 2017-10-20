@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
 //
 
+@import MyTargetSDK;
+
 #import "MTRGMopubNativeCustomEvent.h"
-#import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMopubNativeAdAdapter.h"
 #import "MPNativeAd.h"
 

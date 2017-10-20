@@ -6,8 +6,9 @@
 //  Copyright (c) 2016 Mail.ru Group. All rights reserved.
 //
 
+@import MyTargetSDK;
+
 #import "MTRGMopubRewardedVideoCustomEvent.h"
-#import <MyTargetSDK/MyTargetSDK.h>
 #import "MPRewardedVideoReward.h"
 
 @interface MTRGMopubRewardedVideoCustomEvent () <MTRGInterstitialAdDelegate>

@@ -1,3 +1,8 @@
+## 4.6.22 (2017.10.19)
+
+UI improvements.  
+Fixed warnings in Xcode 9.
+
 ## 4.6.21 (2017.09.13)
 
 Improved html banners support.  

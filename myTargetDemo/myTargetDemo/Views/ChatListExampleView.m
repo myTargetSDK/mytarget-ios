@@ -158,7 +158,7 @@ static NSUInteger kChatListExampleViewAdIndex = 1;
 {
 	UIView *view = [self viewForIndexPath:indexPath];
 
-	CGFloat height;
+	CGFloat height = 100.0;
 	if ([view isKindOfClass:[MTRGChatListAdView class]])
 	{
 		CGFloat padding = 6;
