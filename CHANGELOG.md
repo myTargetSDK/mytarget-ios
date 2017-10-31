@@ -1,3 +1,7 @@
+## 4.6.23 (2017.10.30)
+
+Support carousel in InterstitialAd.
+
 ## 4.6.22 (2017.10.19)
 
 UI improvements.  

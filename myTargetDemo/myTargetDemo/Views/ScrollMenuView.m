@@ -63,6 +63,7 @@
 - (UIButton *)createButtonForItem:(ScrollMenuItem *)menuItem
 {
 	UIButton *button = [[UIButton alloc] init];
+	button.accessibilityIdentifier = menuItem.title;
 	button.titleLabel.textAlignment = NSTextAlignmentCenter;
 	button.titleLabel.font = self.tabTitleFont;
 	[button setTitle:menuItem.title forState:UIControlStateNormal];

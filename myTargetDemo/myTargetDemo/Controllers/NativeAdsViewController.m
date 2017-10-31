@@ -94,6 +94,7 @@
 	[super viewDidLoad];
 
 	UIBarButtonItem *updateButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(updateTapped:)];
+	updateButton.accessibilityIdentifier = @"updateButton";
 	self.navigationItem.rightBarButtonItems = @[updateButton];
 
 	[self reloadAds];

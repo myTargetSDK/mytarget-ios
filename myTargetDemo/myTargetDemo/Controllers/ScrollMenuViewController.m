@@ -118,8 +118,11 @@
 	UIImage *imageCarouselUnselected = [[self imageFromImage:imageCarousel withColor:unselectedColor] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 
 	_tabBarItemStatic = [[UITabBarItem alloc] initWithTitle:@"Static" image:imageStaticUnselected selectedImage:imageStaticSelected];
+	_tabBarItemStatic.accessibilityIdentifier = @"tabBarItemStatic";
 	_tabBarItemVideo = [[UITabBarItem alloc] initWithTitle:@"Video" image:imageVideoUnselected selectedImage:imageVideoSelected];
+	_tabBarItemVideo.accessibilityIdentifier = @"tabBarItemVideo";
 	_tabBarItemCarousel = [[UITabBarItem alloc] initWithTitle:@"Carousel" image:imageCarouselUnselected selectedImage:imageCarouselSelected];
+	_tabBarItemCarousel.accessibilityIdentifier = @"tabBarItemCarousel";
 
 	NSMutableOrderedSet<UITabBarItem *> *tabBarItems = [NSMutableOrderedSet new];
 	for (ScrollMenuPage *menuPage in _menuPages)
