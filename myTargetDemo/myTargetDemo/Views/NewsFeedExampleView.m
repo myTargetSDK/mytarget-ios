@@ -11,7 +11,7 @@
 
 static NSString *kNewsFeedExampleViewTextCellId = @"TextCellId";
 static NSString *kNewsFeedExampleViewAdCellId = @"AdCellId";
-static NSUInteger kNewsFeedExampleViewAdIndex = 1;
+static NSUInteger kNewsFeedExampleViewAdIndex = 3;
 
 @interface NewsFeedExampleView () <MTRGNativeAdDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @end

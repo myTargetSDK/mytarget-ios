@@ -1,3 +1,7 @@
+## 4.6.24 (2017.11.09)
+
+Added optional callbacks in NativeAdDelegate.
+
 ## 4.6.23 (2017.10.30)
 
 Support carousel in InterstitialAd.

@@ -11,7 +11,7 @@
 
 static NSString *kContentWallExampleViewTextCellId = @"TextCellId";
 static NSString *kContentWallExampleViewAdCellId = @"AdCellId";
-static NSUInteger kContentWallExampleViewAdIndex = 1;
+static NSUInteger kContentWallExampleViewAdIndex = 3;
 
 @interface ContentWallExampleView () <MTRGNativeAdDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @end
