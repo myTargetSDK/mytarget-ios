@@ -1,3 +1,8 @@
+## 4.6.25 (2017.12.07)
+
+Fixed StoreKit crash in landscape orientation on some devices.  
+Improvements in handling clicks for "install app" action.
+
 ## 4.6.24 (2017.11.09)
 
 Added optional callbacks in NativeAdDelegate.
