@@ -1,3 +1,9 @@
+## 4.7.0 (2017.12.18)
+
+Support click areas.
+Support cards and automatic loading images in MediaView.
+Support iPhone X.  
+
 ## 4.6.25 (2017.12.07)
 
 Fixed StoreKit crash in landscape orientation on some devices.  
