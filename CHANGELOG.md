@@ -1,3 +1,7 @@
+## 4.7.1 (2017.12.21)
+
+Improved click tracking in carousel ads inside MediaAdView.  
+
 ## 4.7.0 (2017.12.18)
 
 Support click areas.
