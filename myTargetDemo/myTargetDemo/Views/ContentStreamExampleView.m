@@ -8,9 +8,7 @@
 #import "SimpleTextView.h"
 #import "BorderCollectionViewCell.h"
 
-
-static NSString *kContentStreamExampleViewTextCellId = @"TextCellId";
-static NSString *kContentStreamExampleViewAdCellId = @"AdCellId";
+static NSString *kContentStreamExampleViewCellReuseIdentifier = @"ReuseIdentifier";
 static NSUInteger kContentStreamExampleViewAdIndex = 3;
 
 @interface ContentStreamExampleView () <MTRGNativeAdDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
@@ -22,6 +20,7 @@ static NSUInteger kContentStreamExampleViewAdIndex = 3;
 	UICollectionView *_collectionView;
 	NSMutableArray *_views;
 	UICollectionViewFlowLayout *_flowLayout;
+	UIEdgeInsets _contentStreamAdViewMargins;
 
 	NSUInteger _slotId;
 	MTRGNativeAd *_nativeAd;
@@ -35,18 +34,16 @@ static NSUInteger kContentStreamExampleViewAdIndex = 3;
 	{
 		_controller = controller;
 		_slotId = slotId;
+		_contentStreamAdViewMargins = UIEdgeInsetsMake(6, 6, 6, 6);
 
 		_flowLayout = [[UICollectionViewFlowLayout alloc] init];
-		[_flowLayout setItemSize:CGSizeMake(200, 200)];
-		[_flowLayout setEstimatedItemSize:CGSizeMake(200, 200)];
-		[_flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+		_flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
 
 		_collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_flowLayout];
 		_collectionView.delegate = self;
 		_collectionView.dataSource = self;
 		_collectionView.backgroundColor = [UIColor whiteColor];
-		[_collectionView registerClass:[BorderCollectionViewCell class] forCellWithReuseIdentifier:kContentStreamExampleViewTextCellId];
-		[_collectionView registerClass:[BorderCollectionViewCell class] forCellWithReuseIdentifier:kContentStreamExampleViewAdCellId];
+		[_collectionView registerClass:[BorderCollectionViewCell class] forCellWithReuseIdentifier:kContentStreamExampleViewCellReuseIdentifier];
 		[self addSubview:_collectionView];
 
 		_views = [NSMutableArray new];
@@ -84,14 +81,12 @@ static NSUInteger kContentStreamExampleViewAdIndex = 3;
 {
 	[super layoutSubviews];
 	_collectionView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+	[_flowLayout invalidateLayout];
 }
 
 - (UIView *)viewForIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.row < _views.count)
-		return _views[(NSUInteger) indexPath.row];
-	else
-		return nil;
+	return (indexPath.row < _views.count) ? _views[(NSUInteger) indexPath.row] : nil;
 }
 
 #pragma mark -- MTRGNativeAdDelegate
@@ -116,7 +111,7 @@ static NSUInteger kContentStreamExampleViewAdIndex = 3;
 
 - (void)onAdClickWithNativeAd:(MTRGNativeAd *)nativeAd
 {
-
+	//
 }
 
 #pragma mark - Collection view
@@ -128,49 +123,53 @@ static NSUInteger kContentStreamExampleViewAdIndex = 3;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	UIView *view = [self viewForIndexPath:indexPath];
-	UICollectionViewCell *cell;
-	if (indexPath.row == kContentStreamExampleViewAdIndex)
+	UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kContentStreamExampleViewCellReuseIdentifier forIndexPath:indexPath];
+	if (!cell)
 	{
-		cell = [collectionView dequeueReusableCellWithReuseIdentifier:kContentStreamExampleViewAdCellId forIndexPath:indexPath];
-		if (!cell)
-			cell = [[BorderCollectionViewCell alloc] init];
-		[cell.contentView addSubview:view];
+		cell = [[BorderCollectionViewCell alloc] init];
 	}
-	else
-	{
-		cell = [collectionView dequeueReusableCellWithReuseIdentifier:kContentStreamExampleViewTextCellId forIndexPath:indexPath];
-		if (!cell)
-			cell = [[BorderCollectionViewCell alloc] init];
-		[cell.contentView addSubview:view];
-	}
-
 	return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(8_0)
+{
+	UIView *view = [self viewForIndexPath:indexPath];
+	[cell.contentView addSubview:view];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
 	UIView *view = [self viewForIndexPath:indexPath];
 
-	CGFloat height;
+	CGFloat cellWidth = CGRectGetWidth(collectionView.frame);
+	CGFloat cellHeight = 0;
+
 	if ([view isKindOfClass:[MTRGContentStreamAdView class]])
 	{
-		CGFloat padding = 6;
-		MTRGContentStreamAdView *adView = (MTRGContentStreamAdView *) view;
-		CGFloat adWidth = collectionView.frame.size.width - 2 * padding;
+		MTRGContentStreamAdView *adView = (MTRGContentStreamAdView *)view;
+		CGFloat adWidth = cellWidth - (_contentStreamAdViewMargins.left + _contentStreamAdViewMargins.right);
 		CGSize adViewSize = [adView sizeThatFits:CGSizeMake(adWidth, CGFLOAT_MAX)];
-		adView.frame = CGRectMake(padding, padding, adViewSize.width, adViewSize.height);
-		height = adView.frame.size.height + 2 * padding;
+
+		CGRect adViewFrame = CGRectZero;
+		adViewFrame.origin.x = _contentStreamAdViewMargins.left;
+		adViewFrame.origin.y = _contentStreamAdViewMargins.top;
+		adViewFrame.size = adViewSize;
+		adView.frame = adViewFrame;
+
+		cellHeight = CGRectGetHeight(adViewFrame) + (_contentStreamAdViewMargins.top + _contentStreamAdViewMargins.bottom);
 	}
-	else
+	else if ([view isKindOfClass:[SimpleTextView class]])
 	{
-		SimpleTextView *textView = (SimpleTextView *) view;
-		CGFloat width = collectionView.frame.size.width;
-		CGSize size = [textView calculateSizeForWidth:width];
-		height = size.height;
-		view.frame = CGRectMake(0, 0, width, size.height);
+		SimpleTextView *simpleTextView = (SimpleTextView *)view;
+		CGSize simpleTextViewSize = [simpleTextView calculateSizeForWidth:cellWidth];
+
+		CGRect simpleTextViewFrame = CGRectZero;
+		simpleTextViewFrame.size = simpleTextViewSize;
+		simpleTextView.frame = simpleTextViewFrame;
+
+		cellHeight = simpleTextViewSize.height;
 	}
-	return CGSizeMake(collectionView.frame.size.width, height);
+	return CGSizeMake(cellWidth, cellHeight);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath

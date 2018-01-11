@@ -1,3 +1,8 @@
+## 4.7.2 (2018.01.10)
+
+Fixed minor errors.  
+UI improvements.
+
 ## 4.7.1 (2017.12.21)
 
 Improved click tracking in carousel ads inside MediaAdView.  
