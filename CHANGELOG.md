@@ -1,3 +1,7 @@
+## 4.7.4 (2018.02.12)
+
+Fixed scroll in native ad carousel.  
+
 ## 4.7.3 (2018.01.30)
 
 An error in looking for MediaAdView within NativeAd view was fixed.
