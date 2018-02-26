@@ -30,6 +30,7 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 	ScrollMenuView *_scrollMenu;
 	MTRGAdSize _adSize;
 	NSUInteger _selectedIndex;
+	NSMutableArray<NSLayoutConstraint *> *_constraints;
 }
 
 - (instancetype)initWithAdItem:(AdItem *)adItem
@@ -63,6 +64,7 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 		}
 		_views = [NSMutableArray new];
 		_adConstraints = [NSMutableArray new];
+		_constraints = [NSMutableArray<NSLayoutConstraint *> new];
 	}
 	return self;
 }
@@ -130,17 +132,7 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 
 	[self.view addSubview:_adContainerView];
 
-	NSDictionary *views = @{
-			@"scrollMenu" : _scrollMenu,
-			@"tableView" : _tableView,
-			@"adContainerView" : _adContainerView
-	};
-
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollMenu]-0-|" options:0 metrics:nil views:views]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[tableView]-0-|" options:0 metrics:nil views:views]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollMenu(50)]-0-[tableView]-0-|" options:0 metrics:nil views:views]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[adContainerView]-0-|" options:0 metrics:nil views:views]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[adContainerView(50)]-0-|" options:0 metrics:nil views:views]];
+	[self setupConstraints];
 
 	[_tableView reloadData];
 	[self reloadAd];
@@ -153,7 +145,48 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 	self.navigationItem.title = _title;
 }
 
-- (void)updateTapped:(id)sender
+- (void)viewSafeAreaInsetsDidChange
+{
+	[super viewSafeAreaInsetsDidChange];
+	[self setupConstraints];
+}
+
+- (void)setupConstraints
+{
+	if (_constraints.count > 0)
+	{
+		[NSLayoutConstraint deactivateConstraints:_constraints];
+		[_constraints removeAllObjects];
+	}
+
+	NSDictionary *views = @{
+		@"scrollMenu" : _scrollMenu,
+		@"tableView" : _tableView,
+		@"adContainerView" : _adContainerView
+	};
+
+	UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+	if (@available(ios 11.0, *))
+	{
+		safeAreaInsets = self.view.safeAreaInsets;
+	}
+	NSDictionary<NSString *, NSNumber *> *metrics = @{
+		@"topMargin": @(safeAreaInsets.top),
+		@"bottomMargin": @(safeAreaInsets.bottom),
+		@"leftMargin": @(safeAreaInsets.left),
+		@"rightMargin": @(safeAreaInsets.right)
+	};
+
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[scrollMenu]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[tableView]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topMargin-[scrollMenu(50)]-0-[tableView]-bottomMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[adContainerView]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=0)-[adContainerView(50)]-bottomMargin-|" options:0 metrics:metrics views:views]];
+
+	[NSLayoutConstraint activateConstraints:_constraints];
+}
+
+- (void)updateTapped:(UIBarButtonItem *)sender
 {
 	[self reloadAd];
 }
@@ -199,7 +232,7 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 
 - (void)adjustContainerHeight:(CGFloat)height
 {
-	for (NSLayoutConstraint *constraint in self.view.constraints)
+	for (NSLayoutConstraint *constraint in _adContainerView.constraints)
 	{
 		if (constraint.firstItem == _adContainerView && constraint.firstAttribute == NSLayoutAttributeHeight)
 		{

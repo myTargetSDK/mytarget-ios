@@ -57,6 +57,7 @@ static double const kInstreamAdMainVideoDuration = 25.612;
 	NSArray <NSNumber *> *_customMidPointsP;
 	NSArray <NSNumber *> *_midpoints;
 	NSMutableArray <NSNumber *> *_activeMidpoints;
+	NSMutableArray<NSLayoutConstraint *> *_constraints;
 }
 
 - (instancetype)initWithAdItem:(AdItem *)adItem
@@ -69,6 +70,7 @@ static double const kInstreamAdMainVideoDuration = 25.612;
 		_slotId = [adItem slotIdForType:AdItemSlotIdTypeDefault];
 
 		_mainVideoDuration = kInstreamAdMainVideoDuration;
+		_constraints = [NSMutableArray<NSLayoutConstraint *> new];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
@@ -151,24 +153,7 @@ static double const kInstreamAdMainVideoDuration = 25.612;
 	[self configureButton:_skipAllButton withTitle:@"Skip All"];
 	[_adContainerView addSubview:_skipAllButton];
 
-	NSDictionary *views = @{
-							@"scrollMenu" : _scrollMenu,
-							@"statusLabel" : _statusLabel,
-							@"mainVideoView" : _mainVideoView,
-							@"videoProgressView" : _videoProgressView,
-							@"adContainerView" : _adContainerView
-							};
-
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollMenu]-0-|" options:0 metrics:nil views:views]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[adContainerView]-0-|" options:0 metrics:nil views:views]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[scrollMenu(0)]-0-[adContainerView]-0-|" options:0 metrics:nil views:views]];
-
-	[_adContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[statusLabel]-5-|" options:0 metrics:nil views:views]];
-	[_adContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[mainVideoView]-5-|" options:0 metrics:nil views:views]];
-	[_adContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[videoProgressView]-5-|" options:0 metrics:nil views:views]];
-	[_adContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[statusLabel(30)]-1-[mainVideoView(200)]-1-[videoProgressView(6)]" options:0 metrics:nil views:views]];
-	
-	[_adContainerView addConstraint:[NSLayoutConstraint constraintWithItem:_mainVideoView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_adContainerView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+	[self setupConstraints];
 
 	[self setStatus:@"Ready"];
 	[self doStart];
@@ -187,6 +172,54 @@ static double const kInstreamAdMainVideoDuration = 25.612;
 	{
 		[self doStop];
 	}
+}
+
+- (void)viewSafeAreaInsetsDidChange
+{
+	[super viewSafeAreaInsetsDidChange];
+	[self setupConstraints];
+}
+
+- (void)setupConstraints
+{
+	if (_constraints.count > 0)
+	{
+		[NSLayoutConstraint deactivateConstraints:_constraints];
+		[_constraints removeAllObjects];
+	}
+
+	NSDictionary *views = @{
+		@"scrollMenu" : _scrollMenu,
+		@"statusLabel" : _statusLabel,
+		@"mainVideoView" : _mainVideoView,
+		@"videoProgressView" : _videoProgressView,
+		@"adContainerView" : _adContainerView
+	};
+
+	UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+	if (@available(ios 11.0, *))
+	{
+		safeAreaInsets = self.view.safeAreaInsets;
+	}
+	NSDictionary<NSString *, NSNumber *> *metrics = @{
+		@"topMargin": @(safeAreaInsets.top),
+		@"bottomMargin": @(safeAreaInsets.bottom),
+		@"leftMargin": @(safeAreaInsets.left),
+		@"rightMargin": @(safeAreaInsets.right)
+	};
+
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[scrollMenu]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[adContainerView]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topMargin-[scrollMenu(0)]-0-[adContainerView]-bottomMargin-|" options:0 metrics:metrics views:views]];
+
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[statusLabel]-5-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[mainVideoView]-5-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[videoProgressView]-5-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[statusLabel(30)]-1-[mainVideoView(200)]-1-[videoProgressView(6)]" options:0 metrics:metrics views:views]];
+
+	[_constraints addObject:[NSLayoutConstraint constraintWithItem:_mainVideoView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_adContainerView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
+
+	[NSLayoutConstraint activateConstraints:_constraints];
 }
 
 - (void)setupAdPlayer

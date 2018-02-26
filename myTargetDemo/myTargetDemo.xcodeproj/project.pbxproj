@@ -287,10 +287,10 @@
 				38CEE9491D2155E300743C2F /* NativeAdsViewController.m */,
 				38CEE9601D22766E00743C2F /* ScrollMenuViewController.h */,
 				38CEE9611D22766E00743C2F /* ScrollMenuViewController.m */,
-				761D7AA460F62CB0727F620F /* StandardBannersViewController.m */,
 				761D7F92874B80D81EDEE89A /* StandardBannersViewController.h */,
-				761D7779A29A5BBCB7DFA907 /* NewAdUnitController.m */,
+				761D7AA460F62CB0727F620F /* StandardBannersViewController.m */,
 				761D753D48A9FF390A2FF20A /* NewAdUnitController.h */,
+				761D7779A29A5BBCB7DFA907 /* NewAdUnitController.m */,
 				89F78AB81E2F52150055C9EA /* InstreamAdsViewController.h */,
 				89F78AB91E2F52150055C9EA /* InstreamAdsViewController.m */,
 			);
@@ -302,20 +302,20 @@
 			children = (
 				38CEE9681D22C21700743C2F /* ScrollMenuView.h */,
 				38CEE9691D22C21700743C2F /* ScrollMenuView.m */,
-				761D774C5F42CE9363AD3D60 /* ScrollView.m */,
 				761D745C94AFB7E0006BF4D5 /* ScrollView.h */,
-				761D78B774F8B6B323D3F0DF /* ContentStreamExampleView.m */,
+				761D774C5F42CE9363AD3D60 /* ScrollView.m */,
 				761D7A4799A90AC3BDFB610B /* ContentStreamExampleView.h */,
-				761D79224A95111A0640725B /* SimpleTextView.m */,
+				761D78B774F8B6B323D3F0DF /* ContentStreamExampleView.m */,
 				761D7999DD1C57BA78E4142F /* SimpleTextView.h */,
-				761D73C29796C9B202BFFB87 /* NewsFeedExampleView.m */,
+				761D79224A95111A0640725B /* SimpleTextView.m */,
 				761D7DDB3732CDB7ED5DBCDD /* NewsFeedExampleView.h */,
-				761D7C6FEE73ED5D6649A7FC /* ChatListExampleView.m */,
+				761D73C29796C9B202BFFB87 /* NewsFeedExampleView.m */,
 				761D76CD51B29B3DBFD682C1 /* ChatListExampleView.h */,
-				761D760665DA0CA970293D52 /* ContentWallExampleView.m */,
+				761D7C6FEE73ED5D6649A7FC /* ChatListExampleView.m */,
 				761D740CE285FD681A125A78 /* ContentWallExampleView.h */,
-				761D7640054365A62D2EC70C /* BorderCollectionViewCell.m */,
+				761D760665DA0CA970293D52 /* ContentWallExampleView.m */,
 				761D77658B5E453C6314E8D7 /* BorderCollectionViewCell.h */,
+				761D7640054365A62D2EC70C /* BorderCollectionViewCell.m */,
 				89F78ABB1E2F776A0055C9EA /* VideoPlayerView.h */,
 				89F78ABC1E2F776A0055C9EA /* VideoPlayerView.m */,
 				89F78ABE1E30FF400055C9EA /* VideoProgressView.h */,
@@ -344,10 +344,10 @@
 		761D75DF76A2551680C7F458 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				386A29B11D2E9F2B00F5FF2E /* AdTypes.m */,
 				761D7B204F0306AAEF30DEE3 /* AdTypes.h */,
-				761D7C800C581F750F06E013 /* DefaultSlots.m */,
+				386A29B11D2E9F2B00F5FF2E /* AdTypes.m */,
 				761D7B515D14A12DC69EDE59 /* DefaultSlots.h */,
+				761D7C800C581F750F06E013 /* DefaultSlots.m */,
 			);
 			path = Enums;
 			sourceTree = "<group>";

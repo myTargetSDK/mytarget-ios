@@ -302,6 +302,7 @@
 	NSString *_title;
 	NSArray<UIColor *> *_colors;
 	NSUInteger _columns;
+	NSMutableArray<NSLayoutConstraint *> *_constraints;
 }
 
 static NSString *const reuseIdentifier = @"ItemsTableViewCell";
@@ -316,6 +317,7 @@ static NSString *const reuseIdentifier = @"ItemsTableViewCell";
 		_adItems = [NSMutableArray new];
 		_colors = [ItemsTableViewController itemsColors];
 		_columns = 2;
+		_constraints = [NSMutableArray<NSLayoutConstraint *> new];
 	}
 	return self;
 }
@@ -364,7 +366,7 @@ static NSString *const reuseIdentifier = @"ItemsTableViewCell";
 
 - (void)reload
 {
-	[self.tableView reloadData];
+	[_tableView reloadData];
 }
 
 - (void)clearItems
@@ -418,7 +420,7 @@ static NSString *const reuseIdentifier = @"ItemsTableViewCell";
 		[_adItemsViews removeObject:itemView];
 		[_adItems removeObject:adItem];
 		[self didRemoveItem:adItem];
-		[self.tableView reloadData];
+		[_tableView reloadData];
 	}
 }
 
@@ -435,10 +437,16 @@ static NSString *const reuseIdentifier = @"ItemsTableViewCell";
 {
 	[super viewDidLoad];
 
-	[self.tableView registerClass:[ItemsTableViewCell class] forCellReuseIdentifier:reuseIdentifier];
-	self.tableView.allowsSelection = NO;
-	[self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-	self.tableView.backgroundColor = [UIColor whiteColor];
+	_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+	[self.view addSubview:_tableView];
+	_tableView.translatesAutoresizingMaskIntoConstraints = NO;
+	_tableView.delegate = self;
+	_tableView.dataSource = self;
+
+	[_tableView registerClass:[ItemsTableViewCell class] forCellReuseIdentifier:reuseIdentifier];
+	[_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+	_tableView.allowsSelection = NO;
+	_tableView.backgroundColor = [UIColor whiteColor];
 
 	[self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:248 / 255.f green:48 / 255.f blue:63 / 255.f alpha:1]];
 	[self.navigationController.navigationBar setTranslucent:NO];
@@ -450,12 +458,48 @@ static NSString *const reuseIdentifier = @"ItemsTableViewCell";
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
 	self.navigationController.navigationBar.topItem.title = @"";
+
+	[self setupConstraints];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
 	self.navigationItem.title = _title;
+}
+
+- (void)viewSafeAreaInsetsDidChange
+{
+	[super viewSafeAreaInsetsDidChange];
+	[self setupConstraints];
+}
+
+- (void)setupConstraints
+{
+	if (_constraints.count > 0)
+	{
+		[NSLayoutConstraint deactivateConstraints:_constraints];
+		[_constraints removeAllObjects];
+	}
+
+	NSDictionary *views = @{ @"tableView" : _tableView };
+
+	UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+	if (@available(ios 11.0, *))
+	{
+		safeAreaInsets = self.view.safeAreaInsets;
+	}
+	NSDictionary<NSString *, NSNumber *> *metrics = @{
+		@"topMargin": @(safeAreaInsets.top),
+		@"bottomMargin": @(safeAreaInsets.bottom),
+		@"leftMargin": @(safeAreaInsets.left),
+		@"rightMargin": @(safeAreaInsets.right)
+	};
+
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[tableView]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topMargin-[tableView]-bottomMargin-|" options:0 metrics:metrics views:views]];
+
+	[NSLayoutConstraint activateConstraints:_constraints];
 }
 
 - (BOOL)prefersStatusBarHidden

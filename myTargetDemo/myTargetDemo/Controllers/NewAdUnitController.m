@@ -30,8 +30,8 @@
 
 @end
 
-
 @interface NewAdUnitController () <UIActionSheetDelegate, UITextFieldDelegate>
+
 @end
 
 @implementation NewAdUnitController
@@ -48,6 +48,7 @@
 
 	NSUInteger _adType;
 	NSArray <AdTypeItem *> *_adTypes;
+	NSMutableArray<NSLayoutConstraint *> *_constraints;
 }
 
 - (instancetype)initWithDelegate:(id <NewAdUnitControllerDelegate>)delegate
@@ -56,105 +57,7 @@
 	if (self)
 	{
 		_delegate = delegate;
-		self.view.backgroundColor = [UIColor whiteColor];
-
-		BOOL isIPad = [[[UIDevice currentDevice] model] isEqualToString:@"iPad"];
-		NSMutableArray <AdTypeItem *> *adTypes = [NSMutableArray new];
-		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeStandard title:@"Banner 320x50"]];
-		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeStandard300x250 title:@"Banner 300x250"]];
-		if (isIPad)
-		{
-			[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeStandard728x90 title:@"Banner 728x90"]];
-		}
-		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeInterstitial title:@"Interstitial Ad"]];
-		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeNative title:@"Native Ad"]];
-		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeNativeVideo title:@"Native Video"]];
-		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeNativeCarousel title:@"Native Carousel"]];
-		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeInstream title:@"Instream Ad"]];
-		_adTypes = adTypes;
-
-		_adTypeLabel = [[UILabel alloc] init];
-		_adTypeLabel.text = @"Ad type";
-		_adTypeLabel.translatesAutoresizingMaskIntoConstraints = NO;
-		[self.view addSubview:_adTypeLabel];
-
-		_slotIdLabel = [[UILabel alloc] init];
-		_slotIdLabel.text = @"Slot id";
-		_slotIdLabel.translatesAutoresizingMaskIntoConstraints = NO;
-		[self.view addSubview:_slotIdLabel];
-
-		_nameLabel = [[UILabel alloc] init];
-		_nameLabel.text = @"Name";
-		_nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-		[self.view addSubview:_nameLabel];
-
-		_adTypeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		_adTypeButton.accessibilityIdentifier = @"adTypeButton";
-		[_adTypeButton setTitle:@"..." forState:UIControlStateNormal];
-		_adTypeButton.titleLabel.textAlignment = NSTextAlignmentLeft;
-		[_adTypeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-		_adTypeButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.05];
-		_adTypeButton.layer.borderColor = [[UIColor blackColor] colorWithAlphaComponent:0.1].CGColor;
-		_adTypeButton.layer.borderWidth = 0.6;
-		_adTypeButton.layer.cornerRadius = 4;
-		_adTypeButton.translatesAutoresizingMaskIntoConstraints = NO;
-		[_adTypeButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 5.0, 0.0, 0.0)];
-		_adTypeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-		[self.view addSubview:_adTypeButton];
-		[_adTypeButton addTarget:self action:@selector(adTypeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-
-		_slotIdTextField = [[UITextField alloc] init];
-		_slotIdTextField.accessibilityIdentifier = @"slotIdTextField";
-		_slotIdTextField.text = @"";
-		_slotIdTextField.keyboardType = UIKeyboardTypeNumberPad;
-		_slotIdTextField.translatesAutoresizingMaskIntoConstraints = NO;
-		_slotIdTextField.borderStyle = UITextBorderStyleRoundedRect;
-		_slotIdTextField.delegate = self;
-		[self.view addSubview:_slotIdTextField];
-
-		_nameTextField = [[UITextField alloc] init];
-		_nameTextField.accessibilityIdentifier = @"nameTextField";
-		_nameTextField.text = @"";
-		_nameTextField.borderStyle = UITextBorderStyleRoundedRect;
-		_nameTextField.translatesAutoresizingMaskIntoConstraints = NO;
-		_nameTextField.delegate = self;
-		[self.view addSubview:_nameTextField];
-
-		_saveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		[_saveButton setTitle:@"Save ad unit" forState:UIControlStateNormal];
-		[_saveButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-		_saveButton.titleLabel.textAlignment = NSTextAlignmentLeft;
-		[_saveButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-		_saveButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.05];
-		_saveButton.layer.borderColor = [[UIColor blackColor] colorWithAlphaComponent:0.1].CGColor;
-		_saveButton.layer.borderWidth = 0.6;
-		_saveButton.layer.cornerRadius = 4;
-		_saveButton.translatesAutoresizingMaskIntoConstraints = NO;
-		[self.view addSubview:_saveButton];
-		[_saveButton addTarget:self action:@selector(saveButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-
-		AdTypeItem *firstItem = _adTypes[0];
-		_adType = firstItem.adType;
-		[self adTypeButtonSetTitle:firstItem.title];
-
-		NSDictionary *views = @{
-				@"adTypeLabel" : _adTypeLabel,
-				@"slotIdLabel" : _slotIdLabel,
-				@"nameLabel" : _nameLabel,
-				@"adTypeButton" : _adTypeButton,
-				@"slotIdTextField" : _slotIdTextField,
-				@"nameTextField" : _nameTextField,
-				@"saveButton" : _saveButton
-		};
-
-		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-16-[adTypeLabel(80)]-4-[adTypeButton]-16-|" options:0 metrics:nil views:views]];
-		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-16-[slotIdLabel(80)]-4-[slotIdTextField]-16-|" options:0 metrics:nil views:views]];
-		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-16-[nameLabel(80)]-4-[nameTextField]-16-|" options:0 metrics:nil views:views]];
-		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[adTypeLabel(40)]-10-[slotIdLabel(40)]-10-[nameLabel(40)]" options:0 metrics:nil views:views]];
-		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[adTypeButton(40)]-10-[slotIdTextField(40)]-10-[nameTextField(40)]" options:0 metrics:nil views:views]];
-		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[nameLabel]-50-[saveButton(60)]" options:0 metrics:nil views:views]];
-		[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[saveButton(120)]" options:0 metrics:nil views:views]];
-		[self.view addConstraint:[NSLayoutConstraint constraintWithItem:_saveButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+		_constraints = [NSMutableArray<NSLayoutConstraint *> new];
 	}
 	return self;
 }
@@ -167,6 +70,89 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+
+	self.view.backgroundColor = [UIColor whiteColor];
+
+	BOOL isIPad = [[[UIDevice currentDevice] model] isEqualToString:@"iPad"];
+	NSMutableArray <AdTypeItem *> *adTypes = [NSMutableArray new];
+	[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeStandard title:@"Banner 320x50"]];
+	[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeStandard300x250 title:@"Banner 300x250"]];
+	if (isIPad)
+	{
+		[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeStandard728x90 title:@"Banner 728x90"]];
+	}
+	[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeInterstitial title:@"Interstitial Ad"]];
+	[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeNative title:@"Native Ad"]];
+	[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeNativeVideo title:@"Native Video"]];
+	[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeNativeCarousel title:@"Native Carousel"]];
+	[adTypes addObject:[[AdTypeItem alloc] initWithAdType:kAdTypeInstream title:@"Instream Ad"]];
+	_adTypes = adTypes;
+
+	_adTypeLabel = [[UILabel alloc] init];
+	_adTypeLabel.text = @"Ad type";
+	_adTypeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.view addSubview:_adTypeLabel];
+
+	_slotIdLabel = [[UILabel alloc] init];
+	_slotIdLabel.text = @"Slot id";
+	_slotIdLabel.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.view addSubview:_slotIdLabel];
+
+	_nameLabel = [[UILabel alloc] init];
+	_nameLabel.text = @"Name";
+	_nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.view addSubview:_nameLabel];
+
+	_adTypeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+	_adTypeButton.accessibilityIdentifier = @"adTypeButton";
+	[_adTypeButton setTitle:@"..." forState:UIControlStateNormal];
+	_adTypeButton.titleLabel.textAlignment = NSTextAlignmentLeft;
+	[_adTypeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	_adTypeButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.05];
+	_adTypeButton.layer.borderColor = [[UIColor blackColor] colorWithAlphaComponent:0.1].CGColor;
+	_adTypeButton.layer.borderWidth = 0.6;
+	_adTypeButton.layer.cornerRadius = 4;
+	_adTypeButton.translatesAutoresizingMaskIntoConstraints = NO;
+	[_adTypeButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 5.0, 0.0, 0.0)];
+	_adTypeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+	[self.view addSubview:_adTypeButton];
+	[_adTypeButton addTarget:self action:@selector(adTypeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+
+	_slotIdTextField = [[UITextField alloc] init];
+	_slotIdTextField.accessibilityIdentifier = @"slotIdTextField";
+	_slotIdTextField.text = @"";
+	_slotIdTextField.keyboardType = UIKeyboardTypeNumberPad;
+	_slotIdTextField.translatesAutoresizingMaskIntoConstraints = NO;
+	_slotIdTextField.borderStyle = UITextBorderStyleRoundedRect;
+	_slotIdTextField.delegate = self;
+	[self.view addSubview:_slotIdTextField];
+
+	_nameTextField = [[UITextField alloc] init];
+	_nameTextField.accessibilityIdentifier = @"nameTextField";
+	_nameTextField.text = @"";
+	_nameTextField.borderStyle = UITextBorderStyleRoundedRect;
+	_nameTextField.translatesAutoresizingMaskIntoConstraints = NO;
+	_nameTextField.delegate = self;
+	[self.view addSubview:_nameTextField];
+
+	_saveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+	[_saveButton setTitle:@"Save ad unit" forState:UIControlStateNormal];
+	[_saveButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	_saveButton.titleLabel.textAlignment = NSTextAlignmentLeft;
+	[_saveButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	_saveButton.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.05];
+	_saveButton.layer.borderColor = [[UIColor blackColor] colorWithAlphaComponent:0.1].CGColor;
+	_saveButton.layer.borderWidth = 0.6;
+	_saveButton.layer.cornerRadius = 4;
+	_saveButton.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.view addSubview:_saveButton];
+	[_saveButton addTarget:self action:@selector(saveButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+
+	AdTypeItem *firstItem = _adTypes[0];
+	_adType = firstItem.adType;
+	[self adTypeButtonSetTitle:firstItem.title];
+
+	[self setupConstraints];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -174,6 +160,60 @@
 	[super viewWillAppear:animated];
 	self.navigationController.navigationBar.topItem.title = @"";
 	self.navigationItem.title = @"New ad unit";
+}
+
+- (void)viewSafeAreaInsetsDidChange
+{
+	[super viewSafeAreaInsetsDidChange];
+	[self setupConstraints];
+}
+
+- (void)setupConstraints
+{
+	if (_constraints.count > 0)
+	{
+		[NSLayoutConstraint deactivateConstraints:_constraints];
+		[_constraints removeAllObjects];
+	}
+
+	NSDictionary *views = @{
+		@"adTypeLabel" : _adTypeLabel,
+		@"slotIdLabel" : _slotIdLabel,
+		@"nameLabel" : _nameLabel,
+		@"adTypeButton" : _adTypeButton,
+		@"slotIdTextField" : _slotIdTextField,
+		@"nameTextField" : _nameTextField,
+		@"saveButton" : _saveButton
+	};
+
+	UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+	if (@available(ios 11.0, *))
+	{
+		safeAreaInsets = self.view.safeAreaInsets;
+	}
+
+	float leftMargin = (safeAreaInsets.left > 0) ? safeAreaInsets.left : 16.0;
+	float rightMargin = (safeAreaInsets.right > 0) ? safeAreaInsets.right : 16.0;
+	float topMargin = (safeAreaInsets.top > 0) ? safeAreaInsets.top : 20.0;
+	float bottomMargin = (safeAreaInsets.bottom > 0) ? safeAreaInsets.bottom : 20.0;
+
+	NSDictionary<NSString *, NSNumber *> *metrics = @{
+		@"topMargin": [NSNumber numberWithFloat:topMargin],
+		@"bottomMargin": [NSNumber numberWithFloat:bottomMargin],
+		@"leftMargin": [NSNumber numberWithFloat:leftMargin],
+		@"rightMargin": [NSNumber numberWithFloat:rightMargin]
+	};
+
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[adTypeLabel(80)]-4-[adTypeButton]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[slotIdLabel(80)]-4-[slotIdTextField]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[nameLabel(80)]-4-[nameTextField]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topMargin-[adTypeLabel(40)]-10-[slotIdLabel(40)]-10-[nameLabel(40)]" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topMargin-[adTypeButton(40)]-10-[slotIdTextField(40)]-10-[nameTextField(40)]" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[nameLabel]-50-[saveButton(60)]" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[saveButton(120)]" options:0 metrics:metrics views:views]];
+	[_constraints addObject:[NSLayoutConstraint constraintWithItem:_saveButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+
+	[NSLayoutConstraint activateConstraints:_constraints];
 }
 
 - (void)adTypeButtonTapped:(UIButton *)sender

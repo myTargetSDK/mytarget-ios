@@ -37,10 +37,12 @@
 	ScrollView *_scrollView;
 	ScrollMenuView *_scrollMenu;
 	UITabBar *_tabBar;
+	UIView *_tabBarView;
 
 	UITabBarItem *_tabBarItemStatic;
 	UITabBarItem *_tabBarItemVideo;
 	UITabBarItem *_tabBarItemCarousel;
+	NSMutableArray<NSLayoutConstraint *> *_constraints;
 }
 
 - (instancetype)initWithTitle:(NSString *)title
@@ -50,6 +52,7 @@
 	{
 		_title = title;
 		_menuPages = [NSMutableArray new];
+		_constraints = [NSMutableArray<NSLayoutConstraint *> new];
 	}
 	return self;
 }
@@ -96,14 +99,19 @@
 	[[UITabBarItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName : unselectedColor, NSFontAttributeName : barItemFont } forState:UIControlStateNormal];
 	[[UITabBarItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName : selectedColor, NSFontAttributeName : barItemFont } forState:UIControlStateSelected];
 
+	// Workaround for UITabBar on iPhone X
+	_tabBarView = [[UIView alloc] init];
+	_tabBarView.translatesAutoresizingMaskIntoConstraints = NO;
+	[self.view addSubview:_tabBarView];
+
 	_tabBar = [[UITabBar alloc] init];
 	_tabBar.delegate = self;
 	_tabBar.tintColor = selectedColor;
 	_tabBar.barTintColor = backgroundColor;
 	_tabBar.translatesAutoresizingMaskIntoConstraints = NO;
-	[self.view addSubview:_tabBar];
+	[_tabBarView addSubview:_tabBar];
 
-	[self constrainsInit];
+	[self setupConstraints];
 
 	UIImage *imageStatic = [UIImage imageNamed:@"ic_static"];
 	UIImage *imageStaticSelected = [[self imageFromImage:imageStatic withColor:selectedColor] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -160,6 +168,57 @@
 	}
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	self.navigationController.navigationBar.topItem.title = @"";
+	self.navigationItem.title = _title;
+}
+
+- (void)viewSafeAreaInsetsDidChange
+{
+	[super viewSafeAreaInsetsDidChange];
+	[self setupConstraints];
+}
+
+- (void)setupConstraints
+{
+	if (_constraints.count > 0)
+	{
+		[NSLayoutConstraint deactivateConstraints:_constraints];
+		[_constraints removeAllObjects];
+	}
+
+	NSDictionary *views = @{
+		@"menu" : _scrollMenu,
+		@"scrollView" : _scrollView,
+		@"tabBar" : _tabBar,
+		@"tabBarView" : _tabBarView
+	};
+
+	UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+	if (@available(ios 11.0, *))
+	{
+		safeAreaInsets = self.view.safeAreaInsets;
+	}
+	NSDictionary<NSString *, NSNumber *> *metrics = @{
+		@"topMargin": @(safeAreaInsets.top),
+		@"bottomMargin": @(safeAreaInsets.bottom),
+		@"leftMargin": @(safeAreaInsets.left),
+		@"rightMargin": @(safeAreaInsets.right)
+	};
+
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[menu]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[scrollView]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-leftMargin-[tabBarView]-rightMargin-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-topMargin-[menu(50)]-0-[scrollView]-0-[tabBarView(50)]-bottomMargin-|" options:0 metrics:metrics views:views]];
+
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[tabBar]-0-|" options:0 metrics:metrics views:views]];
+	[_constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[tabBar]-0-|" options:0 metrics:metrics views:views]];
+
+	[NSLayoutConstraint activateConstraints:_constraints];
+}
+
 - (UIImage *)imageFromImage:(UIImage *)image withColor:(UIColor *)color
 {
 	UIImage *newImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -197,26 +256,6 @@
 		[_scrollMenu reloadData];
 		[_scrollMenu setSelectedIndex:0 animated:YES calledDelegate:NO];
 	}
-}
-
-- (void)constrainsInit
-{
-	NSDictionary *views = @{
-			@"menu" : _scrollMenu,
-			@"scrollView" : _scrollView,
-			@"tabBar" : _tabBar
-	};
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[menu]-0-|" options:0 metrics:nil views:views]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[scrollView]-0-|" options:0 metrics:nil views:views]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[tabBar]-0-|" options:0 metrics:nil views:views]];
-	[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[menu(50)]-0-[scrollView]-0-[tabBar(50)]-0-|" options:0 metrics:nil views:views]];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	self.navigationController.navigationBar.topItem.title = @"";
-	self.navigationItem.title = _title;
 }
 
 #pragma mark - UITabBarDelegate
