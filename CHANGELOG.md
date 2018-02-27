@@ -1,3 +1,7 @@
+## 4.7.5 (2018.02.26)
+
+Improvements and fixes for InstreamAd.  
+
 ## 4.7.4 (2018.02.12)
 
 Fixed scroll in native ad carousel.  
