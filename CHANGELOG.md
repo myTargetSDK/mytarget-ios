@@ -1,3 +1,7 @@
+## 4.7.6 (2018.03.12)
+
+Fixed errors in NativeAd and InterstitialAd.  
+
 ## 4.7.5 (2018.02.26)
 
 Improvements and fixes for InstreamAd.  
