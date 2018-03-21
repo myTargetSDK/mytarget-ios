@@ -1,3 +1,7 @@
+## 4.7.7 (2018.03.20)
+
+Fixed errors in native ad and 300x250 banners.  
+
 ## 4.7.6 (2018.03.12)
 
 Fixed errors in NativeAd and InterstitialAd.  
