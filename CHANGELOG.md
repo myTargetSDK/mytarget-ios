@@ -1,3 +1,7 @@
+## 4.7.8 (2018.04.10)
+
+Fixed errors in native and interstitial cards.  
+
 ## 4.7.7 (2018.03.20)
 
 Fixed errors in native ad and 300x250 banners.  
