@@ -1,3 +1,7 @@
+## 4.7.9 (2018.05.22)
+
+Support GDPR.  
+
 ## 4.7.8 (2018.04.10)
 
 Fixed errors in native and interstitial cards.  
