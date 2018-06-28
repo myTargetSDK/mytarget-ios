@@ -1,3 +1,7 @@
+## 4.7.10 (2018.06.28)
+
+Detecting jailbroken devices.  
+
 ## 4.7.9 (2018.05.22)
 
 Support GDPR.  
