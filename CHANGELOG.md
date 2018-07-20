@@ -1,3 +1,7 @@
+## 4.7.11 (2018.07.20)
+
+Fixed handling clicks in html banners.  
+
 ## 4.7.10 (2018.06.28)
 
 Detecting jailbroken devices.  
