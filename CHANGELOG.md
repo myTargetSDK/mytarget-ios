@@ -1,3 +1,9 @@
+## 4.8.0 (2018.08.14)
+
+Support MRAID-banners in InterstitialAd.  
+Support loading banners by specific indentifier for s2s mediation.  
+Fixed some minor errors.  
+
 ## 4.7.11 (2018.07.20)
 
 Fixed handling clicks in html banners.  
