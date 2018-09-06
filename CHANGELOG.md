@@ -1,3 +1,8 @@
+## 4.8.1 (2018.09.06)
+
+Support AdChoices in native ads.  
+Added viewability settings in native ads.  
+
 ## 4.8.0 (2018.08.14)
 
 Support MRAID-banners in InterstitialAd.  
