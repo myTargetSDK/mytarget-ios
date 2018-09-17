@@ -1,3 +1,9 @@
+## 4.8.2 (2018.09.17)
+
+Fixed calling onLoad callback for html banners.  
+Fixed Xcode warnings.  
+Improvements for AdChoices icon in Native ads.  
+
 ## 4.8.1 (2018.09.06)
 
 Support AdChoices in native ads.  
