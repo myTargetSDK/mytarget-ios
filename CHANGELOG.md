@@ -1,3 +1,7 @@
+## 4.8.3 (2018.09.20)
+
+Workaround for calling openURL method in some rare cases.  
+
 ## 4.8.2 (2018.09.17)
 
 Fixed calling onLoad callback for html banners.  
