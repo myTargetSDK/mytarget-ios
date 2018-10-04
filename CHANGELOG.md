@@ -1,3 +1,7 @@
+## 4.8.4 (2018.10.04)
+
+Fixed errors.  
+
 ## 4.8.3 (2018.09.20)
 
 Workaround for calling openURL method in some rare cases.  
