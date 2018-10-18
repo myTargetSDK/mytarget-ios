@@ -1,3 +1,7 @@
+## 4.8.5 (2018.10.18)
+
+Fixed appearance of close button in rewarded video.  
+
 ## 4.8.4 (2018.10.04)
 
 Fixed errors.  
