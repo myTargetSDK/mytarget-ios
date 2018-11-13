@@ -1,3 +1,7 @@
+## 4.8.6 (2018.11.13)
+
+Fixed onShow callback in Native ads loaded using NativeAdLoader.  
+
 ## 4.8.5 (2018.10.18)
 
 Fixed appearance of close button in rewarded video.  
