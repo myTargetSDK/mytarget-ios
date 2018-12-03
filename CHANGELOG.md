@@ -1,3 +1,7 @@
+## 4.8.7 (2018.12.03)
+
+Fixed impression tracking in VAST video.  
+
 ## 4.8.6 (2018.11.13)
 
 Fixed onShow callback in Native ads loaded using NativeAdLoader.  
