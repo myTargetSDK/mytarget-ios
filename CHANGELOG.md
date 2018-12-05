@@ -1,3 +1,7 @@
+## 4.8.8 (2018.12.05)
+
+Fixed KVO bug in video player.  
+
 ## 4.8.7 (2018.12.03)
 
 Fixed impression tracking in VAST video.  
