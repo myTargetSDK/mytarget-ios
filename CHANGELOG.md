@@ -1,3 +1,8 @@
+## 4.8.9 (2018.12.24)
+
+Fixed default value of trackLocation parameter in NativeAdLoader.  
+Improved click handling in html-banners.  
+
 ## 4.8.8 (2018.12.05)
 
 Fixed KVO bug in video player.  
