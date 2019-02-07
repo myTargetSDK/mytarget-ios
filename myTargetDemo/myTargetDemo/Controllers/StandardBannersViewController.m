@@ -246,7 +246,6 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 {
 	if (_adView)
 	{
-		[_adView stop];
 		[_adContainerView removeConstraints:_adConstraints];
 		[_adConstraints removeAllObjects];
 		[_adView removeFromSuperview];
@@ -293,7 +292,6 @@ static NSUInteger kStandardBannersViewControllerAdIndex = 1;
 - (void)onLoadWithAdView:(MTRGAdView *)adView
 {
 	[self showAdView];
-	[_adView start];
 }
 
 - (void)onNoAdWithReason:(NSString *)reason adView:(MTRGAdView *)adView

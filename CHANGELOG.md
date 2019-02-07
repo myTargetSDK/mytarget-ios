@@ -1,3 +1,10 @@
+## 5.0.0 (2019.02.07)
+
+Great refactoring of library code and build system.  
+Added smart cache for images in native ads.  
+Removed start/pause/resume/stop methods from MyTargetView. Starting this version state changes automatically.  
+Added viewability tracking of video-banners in native and interstitial formats.  
+
 ## 4.8.9 (2018.12.24)
 
 Fixed default value of trackLocation parameter in NativeAdLoader.  
