@@ -21,86 +21,106 @@
 
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
 {
-	NSUInteger slotId = 0;
-	if (info)
-	{
-		id slotIdValue = [info valueForKey:@"slotId"];
-		slotId = [self parseSlotId:slotIdValue];
-
-		if ([slotIdValue isKindOfClass:[NSString class]])
-		{
-			slotId = [slotIdValue integerValue];
-		}
-	}
-
-	UIViewController *ownerViewController = [self.delegate viewControllerForPresentingModalView];
+	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	UIViewController *ownerViewController = delegate ? [delegate viewControllerForPresentingModalView] : nil;
+	NSUInteger slotId = [self parseSlotIdFromInfo:info];
 
 	if (slotId > 0)
 	{
-		//Создаем вьюшку
-		_adView = [[MTRGAdView alloc] initWithSlotId:slotId withRefreshAd:NO];
+		MTRGAdSize adSize = MTRGAdSize_320x50;
+		if (size.width == 300 && size.height == 250)
+		{
+			adSize = MTRGAdSize_300x250;
+		}
+		else if (size.width == 728 && size.height == 90)
+		{
+			adSize = MTRGAdSize_728x90;
+		}
+
+		_adView = [[MTRGAdView alloc] initWithSlotId:slotId withRefreshAd:NO adSize:adSize];
 		_adView.viewController = ownerViewController;
 		_adView.delegate = self;
 		[_adView.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
 		[_adView load];
 	}
-	else
+	else if (delegate)
 	{
-		NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Options is not correct: slotId not found"};
+		NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Options is not correct: slotId not found" };
 		NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1000 userInfo:userInfo];
-		[self.delegate bannerCustomEvent:self didFailToLoadAdWithError:error];
+		[delegate bannerCustomEvent:self didFailToLoadAdWithError:error];
 	}
-
 }
 
-- (NSUInteger)parseSlotId:(id)slotIdValue
-{
-	if ([slotIdValue isKindOfClass:[NSString class]])
-	{
-		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
-		NSNumber *slotIdNum = [formatString numberFromString:slotIdValue];
-		return slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
-	}
-	else if ([slotIdValue isKindOfClass:[NSNumber class]])
-		return [((NSNumber *) slotIdValue) unsignedIntegerValue];
-	return 0;
-}
-
-#pragma mark --- MTRGAdViewDelegate
+#pragma mark - MTRGAdViewDelegate
 
 - (void)onLoadWithAdView:(MTRGAdView *)adView
 {
-	[_adView start];
-	[self.delegate bannerCustomEvent:self didLoadAd:_adView];
-	[self.delegate trackImpression];
+	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate bannerCustomEvent:self didLoadAd:adView];
+	[delegate trackImpression];
 }
 
 - (void)onNoAdWithReason:(NSString *)reason adView:(MTRGAdView *)adView
 {
+	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
 	NSString *errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
-	NSDictionary *userInfo = @{NSLocalizedDescriptionKey : errorTitle};
+	NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : errorTitle };
 	NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];
-	[self.delegate bannerCustomEvent:self didFailToLoadAdWithError:error];
+	[delegate bannerCustomEvent:self didFailToLoadAdWithError:error];
 }
 
 - (void)onAdClickWithAdView:(MTRGAdView *)adView
 {
-	[self.delegate trackClick];
+	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate trackClick];
 }
 
 - (void)onShowModalWithAdView:(MTRGAdView *)adView
 {
-	[self.delegate bannerCustomEventWillBeginAction:self];
+	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate bannerCustomEventWillBeginAction:self];
 }
 
 - (void)onDismissModalWithAdView:(MTRGAdView *)adView
 {
-	[self.delegate bannerCustomEventDidFinishAction:self];
+	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate bannerCustomEventDidFinishAction:self];
 }
 
 - (void)onLeaveApplicationWithAdView:(MTRGAdView *)adView
 {
-	[self.delegate bannerCustomEventWillLeaveApplication:self];
+	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate bannerCustomEventWillLeaveApplication:self];
+}
+
+#pragma mark - helpers
+
+- (NSUInteger)parseSlotIdFromInfo:(nullable NSDictionary *)info
+{
+	if (!info) return 0;
+
+	id slotIdValue = [info valueForKey:@"slotId"];
+	if (!slotIdValue) return 0;
+
+	NSUInteger slotId = 0;
+	if ([slotIdValue isKindOfClass:[NSString class]])
+	{
+		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
+		NSNumber *slotIdNumber = [formatString numberFromString:slotIdValue];
+		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
+	}
+	else if ([slotIdValue isKindOfClass:[NSNumber class]])
+	{
+		NSNumber *slotIdNumber = (NSNumber *)slotIdValue;
+		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
+	}
+	return slotId;
 }
 
 @end

@@ -10,8 +10,12 @@
 
 #import "MPNativeAdAdapter.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MTRGMopubNativeAdAdapter : NSObject <MPNativeAdAdapter>
 
 - (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,3 +1,7 @@
+## 5.0.1 (2019.02.08)
+
+Support mediation with Mopub SDK v.5.5.0  
+
 ## 5.0.0 (2019.02.07)
 
 Great refactoring of library code and build system.  

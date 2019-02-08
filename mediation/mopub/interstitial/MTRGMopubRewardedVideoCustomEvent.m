@@ -18,15 +18,16 @@
 @implementation MTRGMopubRewardedVideoCustomEvent
 {
 	MTRGInterstitialAd *_interstitialAd;
-	BOOL _isAdAvailable;
+	BOOL _hasAdAvailable;
 }
 
 #pragma mark - override MPRewardedVideoCustomEvent methods
 
 - (void)requestRewardedVideoWithCustomEventInfo:(NSDictionary *)info
 {
-	_isAdAvailable = NO;
+	_hasAdAvailable = NO;
 	NSUInteger slotId = [self parseSlotIdFromInfo:info];
+	id <MPRewardedVideoCustomEventDelegate> delegate = self.delegate;
 
 	if (slotId > 0)
 	{
@@ -35,23 +36,25 @@
 		[_interstitialAd.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
 		[_interstitialAd load];
 	}
-	else
+	else if (delegate)
 	{
-		NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Options are not correct: slotId not found"};
+		NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Options are not correct: slotId not found" };
 		NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1000 userInfo:userInfo];
-		[self.delegate rewardedVideoDidFailToLoadAdForCustomEvent:self error:error];
+		[delegate rewardedVideoDidFailToLoadAdForCustomEvent:self error:error];
 	}
 }
 
 - (BOOL)hasAdAvailable
 {
-	return _isAdAvailable;
+	return _hasAdAvailable;
 }
 
 - (void)presentRewardedVideoFromViewController:(UIViewController *)viewController
 {
-	[self.delegate rewardedVideoWillAppearForCustomEvent:self];
 	[_interstitialAd showWithController:viewController];
+	id <MPRewardedVideoCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate rewardedVideoWillAppearForCustomEvent:self];
 }
 
 - (BOOL)enableAutomaticImpressionAndClickTracking
@@ -59,70 +62,84 @@
 	return NO;
 }
 
-
 #pragma mark - MTRGInterstitialAdDelegate
 
 - (void)onLoadWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	_isAdAvailable = YES;
-	[self.delegate rewardedVideoDidLoadAdForCustomEvent:self];
+	_hasAdAvailable = YES;
+	id <MPRewardedVideoCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate rewardedVideoDidLoadAdForCustomEvent:self];
 }
 
 - (void)onNoAdWithReason:(NSString *)reason interstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
+	id <MPRewardedVideoCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
 	NSString *errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
-	NSDictionary *userInfo = @{NSLocalizedDescriptionKey : errorTitle};
+	NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : errorTitle };
 	NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];
-	[self.delegate rewardedVideoDidFailToLoadAdForCustomEvent:self error:error];
+	[delegate rewardedVideoDidFailToLoadAdForCustomEvent:self error:error];
 }
 
 - (void)onClickWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	[self.delegate trackClick];
+	id <MPRewardedVideoCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate trackClick];
 }
 
 - (void)onCloseWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	[self.delegate rewardedVideoDidDisappearForCustomEvent:self];
+	id <MPRewardedVideoCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate rewardedVideoDidDisappearForCustomEvent:self];
 }
 
 - (void)onVideoCompleteWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	MPRewardedVideoReward *rewardAmount = [[MPRewardedVideoReward alloc] initWithCurrencyType:kMPRewardedVideoRewardCurrencyTypeUnspecified
-																					   amount:[NSNumber numberWithInteger:kMPRewardedVideoRewardCurrencyAmountUnspecified]];
-	[self.delegate rewardedVideoShouldRewardUserForCustomEvent:self reward:rewardAmount];
+	id <MPRewardedVideoCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	NSNumber *amount = [NSNumber numberWithInteger:kMPRewardedVideoRewardCurrencyAmountUnspecified];
+	MPRewardedVideoReward *reward = [[MPRewardedVideoReward alloc] initWithCurrencyType:kMPRewardedVideoRewardCurrencyTypeUnspecified amount:amount];
+	[delegate rewardedVideoShouldRewardUserForCustomEvent:self reward:reward];
 }
 
 - (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	[self.delegate rewardedVideoDidAppearForCustomEvent:self];
-	[self.delegate trackImpression];
+	id <MPRewardedVideoCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate rewardedVideoDidAppearForCustomEvent:self];
+	[delegate trackImpression];
 }
 
 - (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	[self.delegate rewardedVideoWillLeaveApplicationForCustomEvent:self];
+	id <MPRewardedVideoCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate rewardedVideoWillLeaveApplicationForCustomEvent:self];
 }
 
 #pragma mark - helpers
 
-- (NSUInteger)parseSlotIdFromInfo:(NSDictionary *)info
+- (NSUInteger)parseSlotIdFromInfo:(nullable NSDictionary *)info
 {
-	NSUInteger slotId = 0;
-	if (info)
-	{
-		id slotIdValue = [info valueForKey:@"slotId"];
+	if (!info) return 0;
 
-		if ([slotIdValue isKindOfClass:[NSString class]])
-		{
-			NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
-			NSNumber *slotIdNum = [formatString numberFromString:slotIdValue];
-			slotId = slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
-		}
-		else if ([slotIdValue isKindOfClass:[NSNumber class]])
-		{
-			slotId = [((NSNumber *) slotIdValue) unsignedIntegerValue];
-		}
+	id slotIdValue = [info valueForKey:@"slotId"];
+	if (!slotIdValue) return 0;
+
+	NSUInteger slotId = 0;
+	if ([slotIdValue isKindOfClass:[NSString class]])
+	{
+		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
+		NSNumber *slotIdNumber = [formatString numberFromString:slotIdValue];
+		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
+	}
+	else if ([slotIdValue isKindOfClass:[NSNumber class]])
+	{
+		NSNumber *slotIdNumber = (NSNumber *)slotIdValue;
+		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
 	}
 	return slotId;
 }

@@ -12,7 +12,6 @@
 #import "MTRGMopubNativeAdAdapter.h"
 #import "MPNativeAd.h"
 
-
 @interface MTRGMopubNativeCustomEvent () <MTRGNativeAdDelegate>
 
 @end
@@ -21,12 +20,8 @@
 
 - (void)requestAdWithCustomEventInfo:(NSDictionary *)info
 {
-	NSUInteger slotId = 0;
-	if (info)
-	{
-		id slotIdValue = [info valueForKey:@"slotId"];
-		slotId = [self parseSlotId:slotIdValue];
-	}
+	NSUInteger slotId = [self parseSlotIdFromInfo:info];
+	id <MPNativeCustomEventDelegate> delegate = self.delegate;
 
 	if (slotId > 0)
 	{
@@ -35,59 +30,49 @@
 		[nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
 		[nativeAd load];
 	}
-	else
+	else if (delegate)
 	{
 		NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Options is not correct: slotId not found"};
 		NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1000 userInfo:userInfo];
-		[self.delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
+		[delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
 	}
 }
 
-- (NSUInteger)parseSlotId:(id)slotIdValue
-{
-	if ([slotIdValue isKindOfClass:[NSString class]])
-	{
-		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
-		NSNumber *slotIdNum = [formatString numberFromString:slotIdValue];
-		return slotIdNum ? [slotIdNum unsignedIntegerValue] : 0;
-	}
-	else if ([slotIdValue isKindOfClass:[NSNumber class]])
-		return [((NSNumber *) slotIdValue) unsignedIntegerValue];
-	return 0;
-}
-
-#pragma marl - MTRGNativeAdDelegate
+#pragma mark - MTRGNativeAdDelegate
 
 - (void)onLoadWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd
 {
 	MTRGMopubNativeAdAdapter *adapter = [[MTRGMopubNativeAdAdapter alloc] initWithPromoBanner:promoBanner nativeAd:nativeAd];
 	MPNativeAd *interfaceAd = [[MPNativeAd alloc] initWithAdAdapter:adapter];
 
-	NSMutableArray *imagesUrl = [NSMutableArray new];
+	NSMutableArray<NSURL *> *images = [NSMutableArray<NSURL *> new];
 	if (promoBanner.icon)
 	{
-		NSURL *iconUrl = [NSURL URLWithString:promoBanner.icon.url];
-		[imagesUrl addObject:iconUrl];
+		NSURL *icon = [NSURL URLWithString:promoBanner.icon.url];
+		[images addObject:icon];
 	}
 	if (promoBanner.image)
 	{
-		NSURL *imageUrl = [NSURL URLWithString:promoBanner.image.url];
-		[imagesUrl addObject:imageUrl];
+		NSURL *image = [NSURL URLWithString:promoBanner.image.url];
+		[images addObject:image];
 	}
 
-	[self precacheImagesWithURLs:imagesUrl completionBlock:^(NSArray *errors)
+	[self precacheImagesWithURLs:images completionBlock:^(NSArray *errors)
 	{
-		[self.delegate nativeCustomEvent:self didLoadAd:interfaceAd];
+		id <MPNativeCustomEventDelegate> delegate = self.delegate;
+		if (!delegate) return;
+		[delegate nativeCustomEvent:self didLoadAd:interfaceAd];
 	}];
 }
 
 - (void)onNoAdWithReason:(NSString *)reason nativeAd:(MTRGNativeAd *)nativeAd
 {
+	id <MPNativeCustomEventDelegate> delegate = self.delegate;
+	if (!delegate) return;
 	NSString *errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
-	NSDictionary *userInfo = @{NSLocalizedDescriptionKey : errorTitle};
+	NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : errorTitle };
 	NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];
-
-	[self.delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
+	[delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
 }
 
 - (void)onAdClickWithNativeAd:(MTRGNativeAd *)nativeAd
@@ -108,6 +93,30 @@
 - (void)onLeaveApplicationWithNativeAd:(MTRGNativeAd *)nativeAd
 {
 	// empty
+}
+
+#pragma mark - helpers
+
+- (NSUInteger)parseSlotIdFromInfo:(nullable NSDictionary *)info
+{
+	if (!info) return 0;
+
+	id slotIdValue = [info valueForKey:@"slotId"];
+	if (!slotIdValue) return 0;
+
+	NSUInteger slotId = 0;
+	if ([slotIdValue isKindOfClass:[NSString class]])
+	{
+		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
+		NSNumber *slotIdNumber = [formatString numberFromString:slotIdValue];
+		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
+	}
+	else if ([slotIdValue isKindOfClass:[NSNumber class]])
+	{
+		NSNumber *slotIdNumber = (NSNumber *)slotIdValue;
+		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
+	}
+	return slotId;
 }
 
 @end

@@ -13,12 +13,9 @@
 
 - (void)handleShow;
 
-- (void)handleClick;
-
 - (void)handleClickWithController:(UIViewController *)viewController;
 
 @end
-
 
 @interface MTRGMopubNativeAdAdapter ()
 
@@ -27,11 +24,9 @@
 
 @end
 
-
 @implementation MTRGMopubNativeAdAdapter
 {
-	NSDictionary *_properties;
-	UIViewController *_viewController;
+	NSDictionary<NSString *, NSString *> *_properties;
 	__weak id <MPNativeAdAdapterDelegate> _delegate;
 }
 
@@ -42,79 +37,10 @@
 	{
 		_nativeAd = nativeAd;
 		_promoBanner = promoBanner;
-		_properties = [MTRGMopubNativeAdAdapter createPropertiesWithBanner:_promoBanner];
+		_properties = [MTRGMopubNativeAdAdapter propertiesWithBanner:promoBanner];
 	}
 	return self;
 }
-
-+ (NSDictionary *)createPropertiesWithBanner:(MTRGNativePromoBanner *)promoBanner
-{
-	if (!promoBanner) return nil;
-	NSMutableDictionary *dict = [NSMutableDictionary new];
-	if (promoBanner.title)
-	{
-		[dict setValue:promoBanner.title forKey:[kAdTitleKey copy]];
-	}
-	if (promoBanner.descriptionText)
-	{
-		[dict setValue:promoBanner.descriptionText forKey:[kAdTextKey copy]];
-	}
-	if (promoBanner.icon)
-	{
-		[dict setValue:promoBanner.icon.url forKey:[kAdIconImageKey copy]];
-	}
-	if (promoBanner.image)
-	{
-		[dict setValue:promoBanner.image.url forKey:[kAdMainImageKey copy]];
-	}
-	if (promoBanner.ctaText)
-	{
-		[dict setValue:promoBanner.ctaText forKey:[kAdCTATextKey copy]];
-	}
-	if (promoBanner.rating)
-	{
-		[dict setValue:promoBanner.rating forKey:[kAdStarRatingKey copy]];
-	}
-	return dict;
-}
-
-
-- (NSDictionary *)properties
-{
-	return _properties;
-}
-
-- (NSURL *)defaultActionURL
-{
-	return nil;
-}
-
-- (void)displayContentForURL:(NSURL *)URL rootViewController:(UIViewController *)controller
-{
-	_viewController = controller;
-	[_nativeAd handleClickWithController:_viewController];
-
-	//Клик в mopub не отправляем, так как его отправляет mopub.
-
-	//Уведомляем приложение, что уходим в модальный режим(всегда, даже если на самом деле пойдем в бразуер)
-	//Обратный метод не вызываем, так как наше СДК его наверх не предоставляет.
-	if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdWillPresentModalForAdapter:)])
-	{
-		[self.delegate nativeAdWillPresentModalForAdapter:self];
-	}
-}
-
-- (void)willAttachToView:(UIView *)view
-{
-	[_nativeAd handleShow];
-
-	//Отправляем показ в mopub
-	if (self.delegate && [self.delegate respondsToSelector:@selector(nativeAdWillLogImpression:)])
-	{
-		[self.delegate nativeAdWillLogImpression:self];
-	}
-}
-
 
 - (void)setDelegate:(id <MPNativeAdAdapterDelegate>)delegate
 {
@@ -128,7 +54,89 @@
 
 - (void)trackClick
 {
-	//пусто
+	// is called when the user interacts with an ad, and allows for manual click tracking for the mediated ad
+}
+
+- (NSDictionary *)properties
+{
+	return _properties;
+}
+
+- (NSURL *)defaultActionURL
+{
+	// the URL the user is taken to when they interact with the ad. If the native ad automatically opens it then this can be nil
+	return nil;
+}
+
+- (void)displayContentForURL:(NSURL *)URL rootViewController:(UIViewController *)controller
+{
+	// This method is called when the user interacts with your ad,
+	// and can either forward the call to a corresponding method on the mediated ad,
+	// or you can implement URL-opening yourself.
+	// You do not need to implement this method if your ad network automatically handles taps on your ad.
+
+	[_nativeAd handleClickWithController:controller];
+
+	// Клик в mopub не отправляем, так как его отправляет mopub.
+
+	// Уведомляем приложение, что уходим в модальный режим (всегда, даже если на самом деле пойдем в бразуер)
+	// Обратный метод не вызываем, так как наше СДК его наверх не предоставляет.
+	id <MPNativeAdAdapterDelegate> delegate = _delegate;
+	if (!delegate) return;
+	[delegate nativeAdWillPresentModalForAdapter:self];
+}
+
+- (void)willAttachToView:(UIView *)view
+{
+	// is called when the ad content is loaded into its container view, and passes back that view.
+	// Native ads that automatically track impressions should implement this method
+
+	[_nativeAd handleShow];
+
+	// Отправляем показ в mopub
+	id <MPNativeAdAdapterDelegate> delegate = _delegate;
+	if (!delegate || ![delegate respondsToSelector:@selector(nativeAdWillLogImpression:)]) return;
+	[delegate nativeAdWillLogImpression:self];
+}
+
+#pragma mark - helpers
+
++ (nullable NSDictionary<NSString *, NSString *> *)propertiesWithBanner:(nullable MTRGNativePromoBanner *)promoBanner
+{
+	if (!promoBanner) return nil;
+
+	NSMutableDictionary<NSString *, NSString *> *properties = [NSMutableDictionary<NSString *, NSString *> new];
+	if (promoBanner.title)
+	{
+		NSString *key = [kAdTitleKey copy];
+		properties[key] = promoBanner.title;
+	}
+	if (promoBanner.descriptionText)
+	{
+		NSString *key = [kAdTextKey copy];
+		properties[key] = promoBanner.descriptionText;
+	}
+	if (promoBanner.icon)
+	{
+		NSString *key = [kAdIconImageKey copy];
+		properties[key] = promoBanner.icon.url;
+	}
+	if (promoBanner.image)
+	{
+		NSString *key = [kAdMainImageKey copy];
+		properties[key] = promoBanner.image.url;
+	}
+	if (promoBanner.ctaText)
+	{
+		NSString *key = [kAdCTATextKey copy];
+		properties[key] = promoBanner.ctaText;
+	}
+	if (promoBanner.rating)
+	{
+		NSString *key = [kAdStarRatingKey copy];
+		properties[key] = promoBanner.rating.stringValue;
+	}
+	return properties;
 }
 
 @end
