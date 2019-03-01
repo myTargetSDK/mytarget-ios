@@ -1,3 +1,8 @@
+## 5.0.2 (2019.03.01)
+
+Fixed carousel in Native ads in case of view reuse.  
+Switched to WKWebView for html banners (except of iOS 7).  
+
 ## 5.0.1 (2019.02.08)
 
 Support mediation with Mopub SDK v.5.5.0  
