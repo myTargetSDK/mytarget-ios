@@ -1,3 +1,8 @@
+## 5.0.3 (2019.03.14)
+
+Fixed display error in WebView in 320x50 format.  
+Improvements in interstitial ad.  
+
 ## 5.0.2 (2019.03.01)
 
 Fixed carousel in Native ads in case of view reuse.  
