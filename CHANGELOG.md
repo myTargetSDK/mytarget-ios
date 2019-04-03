@@ -1,3 +1,8 @@
+## 5.1.0 (2019.04.03)
+
+Support html/mraid-endcards for interstitial video-banners.  
+Support VAST-companion (static and html) as endcards for interstitial VAST video-banners.  
+
 ## 5.0.4 (2019.03.20)
 
 Added InstreamResearch module.  
