@@ -1,3 +1,8 @@
+## 5.2.0 (2019.04.19)
+
+Support MRAID-banners in 320x50, 300x250, 728x90 formats.  
+Fixed companions parsing from VAST wrapper in audio ad.  
+
 ## 5.1.0 (2019.04.03)
 
 Support html/mraid-endcards for interstitial video-banners.  
