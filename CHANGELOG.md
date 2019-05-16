@@ -1,3 +1,8 @@
+## 5.2.1 (2019.05.16)
+
+Support urlscheme deeplinks (in addition to universal links) in tracking links.  
+Improved MediaAdView's content scaling.  
+
 ## 5.2.0 (2019.04.19)
 
 Support MRAID-banners in 320x50, 300x250, 728x90 formats.  
