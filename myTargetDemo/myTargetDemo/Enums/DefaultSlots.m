@@ -15,3 +15,4 @@ NSUInteger const kSlotIntertitialAdPromo = 6899;
 NSUInteger const kSlotIntertitialAdImage = 6498;
 NSUInteger const kSlotIntertitialAdPromoVideo = 22091;
 NSUInteger const kSlotIntertitialAdPromoVideoStyle = 38838;
+NSUInteger const kSlotIntertitialAdRewardedVideo = 45102;

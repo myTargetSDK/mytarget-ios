@@ -106,6 +106,11 @@ static const float kHeightForFooterInSection = 50.0f;
 			subItem.image = [UIImage imageNamed:@"myTarget-fullscreen-video.png"];
 			subItem.slotId = kSlotIntertitialAdPromoVideoStyle;
 			[self addAdItem:subItem];
+
+			subItem = [[InterstitialAdItem alloc] initWithTitle:@"Rewarded Video" info:@"Fullscreen video with reward"];
+			subItem.image = [UIImage imageNamed:@"myTarget-fullscreen-video.png"];
+			subItem.slotId = kSlotIntertitialAdRewardedVideo;
+			[self addAdItem:subItem];
 		}
 		else
 		{
