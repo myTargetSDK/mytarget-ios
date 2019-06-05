@@ -1,3 +1,7 @@
+## 5.3.0 (2019.06.05)
+
+Support mediation with third-party ads networks.  
+
 ## 5.2.1 (2019.05.16)
 
 Support urlscheme deeplinks (in addition to universal links) in tracking links.  
