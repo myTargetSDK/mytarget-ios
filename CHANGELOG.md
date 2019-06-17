@@ -1,3 +1,5 @@
+## 5.3.1 (2019.06.17)
+
 ## 5.3.0 (2019.06.05)
 
 Support mediation with third-party ads networks.  
