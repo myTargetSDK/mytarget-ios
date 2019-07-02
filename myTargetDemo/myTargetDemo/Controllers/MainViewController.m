@@ -103,7 +103,7 @@ const int kMainViewControllerItemAddUnit = 5;
 	adItem = [[AdItem alloc] initWithTitle:@"Instream Ads" info:@"Instream video ads"];
 	adItem.tag = kMainViewControllerItemInstreamAds;
 	adItem.image = [UIImage imageNamed:@"myTarget-instream.png"];
-	adItem.slotId = 9525;
+	adItem.slotId = kSlotInstreamVideo;
 	[self addAdItem:adItem];
 
 	for (CustomAdItem *customItem in _customAdItems)

@@ -16,3 +16,4 @@ extern NSUInteger const kSlotIntertitialAdImage;
 extern NSUInteger const kSlotIntertitialAdPromoVideo;
 extern NSUInteger const kSlotIntertitialAdPromoVideoStyle;
 extern NSUInteger const kSlotIntertitialAdRewardedVideo;
+extern NSUInteger const kSlotInstreamVideo;

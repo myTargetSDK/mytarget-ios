@@ -212,8 +212,8 @@
 			isa = PBXGroup;
 			children = (
 				3805ED6C1D37AF77009A77E6 /* Podfile */,
-				383B654A1D2E50D60035B93B /* Frameworks */,
 				389415051D1BF2F200716978 /* myTargetDemo */,
+				383B654A1D2E50D60035B93B /* Frameworks */,
 				3894151F1D1BF2F300716978 /* myTargetDemoTests */,
 				3894152A1D1BF2F300716978 /* myTargetDemoUITests */,
 				389415041D1BF2F200716978 /* Products */,
@@ -233,17 +233,17 @@
 		389415051D1BF2F200716978 /* myTargetDemo */ = {
 			isa = PBXGroup;
 			children = (
-				382450DE1D2CE88A0087C8EC /* LaunchScreen.storyboard */,
+				389415391D1BF42100716978 /* Controllers */,
+				761D75DF76A2551680C7F458 /* Enums */,
+				761D77224CE40EF0AFB6F2A9 /* Models */,
 				38CEE93F1D211D8900743C2F /* Resources */,
 				38CEE9231D1C1DC300743C2F /* Views */,
-				389415391D1BF42100716978 /* Controllers */,
 				389415091D1BF2F200716978 /* AppDelegate.h */,
 				3894150A1D1BF2F200716978 /* AppDelegate.m */,
 				389415121D1BF2F200716978 /* Assets.xcassets */,
+				382450DE1D2CE88A0087C8EC /* LaunchScreen.storyboard */,
 				389415171D1BF2F200716978 /* Info.plist */,
 				389415061D1BF2F200716978 /* Supporting Files */,
-				761D75DF76A2551680C7F458 /* Enums */,
-				761D77224CE40EF0AFB6F2A9 /* Models */,
 			);
 			path = myTargetDemo;
 			sourceTree = "<group>";
@@ -449,6 +449,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
