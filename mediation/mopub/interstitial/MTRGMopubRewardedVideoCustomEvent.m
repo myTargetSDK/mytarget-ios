@@ -9,7 +9,7 @@
 @import MyTargetSDK;
 
 #import "MTRGMopubRewardedVideoCustomEvent.h"
-#import "MPRewardedVideoReward.h"
+#import <MoPubSDKFramework/MPRewardedVideoReward.h>
 
 @interface MTRGMopubRewardedVideoCustomEvent () <MTRGInterstitialAdDelegate>
 

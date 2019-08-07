@@ -8,7 +8,7 @@
 
 @import MyTargetSDK;
 
-#import "MPNativeAdAdapter.h"
+#import <MoPubSDKFramework/MPNativeAdAdapter.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

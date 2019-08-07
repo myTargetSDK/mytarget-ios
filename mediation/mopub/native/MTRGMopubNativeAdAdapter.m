@@ -7,7 +7,7 @@
 //
 
 #import "MTRGMopubNativeAdAdapter.h"
-#import "MPNativeAdConstants.h"
+#import <MoPubSDKFramework/MPNativeAdConstants.h>
 
 @interface MTRGNativeAd ()
 

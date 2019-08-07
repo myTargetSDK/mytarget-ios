@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
 //
 
-#import "MPBannerCustomEvent.h"
+#import <MoPubSDKFramework/MPBannerCustomEvent.h>
 
 @interface MTRGMopubAdViewCustomEvent : MPBannerCustomEvent
 

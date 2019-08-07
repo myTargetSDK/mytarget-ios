@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
 //
 
-#import "MPNativeCustomEvent.h"
+#import <MoPubSDKFramework/MPNativeCustomEvent.h>
 
 @interface MTRGMopubNativeCustomEvent : MPNativeCustomEvent
 

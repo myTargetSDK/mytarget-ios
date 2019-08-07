@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mail.ru Group. All rights reserved.
 //
 
-#import "MPBaseAdapterConfiguration.h"
+#import <MoPubSDKFramework/MPBaseAdapterConfiguration.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 Mail.ru Group. All rights reserved.
 //
 
-#import "MPRewardedVideoCustomEvent.h"
+#import <MoPubSDKFramework/MPRewardedVideoCustomEvent.h>
 
 @interface MTRGMopubRewardedVideoCustomEvent : MPRewardedVideoCustomEvent
 

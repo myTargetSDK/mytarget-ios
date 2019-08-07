@@ -10,7 +10,7 @@
 
 #import "MTRGMopubNativeCustomEvent.h"
 #import "MTRGMopubNativeAdAdapter.h"
-#import "MPNativeAd.h"
+#import <MoPubSDKFramework/MPNativeAd.h>
 
 @interface MTRGMopubNativeCustomEvent () <MTRGNativeAdDelegate>
 

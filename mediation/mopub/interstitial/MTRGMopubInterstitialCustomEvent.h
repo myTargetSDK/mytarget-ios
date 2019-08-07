@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
 //
 
-#import "MPInterstitialCustomEvent.h"
+#import <MoPubSDKFramework/MPInterstitialCustomEvent.h>
 
 @interface MTRGMopubInterstitialCustomEvent : MPInterstitialCustomEvent
 
