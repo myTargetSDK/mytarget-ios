@@ -1,0 +1,8 @@
+platform :ios, '9.0'
+
+workspace 'myTargetDemo'
+
+target :myTargetDemo do
+  project 'myTargetDemo.xcodeproj'
+  pod 'myTargetSDK'
+end
