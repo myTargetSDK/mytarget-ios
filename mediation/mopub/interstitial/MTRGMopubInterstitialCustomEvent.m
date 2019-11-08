@@ -84,7 +84,6 @@
 
 - (void)onClickWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	[self disappear];
 	id <MPInterstitialCustomEventDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate trackClick];
