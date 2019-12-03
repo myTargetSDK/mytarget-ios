@@ -64,8 +64,7 @@ class NativeViewController: UIViewController, MTRGNativeAdDelegate, MTRGMediaAdV
 
 	private func createView(promoBanner: MTRGNativePromoBanner, loadImages: Bool) -> UIView?
 	{
-		var adView: UIView? = nil
-
+		var containerView: MTRGNativeAdContainer? = nil
 		if radioButtonContentStream.isSelected
 		{
 			let contentStreamView = MTRGNativeViewsFactory.createContentStreamView(with: promoBanner)
@@ -74,7 +73,20 @@ class NativeViewController: UIViewController, MTRGNativeAdDelegate, MTRGMediaAdV
 			{
 				contentStreamView.loadImages()
 			}
-			adView = contentStreamView
+			let nativeAdContainer = MTRGNativeAdContainer.create(withAdView: contentStreamView)
+			nativeAdContainer.ageRestrictionsView = contentStreamView.ageRestrictionsLabel
+			nativeAdContainer.advertisingView = contentStreamView.adLabel
+			nativeAdContainer.titleView = contentStreamView.titleLabel
+			nativeAdContainer.descriptionView = contentStreamView.descriptionLabel
+			nativeAdContainer.iconView = contentStreamView.iconImageView
+			nativeAdContainer.mediaView = contentStreamView.mediaAdView
+			nativeAdContainer.domainView = contentStreamView.domainLabel
+			nativeAdContainer.categoryView = contentStreamView.categoryLabel
+			nativeAdContainer.disclaimerView = contentStreamView.disclaimerLabel
+			nativeAdContainer.ratingView = contentStreamView.ratingStarsLabel
+			nativeAdContainer.votesView = contentStreamView.votesLabel
+			nativeAdContainer.ctaView = contentStreamView.buttonView
+			containerView = nativeAdContainer
 		}
 		else if radioButtonContentWall.isSelected
 		{
@@ -84,7 +96,11 @@ class NativeViewController: UIViewController, MTRGNativeAdDelegate, MTRGMediaAdV
 			{
 				contentWallView.loadImages()
 			}
-			adView = contentWallView
+			let nativeAdContainer = MTRGNativeAdContainer.create(withAdView: contentWallView)
+			nativeAdContainer.ageRestrictionsView = contentWallView.ageRestrictionsLabel
+			nativeAdContainer.advertisingView = contentWallView.adLabel
+			nativeAdContainer.mediaView = contentWallView.mediaAdView
+			containerView = nativeAdContainer
 		}
 		else if radioButtonNewsFeed.isSelected
 		{
@@ -93,7 +109,18 @@ class NativeViewController: UIViewController, MTRGNativeAdDelegate, MTRGMediaAdV
 			{
 				newsFeedView.loadImages()
 			}
-			adView = newsFeedView
+			let nativeAdContainer = MTRGNativeAdContainer.create(withAdView: newsFeedView)
+			nativeAdContainer.ageRestrictionsView = newsFeedView.ageRestrictionsLabel
+			nativeAdContainer.advertisingView = newsFeedView.adLabel
+			nativeAdContainer.iconView = newsFeedView.iconImageView
+			nativeAdContainer.domainView = newsFeedView.domainLabel
+			nativeAdContainer.categoryView = newsFeedView.categoryLabel
+			nativeAdContainer.disclaimerView = newsFeedView.disclaimerLabel
+			nativeAdContainer.ratingView = newsFeedView.ratingStarsLabel
+			nativeAdContainer.votesView = newsFeedView.votesLabel
+			nativeAdContainer.ctaView = newsFeedView.buttonView
+			nativeAdContainer.titleView = newsFeedView.titleLabel
+			containerView = nativeAdContainer
 		}
 		else if radioButtonChatList.isSelected
 		{
@@ -102,9 +129,19 @@ class NativeViewController: UIViewController, MTRGNativeAdDelegate, MTRGMediaAdV
 			{
 				chatListView.loadImages()
 			}
-			adView = chatListView
+			let nativeAdContainer = MTRGNativeAdContainer.create(withAdView: chatListView)
+			nativeAdContainer.ageRestrictionsView = chatListView.ageRestrictionsLabel
+			nativeAdContainer.advertisingView = chatListView.adLabel
+			nativeAdContainer.titleView = chatListView.titleLabel
+			nativeAdContainer.descriptionView = chatListView.descriptionLabel
+			nativeAdContainer.iconView = chatListView.iconImageView
+			nativeAdContainer.domainView = chatListView.domainLabel
+			nativeAdContainer.disclaimerView = chatListView.disclaimerLabel
+			nativeAdContainer.ratingView = chatListView.ratingStarsLabel
+			nativeAdContainer.votesView = chatListView.votesLabel
+			containerView = nativeAdContainer
 		}
-		return adView
+		return containerView
 	}
 
 	@IBAction func show(_ sender: CustomButton)

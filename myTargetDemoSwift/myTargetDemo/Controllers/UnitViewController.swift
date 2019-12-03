@@ -80,8 +80,10 @@ class UnitViewController: UIViewController, UITextFieldDelegate
 		let toolbar = UIView(frame: CGRect(origin: .zero, size: toolbarSize))
 		toolbar.addSubview(doneButton)
 		slotIdTextField.inputAccessoryView = toolbar
+        slotIdTextField.accessibilityLabel = "Slot id"
 
 		slotTitleTextField.delegate = self
+        slotTitleTextField.accessibilityLabel = "Unit title"
     }
 
 	override func viewDidAppear(_ animated: Bool)
