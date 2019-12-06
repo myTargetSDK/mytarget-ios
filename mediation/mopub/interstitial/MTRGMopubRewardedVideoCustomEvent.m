@@ -6,10 +6,12 @@
 //  Copyright (c) 2016 Mail.ru Group. All rights reserved.
 //
 
-@import MyTargetSDK;
-
+#import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMopubRewardedVideoCustomEvent.h"
-#import <MoPubSDKFramework/MPRewardedVideoReward.h>
+
+#if __has_include("MoPub.h")
+    #import "MPRewardedVideoReward.h"
+#endif
 
 @interface MTRGMopubRewardedVideoCustomEvent () <MTRGInterstitialAdDelegate>
 
@@ -21,9 +23,15 @@
 	BOOL _hasAdAvailable;
 }
 
-#pragma mark - override MPRewardedVideoCustomEvent methods
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)requestRewardedVideoWithCustomEventInfo:(NSDictionary *)info
+{
+	[self requestRewardedVideoWithCustomEventInfo:info adMarkup:@""];
+}
+#pragma clang diagnostic pop
+
+- (void)requestRewardedVideoWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup
 {
 	_hasAdAvailable = NO;
 	NSUInteger slotId = [self parseSlotIdFromInfo:info];

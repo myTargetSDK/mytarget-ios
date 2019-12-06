@@ -6,8 +6,12 @@
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
 //
 
+#import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMopubNativeAdAdapter.h"
-#import <MoPubSDKFramework/MPNativeAdConstants.h>
+
+#if __has_include("MoPub.h")
+	#import "MPNativeAdConstants.h"
+#endif
 
 @interface MTRGNativeAd ()
 

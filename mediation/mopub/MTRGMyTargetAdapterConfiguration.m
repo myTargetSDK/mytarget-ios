@@ -6,9 +6,8 @@
 //  Copyright © 2019 Mail.ru Group. All rights reserved.
 //
 
+#import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMyTargetAdapterConfiguration.h"
-
-@import MyTargetSDK;
 
 static NSUInteger const kAdapterRevision = 0;
 static NSString * const kNetworkName = @"myTarget";
@@ -20,7 +19,7 @@ static NSString * const kNetworkName = @"myTarget";
 	[MTRGMyTargetAdapterConfiguration setCachedInitializationParameters:parameters];
 }
 
-- (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> *)configuration complete:(void(^)(NSError *))complete
+- (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration complete:(void(^ _Nullable)(NSError * _Nullable))complete
 {
 	complete(nil);
 }
@@ -30,7 +29,7 @@ static NSString * const kNetworkName = @"myTarget";
 	return [NSString stringWithFormat:@"%@.%tu", [MTRGVersion currentVersion], kAdapterRevision];
 }
 
-- (NSString *)biddingToken
+- (nullable NSString *)biddingToken
 {
 	return nil;
 }
@@ -43,6 +42,11 @@ static NSString * const kNetworkName = @"myTarget";
 - (NSString *)networkSdkVersion
 {
 	return [MTRGVersion currentVersion];
+}
+
+- (nullable NSDictionary<NSString *,NSString *> *)moPubRequestOptions
+{
+	return nil;
 }
 
 @end

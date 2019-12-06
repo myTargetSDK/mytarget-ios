@@ -6,11 +6,13 @@
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
 //
 
-@import MyTargetSDK;
-
+#import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMopubNativeCustomEvent.h"
 #import "MTRGMopubNativeAdAdapter.h"
-#import <MoPubSDKFramework/MPNativeAd.h>
+
+#if __has_include("MoPub.h")
+	#import "MPNativeAd.h"
+#endif
 
 @interface MTRGMopubNativeCustomEvent () <MTRGNativeAdDelegate>
 
@@ -18,7 +20,15 @@
 
 @implementation MTRGMopubNativeCustomEvent
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)requestAdWithCustomEventInfo:(NSDictionary *)info
+{
+	[self requestAdWithCustomEventInfo:info adMarkup:@""];
+}
+#pragma clang diagnostic pop
+
+- (void)requestAdWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup
 {
 	NSUInteger slotId = [self parseSlotIdFromInfo:info];
 	id <MPNativeCustomEventDelegate> delegate = self.delegate;

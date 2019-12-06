@@ -6,7 +6,13 @@
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
 //
 
-#import <MoPubSDKFramework/MPNativeCustomEvent.h>
+#if __has_include(<MoPub/MoPub.h>)
+	#import <MoPub/MoPub.h>
+#elif __has_include(<MoPubSDKFramework/MoPub.h>)
+	#import <MoPubSDKFramework/MoPub.h>
+#else
+	#import "MPNativeCustomEvent.h"
+#endif
 
 @interface MTRGMopubNativeCustomEvent : MPNativeCustomEvent
 

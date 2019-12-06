@@ -6,8 +6,7 @@
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
 //
 
-@import MyTargetSDK;
-
+#import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMopubAdViewCustomEvent.h"
 
 @interface MTRGMopubAdViewCustomEvent () <MTRGAdViewDelegate>
@@ -19,7 +18,15 @@
 	MTRGAdView *_adView;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
+{
+	[self requestAdWithSize:size customEventInfo:info adMarkup:@""];
+}
+#pragma clang diagnostic pop
+
+- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup
 {
 	id <MPBannerCustomEventDelegate> delegate = self.delegate;
 	UIViewController *ownerViewController = delegate ? [delegate viewControllerForPresentingModalView] : nil;

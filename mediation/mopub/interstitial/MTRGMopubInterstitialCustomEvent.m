@@ -6,8 +6,7 @@
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
 //
 
-@import MyTargetSDK;
-
+#import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMopubInterstitialCustomEvent.h"
 
 @interface MTRGMopubInterstitialCustomEvent () <MTRGInterstitialAdDelegate>
@@ -20,7 +19,15 @@
 	BOOL _alreadyDisappear;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info
+{
+	[self requestInterstitialWithCustomEventInfo:info adMarkup:@""];
+}
+#pragma clang diagnostic pop
+
+- (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup
 {
 	_alreadyDisappear = NO;
 	NSUInteger slotId = [self parseSlotIdFromInfo:info];
