@@ -35,7 +35,8 @@
 
 	if (slotId > 0)
 	{
-		MTRGNativeAd *nativeAd = [[MTRGNativeAd alloc] initWithSlotId:slotId];
+		MTRGNativeAd *nativeAd = [MTRGNativeAd nativeAdWithSlotId:slotId];
+		nativeAd.cachePolicy = MTRGCachePolicyNone;
 		nativeAd.delegate = self;
 		[nativeAd.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
 		[nativeAd load];
