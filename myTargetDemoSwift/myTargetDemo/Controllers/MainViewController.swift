@@ -14,6 +14,7 @@ enum AdvertismentType: UInt
 	case standard
 	case interstitial
 	case native
+	case nativeBanner
 	case instream
 }
 
@@ -116,6 +117,11 @@ class TitleView: UIView
 	}
 }
 
+protocol AdViewController: UIViewController
+{
+	var slotId: UInt? { get set }
+}
+
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
 	@IBOutlet weak var tableView: UITableView!
@@ -127,6 +133,17 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 		{
 			tableView.reloadData()
 		}
+	}
+
+	private var segue: [AdvertismentType: String]
+	{
+		return [
+			.standard: "bannersSegue",
+			.interstitial: "interstitialSegue",
+			.native: "nativeSegue",
+			.nativeBanner: "nativeBannerSegue",
+			.instream: "instreamSegue"
+		]
 	}
 
 	override func viewDidLoad()
@@ -168,7 +185,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 		advertisments = [
 			Advertisment(title: "Banners", description: bannersDescription, type: .standard),
 			Advertisment(title: "Interstitial", description: "Fullscreen banners", type: .interstitial),
-			Advertisment(title: "Native Ads", description: "Advertisement inside app's content", type: .native),
+			Advertisment(title: "Native Ad", description: "Advertisement inside app's content", type: .native),
+			Advertisment(title: "Native Banner Ad", description: "Compact advertisement inside app's content", type: .nativeBanner),
 			Advertisment(title: "Instream", description: "Advertisement inside video stream", type: .instream)
 		]
 
@@ -178,25 +196,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?)
 	{
+		guard let controller = segue.destination as? AdViewController else { return }
 		guard let indexPath = tableView.indexPathForSelectedRow else { return }
 		let advertisment = advertisments[indexPath.row]
-
-		if segue.identifier == "bannersSegue", let controller = segue.destination as? StandardViewController
-		{
-			controller.slotId = advertisment.isCustom ? advertisment.slotId : nil
-		}
-		else if segue.identifier == "interstitialSegue", let controller = segue.destination as? InterstitialViewController
-		{
-			controller.slotId = advertisment.isCustom ? advertisment.slotId : nil
-		}
-		else if segue.identifier == "nativeSegue", let controller = segue.destination as? NativeViewController
-		{
-			controller.slotId = advertisment.isCustom ? advertisment.slotId : nil
-		}
-		else if segue.identifier == "instreamSegue", let controller = segue.destination as? InstreamViewController
-		{
-			controller.slotId = advertisment.isCustom ? advertisment.slotId : nil
-		}
+		controller.slotId = advertisment.isCustom ? advertisment.slotId : nil
 	}
 
 // MARK: - UITableViewDataSource
@@ -246,22 +249,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
 	{
 		let advertisment = advertisments[indexPath.row]
-		switch advertisment.type
-		{
-			case .standard:
-				performSegue(withIdentifier: "bannersSegue", sender: self)
-				break
-			case .interstitial:
-				performSegue(withIdentifier: "interstitialSegue", sender: self)
-				break
-			case .native:
-				performSegue(withIdentifier: "nativeSegue", sender: self)
-				break
-			case .instream:
-				performSegue(withIdentifier: "instreamSegue", sender: self)
-				break
-		}
+		guard let identifier = segue[advertisment.type] else { return }
+		performSegue(withIdentifier: identifier, sender: self)
 	}
 
 }
-

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14865.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zML-OO-Kb6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zML-OO-Kb6">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14819.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,7 +24,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="66.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WLy-OU-S5D" id="l95-wp-dTy">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.5" height="66.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="66.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9uQ-Kt-WdX">
@@ -69,11 +69,12 @@
                         <segue destination="mAv-pn-f7N" kind="show" identifier="nativeSegue" id="4Ui-TH-2Yy"/>
                         <segue destination="Rim-d6-4rg" kind="show" identifier="interstitialSegue" id="937-w0-u8m"/>
                         <segue destination="64v-2I-lBw" kind="show" identifier="instreamSegue" id="51w-sI-KXJ"/>
+                        <segue destination="I1J-pz-d2J" kind="show" identifier="nativeBannerSegue" id="3fn-tF-T5Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1076.8115942028987" y="782.8125"/>
+            <point key="canvasLocation" x="1165" y="815"/>
         </scene>
         <!--Standard View Controller-->
         <scene sceneID="gWB-3C-B0T">
@@ -212,64 +213,17 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Tw6-so-HBv">
                                 <rect key="frame" x="0.0" y="88" width="414" height="150"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="56m-kS-on5">
-                                        <rect key="frame" x="0.0" y="0.0" width="204.5" height="150"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NUI-oI-rjo">
-                                                <rect key="frame" x="0.0" y="0.0" width="204.5" height="26"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVi-GH-VeN" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="31" width="204.5" height="26"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="Content stream">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ybm-QF-InS" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="62" width="204.5" height="26"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="Content wall">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kdB-wZ-Jnr" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="93" width="204.5" height="26"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="News feed">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r48-ZB-rJR" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="124" width="204.5" height="26"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="Chat list">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ept-RW-11C">
-                                        <rect key="frame" x="209.5" y="0.0" width="204.5" height="150"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NsE-pV-jzH">
-                                                <rect key="frame" x="0.0" y="0.0" width="204.5" height="34"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NsE-pV-jzH">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9oj-SL-8Ep" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="39" width="204.5" height="33.5"/>
+                                                <rect key="frame" x="0.0" y="39" width="414" height="33.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -278,7 +232,7 @@
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AUa-zc-xZB" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="77.5" width="204.5" height="34"/>
+                                                <rect key="frame" x="0.0" y="77.5" width="414" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -287,11 +241,11 @@
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4DA-fL-fJn" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="116.5" width="204.5" height="33.5"/>
+                                                <rect key="frame" x="0.0" y="116.5" width="414" height="33.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="Carousel">
+                                                <state key="normal" title="Cards">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                             </button>
@@ -315,11 +269,7 @@
                         <viewLayoutGuide key="safeArea" id="CyL-Ca-moq"/>
                     </view>
                     <connections>
-                        <outlet property="radioButtonCarousel" destination="4DA-fL-fJn" id="Lo0-G1-4CB"/>
-                        <outlet property="radioButtonChatList" destination="r48-ZB-rJR" id="fej-Ev-Cbl"/>
-                        <outlet property="radioButtonContentStream" destination="lVi-GH-VeN" id="tPx-0I-J9q"/>
-                        <outlet property="radioButtonContentWall" destination="ybm-QF-InS" id="9kZ-1R-PeG"/>
-                        <outlet property="radioButtonNewsFeed" destination="kdB-wZ-Jnr" id="s8J-mF-0hT"/>
+                        <outlet property="radioButtonCards" destination="4DA-fL-fJn" id="mEt-7J-6Ue"/>
                         <outlet property="radioButtonPromo" destination="9oj-SL-8Ep" id="SkD-ZJ-thy"/>
                         <outlet property="radioButtonVideo" destination="AUa-zc-xZB" id="bbX-QS-Ynz"/>
                         <outlet property="showButton" destination="yZy-Mz-veM" id="bPw-3E-Gy6"/>
@@ -328,6 +278,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P7i-gh-1sk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3575" y="393"/>
+        </scene>
+        <!--Native Banner View Controller-->
+        <scene sceneID="bci-Gg-zEe">
+            <objects>
+                <viewController id="I1J-pz-d2J" customClass="NativeBannerViewController" customModule="myTargetDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ey9-8G-ZIu">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DjQ-yE-8Q2" customClass="CustomButton" customModule="myTargetDemo" customModuleProvider="target">
+                                <rect key="frame" x="20" y="431" width="374" height="34"/>
+                                <state key="normal" title="Show">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="show:" destination="mAv-pn-f7N" eventType="touchUpInside" id="Ogo-G5-6zA"/>
+                                    <action selector="show:" destination="I1J-pz-d2J" eventType="touchUpInside" id="jQp-3e-Nhu"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="DjQ-yE-8Q2" firstAttribute="leading" secondItem="ey9-8G-ZIu" secondAttribute="leading" constant="20" id="KxX-z9-Mh2"/>
+                            <constraint firstItem="chR-5q-KxF" firstAttribute="trailing" secondItem="DjQ-yE-8Q2" secondAttribute="trailing" constant="20" id="Xfs-eH-5U9"/>
+                            <constraint firstItem="DjQ-yE-8Q2" firstAttribute="centerY" secondItem="ey9-8G-ZIu" secondAttribute="centerY" id="xUr-bD-dYY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="chR-5q-KxF"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="0z6-kJ-NZa"/>
+                    <connections>
+                        <outlet property="showButton" destination="DjQ-yE-8Q2" id="evW-Kq-fE7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7PQ-9k-YFN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4388" y="696"/>
         </scene>
         <!--Unit View Controller-->
         <scene sceneID="Pl1-Ve-hbt">
@@ -395,15 +381,23 @@
                                         <rect key="frame" x="209.5" y="0.0" width="204.5" height="150"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLq-p8-uyf" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="204.5" height="34"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="204.5" height="26"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="Native ad">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYi-9K-xK9" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="31" width="204.5" height="26"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="Native banner ad">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gZ7-Nw-yUX" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="39" width="204.5" height="33.5"/>
+                                                <rect key="frame" x="0.0" y="62" width="204.5" height="26"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="Interstitial">
@@ -411,7 +405,7 @@
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Gx-Jm-Ajb" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="77.5" width="204.5" height="34"/>
+                                                <rect key="frame" x="0.0" y="93" width="204.5" height="26"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="Rewarded video">
@@ -419,7 +413,7 @@
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBe-DK-CEA" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="116.5" width="204.5" height="33.5"/>
+                                                <rect key="frame" x="0.0" y="124" width="204.5" height="26"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="Instream video">
@@ -478,6 +472,7 @@
                         <outlet property="radioButtonInstream" destination="hBe-DK-CEA" id="5So-qO-wJq"/>
                         <outlet property="radioButtonInterstitial" destination="gZ7-Nw-yUX" id="fYM-uk-fAu"/>
                         <outlet property="radioButtonNative" destination="BLq-p8-uyf" id="2fa-GC-s4j"/>
+                        <outlet property="radioButtonNativeBanner" destination="iYi-9K-xK9" id="UKL-Ei-aed"/>
                         <outlet property="radioButtonRewarded" destination="1Gx-Jm-Ajb" id="RW3-vE-Czr"/>
                         <outlet property="slotIdTextField" destination="xtO-Mq-rt1" id="fcU-UK-jJS"/>
                         <outlet property="slotTitleTextField" destination="3wD-88-lm7" id="4gJ-XJ-OGW"/>

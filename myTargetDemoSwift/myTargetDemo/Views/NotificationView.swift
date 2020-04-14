@@ -105,7 +105,7 @@ class NotificationView: UIView
 	public func showMessage(_ message: String)
 	{
 		print("Log message: \(message)")
-		messages.append(message)
+		messages.append(String(message.prefix(256)))
 		if !isActive
 		{
 			appear()

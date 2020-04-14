@@ -20,6 +20,7 @@ class UnitViewController: UIViewController, UITextFieldDelegate
 	@IBOutlet weak var slotTitleTextField: UITextField!
 
 	@IBOutlet weak var radioButtonNative: RadioButton!
+	@IBOutlet weak var radioButtonNativeBanner: RadioButton!
 	@IBOutlet weak var radioButtonInterstitial: RadioButton!
 	@IBOutlet weak var radioButtonRewarded: RadioButton!
 	@IBOutlet weak var radioButtonInstream: RadioButton!
@@ -37,6 +38,9 @@ class UnitViewController: UIViewController, UITextFieldDelegate
 
 		radioButtonNative.adType = .native
 		radioButtonNative.adDescription = "Native"
+
+		radioButtonNativeBanner.adType = .nativeBanner
+		radioButtonNativeBanner.adDescription = "Native Banner"
 
 		radioButtonInterstitial.adType = .interstitial
 		radioButtonInterstitial.adDescription = "Interstitial"
@@ -56,7 +60,7 @@ class UnitViewController: UIViewController, UITextFieldDelegate
 		radioButtonBanner728x90.adType = .standard
 		radioButtonBanner728x90.adDescription = "Banner 728x90"
 
-		typeGroup.addButtons([radioButtonNative, radioButtonInterstitial, radioButtonRewarded, radioButtonInstream, radioButtonBanner320x50, radioButtonBanner300x250, radioButtonBanner728x90])
+		typeGroup.addButtons([radioButtonNative, radioButtonNativeBanner, radioButtonInterstitial, radioButtonRewarded, radioButtonInstream, radioButtonBanner320x50, radioButtonBanner300x250, radioButtonBanner728x90])
 
 
 		let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(doneButtonClick))

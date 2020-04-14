@@ -9,7 +9,7 @@
 import UIKit
 import MyTargetSDK
 
-class InterstitialViewController: UIViewController, MTRGInterstitialAdDelegate
+class InterstitialViewController: UIViewController, AdViewController, MTRGInterstitialAdDelegate
 {
 	var slotId: UInt?
 

@@ -10,6 +10,7 @@
 		890B015B22E88D1700FBD354 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890B015922E88D1700FBD354 /* CollectionViewController.swift */; };
 		890B015C22E88D1700FBD354 /* CollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 890B015A22E88D1700FBD354 /* CollectionViewController.xib */; };
 		890B016222EF16C700FBD354 /* NativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890B016122EF16C700FBD354 /* NativeViewController.swift */; };
+		890D5AD0243499C8001A63AF /* NativeBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890D5ACF243499C8001A63AF /* NativeBannerViewController.swift */; };
 		891A138922F0346600AE192B /* InterstitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A138822F0346600AE192B /* InterstitialViewController.swift */; };
 		891A138B22F0523300AE192B /* UnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A138A22F0523300AE192B /* UnitViewController.swift */; };
 		891A138D22F2F11E00AE192B /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A138C22F2F11E00AE192B /* VideoPlayerView.swift */; };
@@ -32,6 +33,7 @@
 		890B015922E88D1700FBD354 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		890B015A22E88D1700FBD354 /* CollectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewController.xib; sourceTree = "<group>"; };
 		890B016122EF16C700FBD354 /* NativeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeViewController.swift; sourceTree = "<group>"; };
+		890D5ACF243499C8001A63AF /* NativeBannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeBannerViewController.swift; sourceTree = "<group>"; };
 		891A138822F0346600AE192B /* InterstitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialViewController.swift; sourceTree = "<group>"; };
 		891A138A22F0523300AE192B /* UnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitViewController.swift; sourceTree = "<group>"; };
 		891A138C22F2F11E00AE192B /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				890B015922E88D1700FBD354 /* CollectionViewController.swift */,
 				890B015A22E88D1700FBD354 /* CollectionViewController.xib */,
 				89F0E1DD22BA71FC006B8B93 /* MainViewController.swift */,
+				890D5ACF243499C8001A63AF /* NativeBannerViewController.swift */,
 				890B016122EF16C700FBD354 /* NativeViewController.swift */,
 				891A138822F0346600AE192B /* InterstitialViewController.swift */,
 				891A13A222F9871400AE192B /* InstreamViewController.swift */,
@@ -250,6 +253,7 @@
 				89CEA60E22E7001000D0CD1E /* CustomButton.swift in Sources */,
 				891A138B22F0523300AE192B /* UnitViewController.swift in Sources */,
 				891A138D22F2F11E00AE192B /* VideoPlayerView.swift in Sources */,
+				890D5AD0243499C8001A63AF /* NativeBannerViewController.swift in Sources */,
 				894F9AAE22E1F6FA008D0064 /* StandardViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

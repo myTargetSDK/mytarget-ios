@@ -9,7 +9,7 @@
 import UIKit
 import MyTargetSDK
 
-class StandardViewController: UIViewController, MTRGAdViewDelegate
+class StandardViewController: UIViewController, AdViewController, MTRGAdViewDelegate
 {
 	var slotId: UInt?
 

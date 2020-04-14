@@ -9,7 +9,7 @@
 import UIKit
 import MyTargetSDK
 
-class NativeViewController: UIViewController, MTRGNativeAdDelegate, MTRGMediaAdViewDelegate
+class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDelegate, MTRGMediaAdViewDelegate
 {
 	var slotId: UInt?
 
@@ -17,38 +17,29 @@ class NativeViewController: UIViewController, MTRGNativeAdDelegate, MTRGMediaAdV
 	private var notificationView: NotificationView?
 	private var collectionController: CollectionViewController?
 
-	private let viewGroup = RadioButtonsGroup()
-	private let typeGroup = RadioButtonsGroup()
-
-	@IBOutlet weak var radioButtonContentStream: RadioButton!
-	@IBOutlet weak var radioButtonContentWall: RadioButton!
-	@IBOutlet weak var radioButtonNewsFeed: RadioButton!
-	@IBOutlet weak var radioButtonChatList: RadioButton!
+	private let viewTypeGroup = RadioButtonsGroup()
 
 	@IBOutlet weak var radioButtonPromo: RadioButton!
 	@IBOutlet weak var radioButtonVideo: RadioButton!
-	@IBOutlet weak var radioButtonCarousel: RadioButton!
+	@IBOutlet weak var radioButtonCards: RadioButton!
 
 	@IBOutlet weak var showButton: CustomButton!
-	
+
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
 
-		navigationItem.title = "Native ads"
+		navigationItem.title = "Native Ad"
 		notificationView = NotificationView.create(view: view)
 		notificationView?.navigationBarHeight = navigationController?.navigationBar.frame.height ?? 0.0
 
-		radioButtonContentStream.isSelected = true
-		radioButtonPromo.isSelected = true
-
 		radioButtonPromo.slot = Slot.nativePromo
 		radioButtonVideo.slot = Slot.nativeVideo
-		radioButtonCarousel.slot = Slot.nativeCards
+		radioButtonCards.slot = Slot.nativeCards
 
-		viewGroup.addButtons([radioButtonContentStream, radioButtonContentWall, radioButtonNewsFeed, radioButtonChatList])
-		typeGroup.addButtons([radioButtonPromo, radioButtonVideo, radioButtonCarousel])
-    }
+		radioButtonPromo.isSelected = true
+		viewTypeGroup.addButtons([radioButtonPromo, radioButtonVideo, radioButtonCards])
+	}
 
 	override func viewWillAppear(_ animated: Bool)
 	{
@@ -56,98 +47,35 @@ class NativeViewController: UIViewController, MTRGNativeAdDelegate, MTRGMediaAdV
 		notificationView?.view = view
 	}
 
-	private func defaultSlot() -> UInt
+	private func createNativeView(_ promoBanner: MTRGNativePromoBanner) -> UIView?
 	{
-		let slot = typeGroup.selectedButton?.slot ?? Slot.nativePromo
-		return slot.rawValue
-	}
+		let nativeAdView = MTRGNativeViewsFactory.createNativeAdView()
+		nativeAdView.banner = promoBanner
+		nativeAdView.mediaAdView.delegate = self
 
-	private func createView(promoBanner: MTRGNativePromoBanner, loadImages: Bool) -> UIView?
-	{
-		var containerView: MTRGNativeAdContainer? = nil
-		if radioButtonContentStream.isSelected
-		{
-			let contentStreamView = MTRGNativeViewsFactory.createContentStreamView(with: promoBanner)
-			contentStreamView.mediaAdView.delegate = self
-			if loadImages
-			{
-				contentStreamView.loadImages()
-			}
-			let nativeAdContainer = MTRGNativeAdContainer.create(withAdView: contentStreamView)
-			nativeAdContainer.ageRestrictionsView = contentStreamView.ageRestrictionsLabel
-			nativeAdContainer.advertisingView = contentStreamView.adLabel
-			nativeAdContainer.titleView = contentStreamView.titleLabel
-			nativeAdContainer.descriptionView = contentStreamView.descriptionLabel
-			nativeAdContainer.iconView = contentStreamView.iconImageView
-			nativeAdContainer.mediaView = contentStreamView.mediaAdView
-			nativeAdContainer.domainView = contentStreamView.domainLabel
-			nativeAdContainer.categoryView = contentStreamView.categoryLabel
-			nativeAdContainer.disclaimerView = contentStreamView.disclaimerLabel
-			nativeAdContainer.ratingView = contentStreamView.ratingStarsLabel
-			nativeAdContainer.votesView = contentStreamView.votesLabel
-			nativeAdContainer.ctaView = contentStreamView.buttonView
-			containerView = nativeAdContainer
-		}
-		else if radioButtonContentWall.isSelected
-		{
-			let contentWallView = MTRGNativeViewsFactory.createContentWallView(with: promoBanner)
-			contentWallView.mediaAdView.delegate = self
-			if loadImages
-			{
-				contentWallView.loadImages()
-			}
-			let nativeAdContainer = MTRGNativeAdContainer.create(withAdView: contentWallView)
-			nativeAdContainer.ageRestrictionsView = contentWallView.ageRestrictionsLabel
-			nativeAdContainer.advertisingView = contentWallView.adLabel
-			nativeAdContainer.mediaView = contentWallView.mediaAdView
-			containerView = nativeAdContainer
-		}
-		else if radioButtonNewsFeed.isSelected
-		{
-			let newsFeedView = MTRGNativeViewsFactory.createNewsFeedView(with: promoBanner)
-			if loadImages
-			{
-				newsFeedView.loadImages()
-			}
-			let nativeAdContainer = MTRGNativeAdContainer.create(withAdView: newsFeedView)
-			nativeAdContainer.ageRestrictionsView = newsFeedView.ageRestrictionsLabel
-			nativeAdContainer.advertisingView = newsFeedView.adLabel
-			nativeAdContainer.iconView = newsFeedView.iconImageView
-			nativeAdContainer.domainView = newsFeedView.domainLabel
-			nativeAdContainer.categoryView = newsFeedView.categoryLabel
-			nativeAdContainer.disclaimerView = newsFeedView.disclaimerLabel
-			nativeAdContainer.ratingView = newsFeedView.ratingStarsLabel
-			nativeAdContainer.votesView = newsFeedView.votesLabel
-			nativeAdContainer.ctaView = newsFeedView.buttonView
-			nativeAdContainer.titleView = newsFeedView.titleLabel
-			containerView = nativeAdContainer
-		}
-		else if radioButtonChatList.isSelected
-		{
-			let chatListView = MTRGNativeViewsFactory.createChatListView(with: promoBanner)
-			if loadImages
-			{
-				chatListView.loadImages()
-			}
-			let nativeAdContainer = MTRGNativeAdContainer.create(withAdView: chatListView)
-			nativeAdContainer.ageRestrictionsView = chatListView.ageRestrictionsLabel
-			nativeAdContainer.advertisingView = chatListView.adLabel
-			nativeAdContainer.titleView = chatListView.titleLabel
-			nativeAdContainer.descriptionView = chatListView.descriptionLabel
-			nativeAdContainer.iconView = chatListView.iconImageView
-			nativeAdContainer.domainView = chatListView.domainLabel
-			nativeAdContainer.disclaimerView = chatListView.disclaimerLabel
-			nativeAdContainer.ratingView = chatListView.ratingStarsLabel
-			nativeAdContainer.votesView = chatListView.votesLabel
-			containerView = nativeAdContainer
-		}
-		return containerView
+		let nativeAdContainer = MTRGNativeAdContainer.create(withAdView: nativeAdView)
+		nativeAdContainer.ageRestrictionsView = nativeAdView.ageRestrictionsLabel
+		nativeAdContainer.advertisingView = nativeAdView.adLabel
+		nativeAdContainer.titleView = nativeAdView.titleLabel
+		nativeAdContainer.descriptionView = nativeAdView.descriptionLabel
+		nativeAdContainer.iconView = nativeAdView.iconAdView
+		nativeAdContainer.mediaView = nativeAdView.mediaAdView
+		nativeAdContainer.domainView = nativeAdView.domainLabel
+		nativeAdContainer.categoryView = nativeAdView.categoryLabel
+		nativeAdContainer.disclaimerView = nativeAdView.disclaimerLabel
+		nativeAdContainer.ratingView = nativeAdView.ratingStarsLabel
+		nativeAdContainer.votesView = nativeAdView.votesLabel
+		nativeAdContainer.ctaView = nativeAdView.buttonView
+
+		return nativeAdContainer
 	}
 
 	@IBAction func show(_ sender: CustomButton)
 	{
 		showButton.isEnabled = false
-		let slotId = self.slotId ?? defaultSlot()
+
+		let slot = viewTypeGroup.selectedButton?.slot ?? Slot.nativePromo
+		let slotId = self.slotId ?? slot.rawValue
 		nativeAd = MTRGNativeAd(slotId: slotId)
 		guard let nativeAd = nativeAd else { return }
 		nativeAd.delegate = self
@@ -172,7 +100,7 @@ class NativeViewController: UIViewController, MTRGNativeAdDelegate, MTRGMediaAdV
 
 		collectionController = CollectionViewController()
 		guard let collectionController = collectionController else { return }
-		guard let adView = createView(promoBanner: promoBanner, loadImages: !nativeAd.autoLoadImages) else { return }
+		guard let adView = createNativeView(promoBanner) else { return }
 
 		nativeAd.register(adView, with: collectionController)
 		collectionController.adView = adView
@@ -226,4 +154,5 @@ class NativeViewController: UIViewController, MTRGNativeAdDelegate, MTRGMediaAdV
 	{
 		notificationView?.showMessage("onVideoComplete() called")
 	}
+
 }

@@ -11,7 +11,15 @@ import UIKit
 class RadioButtonsGroup
 {
 	@IBOutlet var radioButtons: [RadioButton] = []
-	@IBOutlet var selectedButton: RadioButton?
+	@IBOutlet public private(set) var selectedButton: RadioButton?
+
+	var isEnabled = true
+	{
+		didSet
+		{
+			radioButtons.forEach { $0.isEnabled = isEnabled }
+		}
+	}
 
 	func addButton(_ button: RadioButton)
 	{

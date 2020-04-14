@@ -32,6 +32,8 @@ enum Slot: UInt
 	case nativeVideo = 30152
 	case nativeCards = 54928
 
+	case nativeBanner = 708246
+
 	case intertitialPromo = 6899
 	case intertitialImage = 6498
 	case interstitialHtml = 93233

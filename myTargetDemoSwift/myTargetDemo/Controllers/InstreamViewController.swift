@@ -9,7 +9,7 @@
 import UIKit
 import MyTargetSDK
 
-class InstreamViewController: UIViewController, MTRGInstreamAdDelegate, VideoPlayerViewDelegate
+class InstreamViewController: UIViewController, AdViewController, MTRGInstreamAdDelegate, VideoPlayerViewDelegate
 {
 	var slotId: UInt?
 
