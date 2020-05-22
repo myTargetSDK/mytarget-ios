@@ -16,8 +16,8 @@ class InstreamViewController: UIViewController, AdViewController, MTRGInstreamAd
 	private var instreamAd: MTRGInstreamAd?
 	private var notificationView: NotificationView?
 
-	private static let mainVideoUrl = "https://r.mradx.net/img/8D/548043.mp4"
-	private static let mainVideoDuration = 25.612
+	private static let mainVideoUrl = "https://r.mradx.net/img/ED/518795.mp4"
+	private static let mainVideoDuration = 124.055
 
 	private let adContainerView = UIView()
 	private let mainVideoView = VideoPlayerView()
