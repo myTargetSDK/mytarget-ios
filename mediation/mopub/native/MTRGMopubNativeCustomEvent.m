@@ -9,6 +9,7 @@
 #import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMopubNativeCustomEvent.h"
 #import "MTRGMopubNativeAdAdapter.h"
+#import "MTRGMyTargetAdapterUtils.h"
 
 #if __has_include("MoPub.h")
 	#import "MPNativeAd.h"
@@ -30,11 +31,13 @@
 
 - (void)requestAdWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup
 {
-	NSUInteger slotId = [self parseSlotIdFromInfo:info];
+	NSUInteger slotId = [MTRGMyTargetAdapterUtils parseSlotIdFromInfo:info];
 	id <MPNativeCustomEventDelegate> delegate = self.delegate;
 
 	if (slotId > 0)
 	{
+		[MTRGMyTargetAdapterUtils setupConsent];
+
 		MTRGNativeAd *nativeAd = [MTRGNativeAd nativeAdWithSlotId:slotId];
 		nativeAd.cachePolicy = MTRGCachePolicyNone;
 		nativeAd.delegate = self;
@@ -104,30 +107,6 @@
 - (void)onLeaveApplicationWithNativeAd:(MTRGNativeAd *)nativeAd
 {
 	// empty
-}
-
-#pragma mark - helpers
-
-- (NSUInteger)parseSlotIdFromInfo:(nullable NSDictionary *)info
-{
-	if (!info) return 0;
-
-	id slotIdValue = [info valueForKey:@"slotId"];
-	if (!slotIdValue) return 0;
-
-	NSUInteger slotId = 0;
-	if ([slotIdValue isKindOfClass:[NSString class]])
-	{
-		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
-		NSNumber *slotIdNumber = [formatString numberFromString:slotIdValue];
-		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
-	}
-	else if ([slotIdValue isKindOfClass:[NSNumber class]])
-	{
-		NSNumber *slotIdNumber = (NSNumber *)slotIdValue;
-		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
-	}
-	return slotId;
 }
 
 @end

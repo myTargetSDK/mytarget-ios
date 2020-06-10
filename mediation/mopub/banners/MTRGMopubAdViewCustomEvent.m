@@ -8,6 +8,7 @@
 
 #import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMopubAdViewCustomEvent.h"
+#import "MTRGMyTargetAdapterUtils.h"
 
 @interface MTRGMopubAdViewCustomEvent () <MTRGAdViewDelegate>
 
@@ -30,10 +31,12 @@
 {
 	id <MPBannerCustomEventDelegate> delegate = self.delegate;
 	UIViewController *ownerViewController = delegate ? [delegate viewControllerForPresentingModalView] : nil;
-	NSUInteger slotId = [self parseSlotIdFromInfo:info];
+	NSUInteger slotId = [MTRGMyTargetAdapterUtils parseSlotIdFromInfo:info];
 
 	if (slotId > 0)
 	{
+		[MTRGMyTargetAdapterUtils setupConsent];
+		
 		MTRGAdSize adSize = MTRGAdSize_320x50;
 		if (size.width == 300 && size.height == 250)
 		{
@@ -104,30 +107,6 @@
 	id <MPBannerCustomEventDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate bannerCustomEventWillLeaveApplication:self];
-}
-
-#pragma mark - helpers
-
-- (NSUInteger)parseSlotIdFromInfo:(nullable NSDictionary *)info
-{
-	if (!info) return 0;
-
-	id slotIdValue = [info valueForKey:@"slotId"];
-	if (!slotIdValue) return 0;
-
-	NSUInteger slotId = 0;
-	if ([slotIdValue isKindOfClass:[NSString class]])
-	{
-		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
-		NSNumber *slotIdNumber = [formatString numberFromString:slotIdValue];
-		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
-	}
-	else if ([slotIdValue isKindOfClass:[NSNumber class]])
-	{
-		NSNumber *slotIdNumber = (NSNumber *)slotIdValue;
-		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
-	}
-	return slotId;
 }
 
 @end

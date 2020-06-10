@@ -8,6 +8,7 @@
 
 #import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMopubInterstitialCustomEvent.h"
+#import "MTRGMyTargetAdapterUtils.h"
 
 @interface MTRGMopubInterstitialCustomEvent () <MTRGInterstitialAdDelegate>
 
@@ -30,11 +31,13 @@
 - (void)requestInterstitialWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup
 {
 	_alreadyDisappear = NO;
-	NSUInteger slotId = [self parseSlotIdFromInfo:info];
+	NSUInteger slotId = [MTRGMyTargetAdapterUtils parseSlotIdFromInfo:info];
 	id <MPInterstitialCustomEventDelegate> delegate = self.delegate;
 
 	if (slotId > 0)
 	{
+		[MTRGMyTargetAdapterUtils setupConsent];
+		
 		_interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:slotId];
 		_interstitialAd.delegate = self;
 		[_interstitialAd.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
@@ -118,30 +121,6 @@
 	id <MPInterstitialCustomEventDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate interstitialCustomEventWillLeaveApplication:self];
-}
-
-#pragma mark - helpers
-
-- (NSUInteger)parseSlotIdFromInfo:(nullable NSDictionary *)info
-{
-	if (!info) return 0;
-
-	id slotIdValue = [info valueForKey:@"slotId"];
-	if (!slotIdValue) return 0;
-
-	NSUInteger slotId = 0;
-	if ([slotIdValue isKindOfClass:[NSString class]])
-	{
-		NSNumberFormatter *formatString = [[NSNumberFormatter alloc] init];
-		NSNumber *slotIdNumber = [formatString numberFromString:slotIdValue];
-		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
-	}
-	else if ([slotIdValue isKindOfClass:[NSNumber class]])
-	{
-		NSNumber *slotIdNumber = (NSNumber *)slotIdValue;
-		slotId = (slotIdNumber && slotIdNumber.integerValue > 0) ? slotIdNumber.unsignedIntegerValue : 0;
-	}
-	return slotId;
 }
 
 @end
