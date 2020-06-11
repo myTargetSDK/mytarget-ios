@@ -117,9 +117,19 @@ class TitleView: UIView
 	}
 }
 
-protocol AdViewController: UIViewController
+protocol AdViewController: class
 {
 	var slotId: UInt? { get set }
+	func refresh()
+	func loadMore()
+	func supportsInfiniteScroll() -> Bool
+}
+
+extension AdViewController
+{
+	func refresh() {}
+	func loadMore() {}
+	func supportsInfiniteScroll() -> Bool { return false }
 }
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource

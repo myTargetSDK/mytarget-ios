@@ -13,9 +13,11 @@ class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDele
 {
 	var slotId: UInt?
 
-	private var nativeAd: MTRGNativeAd?
+	private var nativeAds = [MTRGNativeAd]()
+	private var nativeAdLoader: MTRGNativeAdLoader?
+	private var nativeViews = [UIView]()
 	private var notificationView: NotificationView?
-	private var collectionController: CollectionViewController?
+	private let collectionController = CollectionViewController()
 
 	private let viewTypeGroup = RadioButtonsGroup()
 
@@ -32,6 +34,8 @@ class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDele
 		navigationItem.title = "Native Ad"
 		notificationView = NotificationView.create(view: view)
 		notificationView?.navigationBarHeight = navigationController?.navigationBar.frame.height ?? 0.0
+
+		collectionController.adViewController = self
 
 		radioButtonPromo.slot = Slot.nativePromo
 		radioButtonVideo.slot = Slot.nativeVideo
@@ -73,22 +77,59 @@ class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDele
 	@IBAction func show(_ sender: CustomButton)
 	{
 		showButton.isEnabled = false
+		refresh()
+		notificationView?.view = collectionController.view
+		navigationController?.pushViewController(collectionController, animated: true)
+	}
 
+	func refresh()
+	{
 		let slot = viewTypeGroup.selectedButton?.slot ?? Slot.nativePromo
 		let slotId = self.slotId ?? slot.rawValue
-		nativeAd = MTRGNativeAd(slotId: slotId)
-		guard let nativeAd = nativeAd else { return }
+		let nativeAdLoader = MTRGNativeAdLoader.init(forCount: 3, slotId: slotId)
+		self.nativeAdLoader = nativeAdLoader
+
+		nativeAds.removeAll()
+		nativeViews.removeAll()
+		notificationView?.showMessage("Loading...")
+
+		nativeAdLoader.load { (nativeAds: [MTRGNativeAd]) in
+			self.notificationView?.showMessage("Loaded \(nativeAds.count) ads")
+			self.nativeAds = nativeAds
+			for nativeAd in nativeAds
+			{
+				if let banner = nativeAd.banner, let adView = self.createNativeView(banner)
+				{
+					self.nativeViews.append(adView)
+					nativeAd.register(adView, with: self.collectionController)
+				}
+			}
+			self.collectionController.adViews = self.nativeViews
+		}
+	}
+
+	func loadMore()
+	{
+		let slot = viewTypeGroup.selectedButton?.slot ?? Slot.nativePromo
+		let slotId = self.slotId ?? slot.rawValue
+		let nativeAd = MTRGNativeAd(slotId: slotId)
 		nativeAd.delegate = self
 		nativeAd.load()
+		nativeAds.append(nativeAd)
 		notificationView?.showMessage("Loading...")
+	}
+	
+	func supportsInfiniteScroll() -> Bool
+	{
+		return true
 	}
 
 // MARK: - MTRGMediaAdViewDelegate
 
 	func onImageSizeChanged(_ mediaAdView: MTRGMediaAdView)
 	{
-		collectionController?.collectionView.reloadData()
-		collectionController?.collectionView.collectionViewLayout.invalidateLayout()
+		collectionController.collectionView.reloadData()
+		collectionController.collectionView.collectionViewLayout.invalidateLayout()
 	}
 
 // MARK: - MTRGNativeAdDelegate
@@ -98,20 +139,18 @@ class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDele
 		showButton.isEnabled = true
 		notificationView?.showMessage("onLoad() called")
 
-		collectionController = CollectionViewController()
-		guard let collectionController = collectionController else { return }
-		guard let adView = createNativeView(promoBanner) else { return }
-
-		nativeAd.register(adView, with: collectionController)
-		collectionController.adView = adView
-		collectionController.adSize = CGSize(width: 300, height: 250)
-		notificationView?.view = collectionController.view
-		navigationController?.pushViewController(collectionController, animated: true)
+		if let adView = createNativeView(promoBanner)
+		{
+			nativeViews.append(adView)
+			nativeAd.register(adView, with: collectionController)
+		}
+		collectionController.adViews = nativeViews
 	}
 
 	func onNoAd(withReason reason: String, nativeAd: MTRGNativeAd)
 	{
 		showButton.isEnabled = true
+		collectionController.adViews = nativeViews
 		notificationView?.showMessage("onNoAd(\(reason)) called")
 	}
 

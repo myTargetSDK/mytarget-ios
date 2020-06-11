@@ -17,6 +17,8 @@
 		891A13A122F9662A00AE192B /* VideoProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A13A022F9662A00AE192B /* VideoProgressView.swift */; };
 		891A13A322F9871400AE192B /* InstreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A13A222F9871400AE192B /* InstreamViewController.swift */; };
 		894F9AAE22E1F6FA008D0064 /* StandardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894F9AAD22E1F6FA008D0064 /* StandardViewController.swift */; };
+		89537E3C246BFAA400224397 /* LoadingReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89537E3A246BFAA400224397 /* LoadingReusableView.swift */; };
+		89537E3D246BFAA400224397 /* LoadingReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89537E3B246BFAA400224397 /* LoadingReusableView.xib */; };
 		89BB245F22DCBEE900610CFF /* RadioButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BB245E22DCBEE900610CFF /* RadioButtons.swift */; };
 		89CEA60C22E6F67000D0CD1E /* UIColor+DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CEA60B22E6F67000D0CD1E /* UIColor+DarkMode.swift */; };
 		89CEA60E22E7001000D0CD1E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CEA60D22E7001000D0CD1E /* CustomButton.swift */; };
@@ -40,6 +42,8 @@
 		891A13A022F9662A00AE192B /* VideoProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressView.swift; sourceTree = "<group>"; };
 		891A13A222F9871400AE192B /* InstreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstreamViewController.swift; sourceTree = "<group>"; };
 		894F9AAD22E1F6FA008D0064 /* StandardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardViewController.swift; sourceTree = "<group>"; };
+		89537E3A246BFAA400224397 /* LoadingReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingReusableView.swift; sourceTree = "<group>"; };
+		89537E3B246BFAA400224397 /* LoadingReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingReusableView.xib; sourceTree = "<group>"; };
 		89BB245E22DCBEE900610CFF /* RadioButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtons.swift; sourceTree = "<group>"; };
 		89CEA60B22E6F67000D0CD1E /* UIColor+DarkMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DarkMode.swift"; sourceTree = "<group>"; };
 		89CEA60D22E7001000D0CD1E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -92,9 +96,11 @@
 		89BB245D22DCBEB900610CFF /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				89BB245E22DCBEE900610CFF /* RadioButtons.swift */,
 				89CEA60D22E7001000D0CD1E /* CustomButton.swift */,
+				89537E3A246BFAA400224397 /* LoadingReusableView.swift */,
+				89537E3B246BFAA400224397 /* LoadingReusableView.xib */,
 				89CEA61422E74A5100D0CD1E /* NotificationView.swift */,
+				89BB245E22DCBEE900610CFF /* RadioButtons.swift */,
 				891A138C22F2F11E00AE192B /* VideoPlayerView.swift */,
 				891A13A022F9662A00AE192B /* VideoProgressView.swift */,
 			);
@@ -225,6 +231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89537E3D246BFAA400224397 /* LoadingReusableView.xib in Resources */,
 				890B015C22E88D1700FBD354 /* CollectionViewController.xib in Resources */,
 				89F0E1E622BA71FD006B8B93 /* LaunchScreen.storyboard in Resources */,
 				89F0E1E322BA71FD006B8B93 /* Assets.xcassets in Resources */,
@@ -249,6 +256,7 @@
 				890B016222EF16C700FBD354 /* NativeViewController.swift in Sources */,
 				891A13A122F9662A00AE192B /* VideoProgressView.swift in Sources */,
 				89BB245F22DCBEE900610CFF /* RadioButtons.swift in Sources */,
+				89537E3C246BFAA400224397 /* LoadingReusableView.swift in Sources */,
 				89F0E1DC22BA71FC006B8B93 /* AppDelegate.swift in Sources */,
 				89CEA60E22E7001000D0CD1E /* CustomButton.swift in Sources */,
 				891A138B22F0523300AE192B /* UnitViewController.swift in Sources */,

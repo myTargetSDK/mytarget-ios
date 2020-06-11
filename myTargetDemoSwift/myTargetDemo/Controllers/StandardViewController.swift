@@ -16,6 +16,7 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 	private var adView: MTRGAdView?
 	private var adSize = CGSize.zero
 	private var notificationView: NotificationView?
+	private let collectionController = CollectionViewController()
 
 	private let sizeGroup = RadioButtonsGroup()
 	private let typeGroup = RadioButtonsGroup()
@@ -36,6 +37,8 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 		navigationItem.title = "Banners"
 		notificationView = NotificationView.create(view: view)
 		notificationView?.navigationBarHeight = navigationController?.navigationBar.frame.height ?? 0.0
+
+		collectionController.adViewController = self
 
 		radioButton320x50.isSelected = true
 		radioButtonWebview.isSelected = true
@@ -72,6 +75,13 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 	@IBAction func show(_ sender: CustomButton)
 	{
 		showButton.isEnabled = false
+		refresh()
+		notificationView?.view = collectionController.view
+		navigationController?.pushViewController(collectionController, animated: true)
+	}
+
+	func refresh()
+	{
 		let size = radioButton300x250.isSelected ? MTRGAdSize_300x250 : radioButton728x90.isSelected ? MTRGAdSize_728x90 : MTRGAdSize_320x50
 		switch size
 		{
@@ -84,6 +94,10 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 			default:
 				adSize = CGSize(width: 320, height: 50)
 		}
+		
+		collectionController.adSize = adSize
+		collectionController.isBottom = adSize.height < 100
+
 		let slotId = self.slotId ?? defaultSlot(size: size)
 		adView = MTRGAdView(slotId: slotId, adSize: size)
 		guard let adView = adView else { return }
@@ -92,6 +106,7 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 
 		adView.delegate = self
 		adView.load()
+
 		notificationView?.showMessage("Loading...")
 	}
 
@@ -113,13 +128,8 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 
 		prepareAdView(false)
 
-		let collectionController = CollectionViewController()
-		collectionController.adView = adView
-		collectionController.adSize = adSize
-		collectionController.isBottom = (adSize.height < 100)
+		collectionController.adViews = [adView]
 		adView.viewController = collectionController
-		notificationView?.view = collectionController.view
-		navigationController?.pushViewController(collectionController, animated: true)
 	}
 
 	func onNoAd(withReason reason: String, adView: MTRGAdView)
@@ -127,6 +137,7 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 		showButton.isEnabled = true
 		notificationView?.showMessage("onNoAd(\(reason)) called")
 		prepareAdView(false)
+		collectionController.adViews = []
 	}
 
 	func onAdClick(with adView: MTRGAdView)

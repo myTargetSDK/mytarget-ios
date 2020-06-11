@@ -125,12 +125,42 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 	@IBOutlet weak var bottomViewWidthConstraint: NSLayoutConstraint!
 	@IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
 
-	var adView: UIView?
+	weak var adViewController: AdViewController?
+	{
+		didSet
+		{
+			supportsInfiniteScroll = adViewController?.supportsInfiniteScroll() ?? false
+		}
+	}
+
+	var adViews = [UIView]()
+	{
+		willSet
+		{
+			bottomViewWidthConstraint.constant = 0
+			bottomViewHeightConstraint.constant = 0
+			adViews.forEach { $0.removeFromSuperview() }
+		}
+		didSet
+		{
+			isLoading = false
+			refreshControl.endRefreshing()
+			loadingView?.activityIndicator.stopAnimating()
+			setupViews()
+			collectionView.reloadData()
+		}
+	}
+
 	var adSize = CGSize.zero
 	var isBottom = false
 
+	private let viewsCount = 15
 	private var views = [UIView]()
 	private var cellViews = [CellView]()
+	private let refreshControl = UIRefreshControl()
+	private var loadingView: LoadingReusableView?
+	private var isLoading = false
+	private var supportsInfiniteScroll = false
 
 	override func viewDidLoad()
 	{
@@ -142,6 +172,19 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 		collectionView.dataSource = self
 		collectionView.register(CollectionCell.self, forCellWithReuseIdentifier: "CollectionCell")
 
+		refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+		if #available(iOS 10, *)
+		{
+			collectionView.refreshControl = refreshControl
+		}
+		else
+		{
+			collectionView.addSubview(refreshControl)
+		}
+
+		let loadingReusableNib = UINib(nibName: "LoadingReusableView", bundle: nil)
+		collectionView.register(loadingReusableNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "LoadingView")
+
 		if let flowLayout = collectionView.collectionViewLayout as? FlowLayout
 		{
 			let itemSize = CGSize(width: 200, height: 200)
@@ -149,34 +192,68 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 			flowLayout.estimatedItemSize = itemSize
 		}
 
-		for _ in 0..<15
+		for _ in 0..<viewsCount
 		{
 			cellViews.append(CellView())
 		}
+		views.append(contentsOf: cellViews)
 	}
 
-	override func viewWillAppear(_ animated: Bool)
+	private func setupViews()
 	{
-		super.viewWillAppear(animated)
-
-		defer
-		{
-			collectionView.reloadData()
-		}
-		
 		views.removeAll()
-		views.append(contentsOf: cellViews)
-		guard let adView = adView else { return }
 
 		if isBottom
 		{
+			views.append(contentsOf: cellViews)
+			guard let adView = adViews.first else { return }
 			bottomViewWidthConstraint.constant = adSize.width
 			bottomViewHeightConstraint.constant = adSize.height
 			bottomView.addSubview(adView)
 		}
 		else
 		{
-			views.insert(adView, at: 2)
+			guard adViews.count > 0 else
+			{
+				views.append(contentsOf: cellViews)
+				return
+			}
+			var index = 0
+			for adView in adViews
+			{
+				views.append(contentsOf: cellViews)
+				let position = index * viewsCount + 2
+				views.insert(adView, at: position)
+				index += 1
+			}
+		}
+	}
+
+	private func loadMore()
+	{
+		if isLoading { return }
+		guard let adViewController = adViewController, supportsInfiniteScroll else { return }
+		isLoading = true
+		adViewController.loadMore()
+	}
+
+	@objc private func refresh()
+	{
+		if isLoading { return }
+		guard let adViewController = adViewController else
+		{
+			refreshControl.endRefreshing()
+			return
+		}
+		isLoading = true
+		adViewController.refresh()
+
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3.0)
+		{
+			// handle timeout
+			self.isLoading = false
+			self.refreshControl.endRefreshing()
+			self.loadingView?.activityIndicator.stopAnimating()
 		}
 	}
 
@@ -197,6 +274,24 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 		view.removeFromSuperview()
 	}
 
+	func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath)
+	{
+		guard supportsInfiniteScroll, elementKind == UICollectionView.elementKindSectionFooter else { return }
+		loadingView?.activityIndicator.startAnimating()
+		loadMore()
+	}
+
+	func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath)
+	{
+		guard supportsInfiniteScroll, elementKind == UICollectionView.elementKindSectionFooter else { return }
+		loadingView?.activityIndicator.stopAnimating()
+	}
+
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize
+	{
+		return supportsInfiniteScroll ? CGSize(width: collectionView.bounds.size.width, height: 30) : .zero
+	}
+
 // MARK: - UICollectionViewDataSource
 
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
@@ -207,6 +302,14 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
 		return collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath)
+	}
+
+	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
+	{
+		guard kind == UICollectionView.elementKindSectionFooter else { return UICollectionReusableView() }
+		guard let loadingView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "LoadingView", for: indexPath) as? LoadingReusableView else { return UICollectionReusableView() }
+		self.loadingView = loadingView
+		return loadingView
 	}
 
 // MARK: - UICollectionViewDelegateFlowLayout
