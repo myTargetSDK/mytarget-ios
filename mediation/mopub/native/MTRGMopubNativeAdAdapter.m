@@ -11,27 +11,24 @@
 
 #if __has_include("MoPub.h")
 	#import "MPNativeAdConstants.h"
+	#import "MPLogging.h"
 #endif
-
-@interface MTRGNativeAd ()
-
-- (void)handleShow;
-
-- (void)handleClickWithController:(UIViewController *)viewController;
-
-@end
-
-@interface MTRGMopubNativeAdAdapter ()
-
-@property(strong, nonatomic) MTRGNativePromoBanner *promoBanner;
-@property(strong, nonatomic) MTRGNativeAd *nativeAd;
-
-@end
 
 @implementation MTRGMopubNativeAdAdapter
 {
+	MTRGMediaAdView *_Nullable _mediaAdView;
+	MTRGIconAdView *_Nullable _iconAdView;
 	NSDictionary<NSString *, NSString *> *_properties;
-	__weak id <MPNativeAdAdapterDelegate> _delegate;
+}
+
++ (instancetype)adapterWithPromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd
+{
+	return [[MTRGMopubNativeAdAdapter alloc] initWithPromoBanner:promoBanner nativeAd:nativeAd];
+}
+
++ (instancetype)adapterWithBanner:(MTRGNativeBanner *)banner nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+{
+	return [[MTRGMopubNativeAdAdapter alloc] initWithBanner:banner nativeBannerAd:nativeBannerAd];
 }
 
 - (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd
@@ -40,35 +37,80 @@
 	if (self)
 	{
 		_nativeAd = nativeAd;
-		_promoBanner = promoBanner;
-		_properties = [MTRGMopubNativeAdAdapter propertiesWithBanner:promoBanner];
+		_mediaAdView = [MTRGNativeViewsFactory createMediaAdView];
+		_iconAdView = [MTRGNativeViewsFactory createIconAdView];
+
+		NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+		properties[kAdTitleKey] = promoBanner.title;
+		properties[kAdTextKey] = promoBanner.descriptionText;
+		properties[kAdIconImageKey] = promoBanner.icon ? promoBanner.icon.url : nil;
+		properties[kAdIconImageViewKey] = _iconAdView;
+		properties[kAdMainImageKey] = promoBanner.image ? promoBanner.image.url : nil;
+		properties[kAdMainMediaViewKey] = _mediaAdView;
+		properties[kAdCTATextKey] = promoBanner.ctaText;
+		properties[kAdStarRatingKey] = promoBanner.rating ? promoBanner.rating : nil;
+		_properties = properties;
 	}
 	return self;
 }
 
-- (void)setDelegate:(id <MPNativeAdAdapterDelegate>)delegate
+- (instancetype)initWithBanner:(MTRGNativeBanner *)banner nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
 {
-	_delegate = delegate;
+	self = [super init];
+	if (self)
+	{
+		_nativeBannerAd = nativeBannerAd;
+		_iconAdView = [MTRGNativeViewsFactory createIconAdView];
+
+		NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+		properties[kAdTitleKey] = banner.title;
+		properties[kAdIconImageKey] = banner.icon ? banner.icon.url : nil;
+		properties[kAdIconImageViewKey] = _iconAdView;
+		properties[kAdCTATextKey] = banner.ctaText;
+		properties[kAdStarRatingKey] = banner.rating ? banner.rating : nil;
+		_properties = properties;
+	}
+	return self;
 }
 
-- (id <MPNativeAdAdapterDelegate>)delegate
+- (UIView *)mainMediaView
 {
-	return _delegate;
+	// implement this method if your ad supplies its own view for the main media view which is typically an image or video
+	return _mediaAdView;
+}
+
+- (UIView *)iconMediaView
+{
+	// implement this method if your ad supplies its own view for the icon view which is typically an image
+	return _iconAdView;
 }
 
 - (void)trackClick
 {
-	// is called when the user interacts with an ad, and allows for manual click tracking for the mediated ad
+	// Tracks a click for this ad.
+	// To avoid reporting discrepancies, you should only implement this method if the third-party ad
+	// network requires clicks to be reported manually
 }
 
 - (NSDictionary *)properties
 {
+	// Provides a dictionary of all publicly accessible assets (such as title and text) for the native ad
 	return _properties;
+}
+
+- (BOOL)enableThirdPartyClickTracking
+{
+	// Determines whether MPNativeAd should track clicks
+	// If not implemented, this will be assumed to return NO, and MPNativeAd will track clicks.
+	// If this returns YES, then MPNativeAd will defer to the MPNativeAdAdapterDelegate callbacks to track clicks
+    return NO;
 }
 
 - (NSURL *)defaultActionURL
 {
-	// the URL the user is taken to when they interact with the ad. If the native ad automatically opens it then this can be nil
+	// The default click-through URL for the ad.
+	// This may safely be set to nil if your network doesn't expose this value
+	// (for example, it may only provide a method to handle a click, lacking another for retrieving the URL itself).
 	return nil;
 }
 
@@ -77,70 +119,81 @@
 	// This method is called when the user interacts with your ad,
 	// and can either forward the call to a corresponding method on the mediated ad,
 	// or you can implement URL-opening yourself.
-	// You do not need to implement this method if your ad network automatically handles taps on your ad.
-
-	[_nativeAd handleClickWithController:controller];
-
-	// Клик в mopub не отправляем, так как его отправляет mopub.
-
-	// Уведомляем приложение, что уходим в модальный режим (всегда, даже если на самом деле пойдем в бразуер)
-	// Обратный метод не вызываем, так как наше СДК его наверх не предоставляет.
-	id <MPNativeAdAdapterDelegate> delegate = _delegate;
-	if (!delegate) return;
-	[delegate nativeAdWillPresentModalForAdapter:self];
+	// You do not need to implement this method if your ad network automatically handles taps on your ad.controller
 }
 
 - (void)willAttachToView:(UIView *)view
 {
 	// is called when the ad content is loaded into its container view, and passes back that view.
 	// Native ads that automatically track impressions should implement this method
+	[self willAttachToView:view withAdContentViews:@[]];
+}
 
-	[_nativeAd handleShow];
+- (void)willAttachToView:(UIView *)view withAdContentViews:(NSArray *)adContentViews
+{
+	// Note: If both this method and `willAttachToView:` are implemented, ONLY this method will be called.
 
-	// Отправляем показ в mopub
-	id <MPNativeAdAdapterDelegate> delegate = _delegate;
-	if (!delegate || ![delegate respondsToSelector:@selector(nativeAdWillLogImpression:)]) return;
+	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
+	UIViewController *controller = delegate ? delegate.viewControllerForPresentingModalView : nil;
+
+	// view has no subviews yet, so wait a little before looking for iconAdView and mediaAdView inside
+	NSTimeInterval delay = 0.1;
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^
+	{
+		if (self.nativeAd)
+		{
+			[self.nativeAd registerView:view withController:controller withClickableViews:adContentViews];
+		}
+		else if (self.nativeBannerAd)
+		{
+			[self.nativeBannerAd registerView:view withController:controller withClickableViews:adContentViews];
+		}
+	});
+}
+
+#pragma mark - MTRGMopubNativeCustomEventDelegate
+
+- (void)onNativeAdShow
+{
+	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
+	if (!delegate || ![delegate respondsToSelector:@selector(nativeAdWillLogImpression:)])
+	{
+		MPLogInfo(@"Adapter's delegate does not implement impression tracking callback.");
+		return;
+	}
 	[delegate nativeAdWillLogImpression:self];
 }
 
-#pragma mark - helpers
-
-+ (nullable NSDictionary<NSString *, NSString *> *)propertiesWithBanner:(nullable MTRGNativePromoBanner *)promoBanner
+- (void)onNativeAdClick
 {
-	if (!promoBanner) return nil;
+	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
+	if (!delegate || ![delegate respondsToSelector:@selector(nativeAdDidClick:)])
+	{
+		MPLogInfo(@"Adapter's delegate does not implement click tracking callback.");
+		return;
+	}
+	[delegate nativeAdDidClick:self];
+}
 
-	NSMutableDictionary<NSString *, NSString *> *properties = [NSMutableDictionary<NSString *, NSString *> new];
-	if (promoBanner.title)
-	{
-		NSString *key = [kAdTitleKey copy];
-		properties[key] = promoBanner.title;
-	}
-	if (promoBanner.descriptionText)
-	{
-		NSString *key = [kAdTextKey copy];
-		properties[key] = promoBanner.descriptionText;
-	}
-	if (promoBanner.icon)
-	{
-		NSString *key = [kAdIconImageKey copy];
-		properties[key] = promoBanner.icon.url;
-	}
-	if (promoBanner.image)
-	{
-		NSString *key = [kAdMainImageKey copy];
-		properties[key] = promoBanner.image.url;
-	}
-	if (promoBanner.ctaText)
-	{
-		NSString *key = [kAdCTATextKey copy];
-		properties[key] = promoBanner.ctaText;
-	}
-	if (promoBanner.rating)
-	{
-		NSString *key = [kAdStarRatingKey copy];
-		properties[key] = promoBanner.rating.stringValue;
-	}
-	return properties;
+- (void)onNativeAdShowModal
+{
+	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate nativeAdWillPresentModalForAdapter:self];
+}
+
+- (void)onNativeAdDismissModal
+{
+	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate nativeAdDidDismissModalForAdapter:self];
+}
+
+- (void)onNativeAdLeaveApplication
+{
+	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate nativeAdWillLeaveApplicationFromAdapter:self];
 }
 
 @end

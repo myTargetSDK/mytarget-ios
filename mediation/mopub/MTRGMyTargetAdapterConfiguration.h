@@ -18,15 +18,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+__attribute__((objc_subclassing_restricted))
 @interface MTRGMyTargetAdapterConfiguration : MPBaseAdapterConfiguration
+
+@property (class, nonatomic) BOOL debugMode;
+@property (class, nonatomic, readonly) BOOL isNativeBanner;
 
 @property (nonatomic, copy, readonly) NSString *adapterVersion;
 @property (nonatomic, copy, readonly, nullable) NSString *biddingToken;
 @property (nonatomic, copy, readonly) NSString *moPubNetworkName;
-@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *moPubRequestOptions;
 @property (nonatomic, copy, readonly) NSString *networkSdkVersion;
-
-+ (void)updateInitializationParameters:(NSDictionary *)parameters;
 
 - (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration complete:(void(^ _Nullable)(NSError * _Nullable))complete;
 

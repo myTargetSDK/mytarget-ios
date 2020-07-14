@@ -14,6 +14,29 @@
 	#import "MPNativeCustomEvent.h"
 #endif
 
-@interface MTRGMopubNativeCustomEvent : MPNativeCustomEvent
+#import <MyTargetSDK/MTRGAdChoicesPlacement.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol MTRGMopubNativeCustomEventDelegate <NSObject>
+
+- (void)onNativeAdShow;
+
+- (void)onNativeAdClick;
+
+- (void)onNativeAdShowModal;
+
+- (void)onNativeAdDismissModal;
+
+- (void)onNativeAdLeaveApplication;
 
 @end
+
+__attribute__((objc_subclassing_restricted))
+@interface MTRGMopubNativeCustomEvent : MPNativeCustomEvent
+
++ (void)setAdChoicesPlacement:(MTRGAdChoicesPlacement)adChoicesPlacement;
+
+@end
+
+NS_ASSUME_NONNULL_END

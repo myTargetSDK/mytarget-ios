@@ -14,14 +14,29 @@
 	#import "MPNativeAdAdapter.h"
 #endif
 
+#import "MTRGMopubNativeCustomEvent.h"
+
 @class MTRGNativeAd;
+@class MTRGNativeBannerAd;
+@class MTRGNativeBanner;
 @class MTRGNativePromoBanner;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MTRGMopubNativeAdAdapter : NSObject <MPNativeAdAdapter>
+__attribute__((objc_subclassing_restricted))
+@interface MTRGMopubNativeAdAdapter : NSObject <MPNativeAdAdapter, MTRGMopubNativeCustomEventDelegate>
 
-- (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd;
+@property (nonatomic, weak) id <MPNativeAdAdapterDelegate> delegate;
+@property (nonatomic, readonly, nullable) MTRGNativeAd *nativeAd;
+@property (nonatomic, readonly, nullable) MTRGNativeBannerAd *nativeBannerAd;
+
++ (instancetype)adapterWithPromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd;
+
++ (instancetype)adapterWithBanner:(MTRGNativeBanner *)banner nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd;
+
++ (instancetype)new NS_UNAVAILABLE;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 

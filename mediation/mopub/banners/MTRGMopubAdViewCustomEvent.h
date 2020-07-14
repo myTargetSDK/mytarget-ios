@@ -11,9 +11,14 @@
 #elif __has_include(<MoPubSDKFramework/MoPub.h>)
 	#import <MoPubSDKFramework/MoPub.h>
 #else
-	#import "MPBannerCustomEvent.h"
+	#import "MPInlineAdAdapter.h"
 #endif
 
-@interface MTRGMopubAdViewCustomEvent : MPBannerCustomEvent
+NS_ASSUME_NONNULL_BEGIN
+
+__attribute__((objc_subclassing_restricted))
+@interface MTRGMopubAdViewCustomEvent : MPInlineAdAdapter <MPThirdPartyInlineAdAdapter>
 
 @end
+
+NS_ASSUME_NONNULL_END

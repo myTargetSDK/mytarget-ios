@@ -11,9 +11,14 @@
 #elif __has_include(<MoPubSDKFramework/MoPub.h>)
 	#import <MoPubSDKFramework/MoPub.h>
 #else
-	#import "MPRewardedVideoCustomEvent.h"
+	#import "MPFullscreenAdAdapter.h"
 #endif
 
-@interface MTRGMopubRewardedVideoCustomEvent : MPRewardedVideoCustomEvent
+NS_ASSUME_NONNULL_BEGIN
+
+__attribute__((objc_subclassing_restricted))
+@interface MTRGMopubRewardedVideoCustomEvent : MPFullscreenAdAdapter <MPThirdPartyFullscreenAdAdapter>
 
 @end
+
+NS_ASSUME_NONNULL_END

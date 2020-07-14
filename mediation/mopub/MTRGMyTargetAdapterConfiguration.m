@@ -8,45 +8,62 @@
 
 #import <MyTargetSDK/MyTargetSDK.h>
 #import "MTRGMyTargetAdapterConfiguration.h"
+#import "MTRGMyTargetAdapterUtils.h"
 
-static NSUInteger const kAdapterRevision = 0;
-static NSString * const kNetworkName = @"myTarget";
+static NSString * const kNetworkName = @"mytarget";
+static NSString * const kNetworkVersion = @"5.6.3";
+static NSString * const kAdapterRevision = @"0";
+
+static BOOL _isNativeBanner = NO;
 
 @implementation MTRGMyTargetAdapterConfiguration
 
-+ (void)updateInitializationParameters:(NSDictionary *)parameters
++ (void)setDebugMode:(BOOL)debugMode
 {
-	[MTRGMyTargetAdapterConfiguration setCachedInitializationParameters:parameters];
+	[MTRGBaseAd setDebugMode:debugMode];
+}
+
++ (BOOL)debugMode
+{
+	return [MTRGBaseAd isDebugMode];
+}
+
++ (BOOL)isNativeBanner
+{
+    return _isNativeBanner;
 }
 
 - (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration complete:(void(^ _Nullable)(NSError * _Nullable))complete
 {
-	complete(nil);
+
+	_isNativeBanner = [MTRGMyTargetAdapterUtils isNativeBannerWithDictionary:configuration];
+
+	// myTargetSDK doesn't require initialization
+	MPLogInfo(@"myTargetSDK %@ initialized succesfully.", [MTRGVersion currentVersion]);
+	if (complete)
+	{
+		complete(nil);
+	}
 }
 
 - (NSString *)adapterVersion
 {
-	return [NSString stringWithFormat:@"%@.%tu", [MTRGVersion currentVersion], kAdapterRevision];
+	return [NSString stringWithFormat:@"%@.%@", kNetworkVersion, kAdapterRevision];
 }
 
 - (nullable NSString *)biddingToken
 {
-	return nil;
+	return nil; // if ad network does not support Advanced Bidding
 }
 
 - (NSString *)moPubNetworkName
 {
-	return kNetworkName;
+	return kNetworkName; // lowercase String that represents your ad network name
 }
 
 - (NSString *)networkSdkVersion
 {
-	return [MTRGVersion currentVersion];
-}
-
-- (nullable NSDictionary<NSString *,NSString *> *)moPubRequestOptions
-{
-	return nil;
+	return kNetworkVersion;
 }
 
 @end

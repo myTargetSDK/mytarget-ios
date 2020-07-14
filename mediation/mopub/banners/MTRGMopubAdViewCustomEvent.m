@@ -10,103 +10,152 @@
 #import "MTRGMopubAdViewCustomEvent.h"
 #import "MTRGMyTargetAdapterUtils.h"
 
+#if __has_include("MoPub.h")
+    #import "MPLogging.h"
+#endif
+
+static NSString * const kMoPubStandardAdapter = @"MTRGMopubAdViewCustomEvent";
+
 @interface MTRGMopubAdViewCustomEvent () <MTRGAdViewDelegate>
 
 @end
 
 @implementation MTRGMopubAdViewCustomEvent
 {
-	MTRGAdView *_adView;
+	MTRGAdView *_Nullable _adView;
+	NSString *_Nullable _placementId;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info
+- (BOOL)enableAutomaticImpressionAndClickTracking
 {
-	[self requestAdWithSize:size customEventInfo:info adMarkup:@""];
+	return NO;
 }
-#pragma clang diagnostic pop
 
-- (void)requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup
+- (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString * _Nullable)adMarkup
 {
-	id <MPBannerCustomEventDelegate> delegate = self.delegate;
-	UIViewController *ownerViewController = delegate ? [delegate viewControllerForPresentingModalView] : nil;
 	NSUInteger slotId = [MTRGMyTargetAdapterUtils parseSlotIdFromInfo:info];
+	_placementId = [NSString stringWithFormat:@"%zd", slotId];
 
-	if (slotId > 0)
+	if (slotId == 0)
 	{
-		[MTRGMyTargetAdapterUtils setupConsent];
-		
-		MTRGAdSize adSize = MTRGAdSize_320x50;
-		if (size.width == 300 && size.height == 250)
-		{
-			adSize = MTRGAdSize_300x250;
-		}
-		else if (size.width == 728 && size.height == 90)
-		{
-			adSize = MTRGAdSize_728x90;
-		}
+		[self delegateOnNoAdWithReason:@"Failed to load, slotId not found"];
+		return;
+	}
 
-		_adView = [[MTRGAdView alloc] initWithSlotId:slotId withRefreshAd:NO adSize:adSize];
-		_adView.viewController = ownerViewController;
-		_adView.delegate = self;
-		[_adView.customParams setCustomParam:kMTRGCustomParamsMediationMopub forKey:kMTRGCustomParamsMediationKey];
+	MTRGAdSize adSize;
+	if (size.width == 320 && size.height == 50)
+	{
+		adSize = MTRGAdSize_320x50;
+	}
+	else if (size.width == 300 && size.height == 250)
+	{
+		adSize = MTRGAdSize_300x250;
+	}
+	else if (size.width == 728 && size.height == 90)
+	{
+		adSize = MTRGAdSize_728x90;
+	}
+	else
+	{
+		NSString *reason = [NSString stringWithFormat:@"Failed to load, invalid ad size: %.fx%.f", size.width, size.height];
+		[self delegateOnNoAdWithReason:reason];
+		return;
+	}
+
+	[MTRGMyTargetAdapterUtils setupConsent];
+
+	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
+	UIViewController *viewController = delegate ? [delegate inlineAdAdapterViewControllerForPresentingModalView:self] : nil;
+
+	_adView = [MTRGAdView adViewWithSlotId:slotId withRefreshAd:NO adSize:adSize];
+	_adView.viewController = viewController;
+	_adView.delegate = self;
+	
+	[MTRGMyTargetAdapterUtils fillCustomParams:_adView.customParams dictionary:self.localExtras];
+
+	MPLogAdEvent([MPLogEvent adLoadAttemptForAdapter:kMoPubStandardAdapter dspCreativeId:nil dspName:nil], _placementId);
+	if (adMarkup)
+	{
+        MPLogInfo(@"Loading banner ad from bid");
+        [_adView loadFromBid:adMarkup];
+    }
+	else
+	{
+		MPLogInfo(@"Loading banner ad");
 		[_adView load];
 	}
-	else if (delegate)
-	{
-		NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Options is not correct: slotId not found" };
-		NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1000 userInfo:userInfo];
-		[delegate bannerCustomEvent:self didFailToLoadAdWithError:error];
-	}
+}
+
+- (void)dealloc
+{
+	if (!_adView) return;
+    _adView.delegate = nil;
+}
+
+#pragma mark - private
+
+- (void)delegateOnNoAdWithReason:(NSString *)reason
+{
+	NSError *error = MPNativeAdNSErrorForInvalidAdServerResponse(reason);
+	MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:kMoPubStandardAdapter error:error], _placementId);
+	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
+	if (!delegate) return;
+	[delegate inlineAdAdapter:self didFailToLoadAdWithError:error];
 }
 
 #pragma mark - MTRGAdViewDelegate
 
 - (void)onLoadWithAdView:(MTRGAdView *)adView
 {
-	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	MPLogAdEvent([MPLogEvent adLoadSuccessForAdapter:kMoPubStandardAdapter], _placementId);
+	MPLogAdEvent([MPLogEvent adShowAttemptForAdapter:kMoPubStandardAdapter], _placementId);
+	MPLogAdEvent([MPLogEvent adShowSuccessForAdapter:kMoPubStandardAdapter], _placementId);
+
+	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-	[delegate bannerCustomEvent:self didLoadAd:adView];
-	[delegate trackImpression];
+	[delegate inlineAdAdapter:self didLoadAdWithAdView:adView];
+	[delegate inlineAdAdapterDidTrackImpression:self];
 }
 
 - (void)onNoAdWithReason:(NSString *)reason adView:(MTRGAdView *)adView
 {
-	id <MPBannerCustomEventDelegate> delegate = self.delegate;
-	if (!delegate) return;
-	NSString *errorTitle = reason ? [NSString stringWithFormat:@"No ad: %@", reason] : @"No ad";
-	NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : errorTitle };
-	NSError *error = [NSError errorWithDomain:@"MyTargetMediation" code:1001 userInfo:userInfo];
-	[delegate bannerCustomEvent:self didFailToLoadAdWithError:error];
+	[self delegateOnNoAdWithReason:reason];
 }
 
 - (void)onAdClickWithAdView:(MTRGAdView *)adView
 {
-	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	MPLogAdEvent([MPLogEvent adTappedForAdapter:kMoPubStandardAdapter], _placementId);
+
+	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-	[delegate trackClick];
+    [delegate inlineAdAdapterDidTrackClick:self];
 }
 
 - (void)onShowModalWithAdView:(MTRGAdView *)adView
 {
-	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	MPLogAdEvent([MPLogEvent adWillPresentModalForAdapter:kMoPubStandardAdapter], _placementId);
+
+	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-	[delegate bannerCustomEventWillBeginAction:self];
+	[delegate inlineAdAdapterWillBeginUserAction:self];
 }
 
 - (void)onDismissModalWithAdView:(MTRGAdView *)adView
 {
-	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	MPLogAdEvent([MPLogEvent adDidDismissModalForAdapter:kMoPubStandardAdapter], _placementId);
+	
+	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-	[delegate bannerCustomEventDidFinishAction:self];
+	[delegate inlineAdAdapterDidEndUserAction:self];
 }
 
 - (void)onLeaveApplicationWithAdView:(MTRGAdView *)adView
 {
-	id <MPBannerCustomEventDelegate> delegate = self.delegate;
+	MPLogAdEvent([MPLogEvent adWillLeaveApplicationForAdapter:kMoPubStandardAdapter], _placementId);
+
+	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-	[delegate bannerCustomEventWillLeaveApplication:self];
+	[delegate inlineAdAdapterWillLeaveApplication:self];
 }
 
 @end
