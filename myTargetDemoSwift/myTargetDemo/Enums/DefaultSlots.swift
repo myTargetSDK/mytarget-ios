@@ -28,6 +28,8 @@ enum Slot: UInt
 		case html = 328709
 	}
 
+	case bannerAdaptive = 799927
+
 	case nativePromo = 30294
 	case nativeVideo = 30152
 	case nativeCards = 54928
@@ -43,6 +45,8 @@ enum Slot: UInt
 	case intertitialPromoVideo = 22091
 	case intertitialPromoVideoStyle = 38838
 	case intertitialRewardedVideo = 45102
+
+	case rewardedVideo = 577495
 
 	case instreamVideo = 9525
 }

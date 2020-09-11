@@ -18,8 +18,16 @@ class CollectionCell: UICollectionViewCell
 	private let lineLayer = CALayer()
 	var adView: UIView?
 	{
+		willSet
+		{
+			adView?.removeFromSuperview()
+		}
 		didSet
 		{
+			if let adView = adView
+			{
+				contentView.addSubview(adView)
+			}
 			setNeedsLayout()
 			layoutIfNeeded()
 		}
@@ -118,12 +126,59 @@ class CellView: UIView
 	}
 }
 
+class BottomView: UIView
+{
+	var adView: UIView?
+	{
+		willSet
+		{
+			guard let adView = adView else { return }
+			adView.removeFromSuperview()
+			deactivateConstraints(adView)
+		}
+		didSet
+		{
+			guard let adView = adView else { return }
+			addSubview(adView)
+			setupConstraints(adView)
+		}
+	}
+
+	func deactivateConstraints(_ adView: UIView)
+	{
+		guard let contentView = adView.superview, contentView.constraints.count > 0 else { return }
+		var constraints = [NSLayoutConstraint]()
+		for constraint in contentView.constraints
+		{
+			guard let firstItem = constraint.firstItem as? UIView, firstItem == adView else { continue }
+			constraints.append(constraint)
+		}
+		guard constraints.count > 0 else { return }
+		NSLayoutConstraint.deactivate(constraints)
+	}
+
+	func setupConstraints(_ adView: UIView)
+	{
+		adView.translatesAutoresizingMaskIntoConstraints = false
+		var constraints = [NSLayoutConstraint]()
+		constraints.append(NSLayoutConstraint(item: adView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0))
+		constraints.append(NSLayoutConstraint(item: adView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+		self.addConstraints(constraints)
+	}
+}
+
+protocol CollectionViewControllerDelegate: AnyObject
+{
+	func orientationChanged()
+}
+
 class CollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 {
-	@IBOutlet weak var collectionView: UICollectionView!
-	@IBOutlet weak var bottomView: UIView!
-	@IBOutlet weak var bottomViewWidthConstraint: NSLayoutConstraint!
-	@IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
+	@IBOutlet weak var collectionView: UICollectionView?
+	@IBOutlet weak var bottomView: BottomView?
+	@IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint?
+
+	weak var delegate: CollectionViewControllerDelegate?
 
 	weak var adViewController: AdViewController?
 	{
@@ -137,8 +192,7 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 	{
 		willSet
 		{
-			bottomViewWidthConstraint.constant = 0
-			bottomViewHeightConstraint.constant = 0
+			bottomViewHeightConstraint?.constant = 0
 			adViews.forEach { $0.removeFromSuperview() }
 		}
 		didSet
@@ -147,11 +201,11 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 			refreshControl.endRefreshing()
 			loadingView?.activityIndicator.stopAnimating()
 			setupViews()
-			collectionView.reloadData()
+			collectionView?.reloadData()
 		}
 	}
 
-	var adSize = CGSize.zero
+	var adSize: CGSize?
 	var isBottom = false
 
 	private let viewsCount = 15
@@ -168,6 +222,7 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 
 		view.backgroundColor = UIColor.backgroundColor()
 
+		guard let collectionView = collectionView else { return }
 		collectionView.delegate = self
 		collectionView.dataSource = self
 		collectionView.register(CollectionCell.self, forCellWithReuseIdentifier: "CollectionCell")
@@ -199,6 +254,19 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 		views.append(contentsOf: cellViews)
 	}
 
+	override func viewDidLayoutSubviews()
+	{
+		super.viewDidLayoutSubviews()
+		delegate?.orientationChanged()
+	}
+
+	func clean()
+	{
+		adViews = []
+		guard let bottomView = bottomView else { return }
+		bottomView.adView = nil
+	}
+
 	private func setupViews()
 	{
 		views.removeAll()
@@ -207,9 +275,9 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 		{
 			views.append(contentsOf: cellViews)
 			guard let adView = adViews.first else { return }
-			bottomViewWidthConstraint.constant = adSize.width
-			bottomViewHeightConstraint.constant = adSize.height
-			bottomView.addSubview(adView)
+			bottomViewHeightConstraint?.constant = adSize?.height ?? 0
+			guard let bottomView = bottomView else { return }
+			bottomView.adView = adView
 		}
 		else
 		{
@@ -265,13 +333,12 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 		guard let collectionCell = cell as? CollectionCell else { return }
 		let view = views[indexPath.row]
 		collectionCell.adView = view
-		collectionCell.contentView.addSubview(view)
 	}
 
 	func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath)
 	{
-		guard let collectionCell = cell as? CollectionCell, let view = collectionCell.adView else { return }
-		view.removeFromSuperview()
+		guard let collectionCell = cell as? CollectionCell else { return }
+		collectionCell.adView = nil
 	}
 
 	func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath)
@@ -318,7 +385,7 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 	{
 		guard !views.isEmpty, indexPath.row >= 0, indexPath.row < views.count else { return .zero }
 		let view = views[indexPath.row]
-		let width = (collectionView.frame.width >= collectionView.frame.height) ? 0.5 * collectionView.frame.width : collectionView.frame.width
-		return view.sizeThatFits(CGSize(width: width, height: collectionView.frame.height))
+		let size = view.sizeThatFits(collectionView.frame.size)
+		return CGSize(width: collectionView.frame.size.width, height: size.height)
 	}
 }

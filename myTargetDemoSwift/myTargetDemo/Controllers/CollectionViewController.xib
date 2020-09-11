@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17140" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17115"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,7 +13,6 @@
             <connections>
                 <outlet property="bottomView" destination="PRq-RR-RRx" id="4uT-hS-gEp"/>
                 <outlet property="bottomViewHeightConstraint" destination="vu3-9j-XdT" id="BRe-sl-pgn"/>
-                <outlet property="bottomViewWidthConstraint" destination="9sx-Jq-AIR" id="mfk-9L-25U"/>
                 <outlet property="collectionView" destination="o6A-7A-d0w" id="jJr-wU-ejC"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -22,31 +22,36 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PRq-RR-RRx">
-                    <rect key="frame" x="47" y="862" width="320" height="0.0"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PRq-RR-RRx" customClass="BottomView" customModule="myTargetDemo" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="862" width="414" height="0.0"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="320" id="9sx-Jq-AIR"/>
                         <constraint firstAttribute="height" id="vu3-9j-XdT"/>
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="o6A-7A-d0w">
                     <rect key="frame" x="0.0" y="44" width="414" height="814"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <collectionViewLayout key="collectionViewLayout" id="xFv-Ql-e5y" customClass="FlowLayout" customModule="myTargetDemo" customModuleProvider="target"/>
                 </collectionView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="o6A-7A-d0w" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="6MK-Hi-y2R"/>
-                <constraint firstItem="PRq-RR-RRx" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="F03-hm-fgV"/>
                 <constraint firstItem="PRq-RR-RRx" firstAttribute="top" secondItem="o6A-7A-d0w" secondAttribute="bottom" constant="4" id="MGa-t1-xta"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="PRq-RR-RRx" secondAttribute="trailing" id="Pu3-9k-sY6"/>
                 <constraint firstItem="o6A-7A-d0w" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="TUN-Xv-7Sn"/>
+                <constraint firstItem="PRq-RR-RRx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="iYv-oA-gJp"/>
                 <constraint firstItem="PRq-RR-RRx" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="lWA-A8-UAA"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="o6A-7A-d0w" secondAttribute="trailing" id="mou-Ez-yRJ"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="137.68115942028987" y="140.625"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

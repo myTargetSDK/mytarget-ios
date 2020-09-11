@@ -13,6 +13,7 @@ enum AdvertismentType: UInt
 {
 	case standard
 	case interstitial
+	case rewarded
 	case native
 	case nativeBanner
 	case instream
@@ -150,6 +151,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 		return [
 			.standard: "bannersSegue",
 			.interstitial: "interstitialSegue",
+			.rewarded: "rewardedSegue",
 			.native: "nativeSegue",
 			.nativeBanner: "nativeBannerSegue",
 			.instream: "instreamSegue"
@@ -195,6 +197,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 		advertisments = [
 			Advertisment(title: "Banners", description: bannersDescription, type: .standard),
 			Advertisment(title: "Interstitial", description: "Fullscreen banners", type: .interstitial),
+			Advertisment(title: "Rewarded", description: "Rewarded video", type: .rewarded),
 			Advertisment(title: "Native Ad", description: "Advertisement inside app's content", type: .native),
 			Advertisment(title: "Native Banner Ad", description: "Compact advertisement inside app's content", type: .nativeBanner),
 			Advertisment(title: "Instream", description: "Advertisement inside video stream", type: .instream)

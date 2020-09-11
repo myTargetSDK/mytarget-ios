@@ -9,18 +9,20 @@
 import UIKit
 import MyTargetSDK
 
-class StandardViewController: UIViewController, AdViewController, MTRGAdViewDelegate
+class StandardViewController: UIViewController, AdViewController, MTRGAdViewDelegate, CollectionViewControllerDelegate
 {
 	var slotId: UInt?
 
 	private var adView: MTRGAdView?
-	private var adSize = CGSize.zero
+	private var adSize: MTRGAdSize?
 	private var notificationView: NotificationView?
 	private let collectionController = CollectionViewController()
 
 	private let sizeGroup = RadioButtonsGroup()
 	private let typeGroup = RadioButtonsGroup()
 
+	@IBOutlet weak var radioButtonAdaptiveAuto: RadioButton!
+	@IBOutlet weak var radioButtonAdaptiveManual: RadioButton!
 	@IBOutlet weak var radioButton320x50: RadioButton!
 	@IBOutlet weak var radioButton300x250: RadioButton!
 	@IBOutlet weak var radioButton728x90: RadioButton!
@@ -39,12 +41,13 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 		notificationView?.navigationBarHeight = navigationController?.navigationBar.frame.height ?? 0.0
 
 		collectionController.adViewController = self
+		collectionController.delegate = self
 
-		radioButton320x50.isSelected = true
+		radioButtonAdaptiveAuto.isSelected = true
 		radioButtonWebview.isSelected = true
 		radioButton728x90.isEnabled = (UIDevice.current.model == "iPad")
 
-		sizeGroup.addButtons([radioButton320x50, radioButton300x250, radioButton728x90])
+		sizeGroup.addButtons([radioButtonAdaptiveAuto, radioButtonAdaptiveManual, radioButton320x50, radioButton300x250, radioButton728x90])
 		typeGroup.addButtons([radioButtonWebview, radioButtonHtml])
 	}
 
@@ -52,29 +55,39 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 	{
 		super.viewWillAppear(animated)
 		notificationView?.view = view
-		adView?.viewController = self
+		adView = nil
 	}
 
-	private func defaultSlot(size: MTRGAdSize) -> UInt
+	// CollectionViewControllerDelegate
+	func orientationChanged()
 	{
-		var slot: UInt = 0
-		switch size
+		guard let adView = adView, radioButtonAdaptiveManual.isSelected else { return }
+		adView.adSize = MTRGAdSize.forCurrentOrientation()
+	}
+
+	private func defaultSlot(adSize: MTRGAdSize?) -> UInt
+	{
+		var slot = Slot.bannerAdaptive.rawValue
+		guard let adSize = adSize else { return slot }
+		switch adSize.type
 		{
-			case MTRGAdSize_300x250:
+			case MTRGAdSizeType320x50:
+				slot = radioButtonHtml.isSelected ? Slot.banner320x50.html.rawValue : Slot.banner320x50.regular.rawValue
+				break
+			case MTRGAdSizeType300x250:
 				slot = radioButtonHtml.isSelected ? Slot.banner300x250.html.rawValue : Slot.banner300x250.regular.rawValue
 				break
-			case MTRGAdSize_728x90:
+			case MTRGAdSizeType728x90:
 				slot = radioButtonHtml.isSelected ? Slot.banner728x90.html.rawValue : Slot.banner728x90.regular.rawValue
 				break
 			default:
-				slot = radioButtonHtml.isSelected ? Slot.banner320x50.html.rawValue : Slot.banner320x50.regular.rawValue
+				break
 		}
 		return slot
 	}
 
 	@IBAction func show(_ sender: CustomButton)
 	{
-		showButton.isEnabled = false
 		refresh()
 		notificationView?.view = collectionController.view
 		navigationController?.pushViewController(collectionController, animated: true)
@@ -82,25 +95,37 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 
 	func refresh()
 	{
-		let size = radioButton300x250.isSelected ? MTRGAdSize_300x250 : radioButton728x90.isSelected ? MTRGAdSize_728x90 : MTRGAdSize_320x50
-		switch size
+		if radioButton320x50.isSelected
 		{
-			case MTRGAdSize_300x250:
-				adSize = CGSize(width: 300, height: 250)
-				break
-			case MTRGAdSize_728x90:
-				adSize = CGSize(width: 728, height: 90)
-				break
-			default:
-				adSize = CGSize(width: 320, height: 50)
+			adSize = MTRGAdSize.adSize320x50()
 		}
-		
-		collectionController.adSize = adSize
-		collectionController.isBottom = adSize.height < 100
+		else if radioButton300x250.isSelected
+		{
+			adSize = MTRGAdSize.adSize300x250()
+		}
+		else if radioButton728x90.isSelected
+		{
+			adSize = MTRGAdSize.adSize728x90()
+		}
+		else if radioButtonAdaptiveManual.isSelected
+		{
+			adSize = MTRGAdSize.forCurrentOrientation()
+		}
 
-		let slotId = self.slotId ?? defaultSlot(size: size)
-		adView = MTRGAdView(slotId: slotId, adSize: size)
+		let slotId = self.slotId ?? defaultSlot(adSize: adSize)
+		adView = MTRGAdView(slotId: slotId)
 		guard let adView = adView else { return }
+
+		if let adSize = adSize
+		{
+			adView.adSize = adSize
+		}
+
+		adView.frame = CGRect(origin: .zero, size: adView.adSize.size)
+		
+		collectionController.clean()
+		collectionController.adSize = adView.adSize.size
+		collectionController.isBottom = adView.adSize.size.height < 100
 
 		prepareAdView(true)
 
@@ -134,10 +159,9 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 
 	func onNoAd(withReason reason: String, adView: MTRGAdView)
 	{
-		showButton.isEnabled = true
 		notificationView?.showMessage("onNoAd(\(reason)) called")
 		prepareAdView(false)
-		collectionController.adViews = []
+		collectionController.clean()
 	}
 
 	func onAdClick(with adView: MTRGAdView)

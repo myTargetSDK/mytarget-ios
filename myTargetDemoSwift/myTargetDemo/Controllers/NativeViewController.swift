@@ -76,7 +76,6 @@ class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDele
 
 	@IBAction func show(_ sender: CustomButton)
 	{
-		showButton.isEnabled = false
 		refresh()
 		notificationView?.view = collectionController.view
 		navigationController?.pushViewController(collectionController, animated: true)
@@ -128,8 +127,9 @@ class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDele
 
 	func onImageSizeChanged(_ mediaAdView: MTRGMediaAdView)
 	{
-		collectionController.collectionView.reloadData()
-		collectionController.collectionView.collectionViewLayout.invalidateLayout()
+		guard let collectionView = collectionController.collectionView else { return }
+		collectionView.reloadData()
+		collectionView.collectionViewLayout.invalidateLayout()
 	}
 
 // MARK: - MTRGNativeAdDelegate
@@ -149,7 +149,6 @@ class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDele
 
 	func onNoAd(withReason reason: String, nativeAd: MTRGNativeAd)
 	{
-		showButton.isEnabled = true
 		collectionController.adViews = nativeViews
 		notificationView?.showMessage("onNoAd(\(reason)) called")
 	}

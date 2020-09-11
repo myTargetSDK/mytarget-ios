@@ -59,7 +59,6 @@ class NativeBannerViewController: UIViewController, AdViewController, MTRGNative
 
 	@IBAction func show(_ sender: CustomButton)
 	{
-		showButton.isEnabled = false
 		refresh()
 		notificationView?.view = collectionController.view
 		navigationController?.pushViewController(collectionController, animated: true)
@@ -122,7 +121,6 @@ class NativeBannerViewController: UIViewController, AdViewController, MTRGNative
 
 	func onNoAd(withReason reason: String, nativeBannerAd: MTRGNativeBannerAd)
 	{
-		showButton.isEnabled = true
 		notificationView?.showMessage("onNoAd(\(reason)) called")
 		collectionController.adViews = nativeBannerViews
 	}

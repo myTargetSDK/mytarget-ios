@@ -20,6 +20,7 @@
 		89537E3C246BFAA400224397 /* LoadingReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89537E3A246BFAA400224397 /* LoadingReusableView.swift */; };
 		89537E3D246BFAA400224397 /* LoadingReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89537E3B246BFAA400224397 /* LoadingReusableView.xib */; };
 		89BB245F22DCBEE900610CFF /* RadioButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BB245E22DCBEE900610CFF /* RadioButtons.swift */; };
+		89BD289924E697110040BE73 /* RewardedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BD289824E697110040BE73 /* RewardedViewController.swift */; };
 		89CEA60C22E6F67000D0CD1E /* UIColor+DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CEA60B22E6F67000D0CD1E /* UIColor+DarkMode.swift */; };
 		89CEA60E22E7001000D0CD1E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CEA60D22E7001000D0CD1E /* CustomButton.swift */; };
 		89CEA61122E7072700D0CD1E /* DefaultSlots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CEA61022E7072700D0CD1E /* DefaultSlots.swift */; };
@@ -45,6 +46,7 @@
 		89537E3A246BFAA400224397 /* LoadingReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingReusableView.swift; sourceTree = "<group>"; };
 		89537E3B246BFAA400224397 /* LoadingReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingReusableView.xib; sourceTree = "<group>"; };
 		89BB245E22DCBEE900610CFF /* RadioButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtons.swift; sourceTree = "<group>"; };
+		89BD289824E697110040BE73 /* RewardedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedViewController.swift; sourceTree = "<group>"; };
 		89CEA60B22E6F67000D0CD1E /* UIColor+DarkMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DarkMode.swift"; sourceTree = "<group>"; };
 		89CEA60D22E7001000D0CD1E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		89CEA61022E7072700D0CD1E /* DefaultSlots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSlots.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				890B016122EF16C700FBD354 /* NativeViewController.swift */,
 				891A138822F0346600AE192B /* InterstitialViewController.swift */,
 				891A13A222F9871400AE192B /* InstreamViewController.swift */,
+				89BD289824E697110040BE73 /* RewardedViewController.swift */,
 				894F9AAD22E1F6FA008D0064 /* StandardViewController.swift */,
 				891A138A22F0523300AE192B /* UnitViewController.swift */,
 			);
@@ -260,6 +263,7 @@
 				89F0E1DC22BA71FC006B8B93 /* AppDelegate.swift in Sources */,
 				89CEA60E22E7001000D0CD1E /* CustomButton.swift in Sources */,
 				891A138B22F0523300AE192B /* UnitViewController.swift in Sources */,
+				89BD289924E697110040BE73 /* RewardedViewController.swift in Sources */,
 				891A138D22F2F11E00AE192B /* VideoPlayerView.swift in Sources */,
 				890D5AD0243499C8001A63AF /* NativeBannerViewController.swift in Sources */,
 				894F9AAE22E1F6FA008D0064 /* StandardViewController.swift in Sources */,
