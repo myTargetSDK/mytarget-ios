@@ -28,7 +28,7 @@ enum Slot: UInt
 		case html = 328709
 	}
 
-	case bannerAdaptive = 799927
+	case bannerAdaptive = 794557
 
 	case nativePromo = 30294
 	case nativeVideo = 30152
