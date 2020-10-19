@@ -1,6 +1,6 @@
 //
 //  MTRGMyTargetAdapterConfiguration.m
-//  MyTargetMediationApp
+//  MediationMopubApp
 //
 //  Created by Andrey Seredkin on 31/05/2019.
 //  Copyright © 2019 Mail.ru Group. All rights reserved.
@@ -10,8 +10,12 @@
 #import "MTRGMyTargetAdapterConfiguration.h"
 #import "MTRGMyTargetAdapterUtils.h"
 
+#if __has_include("MoPub.h")
+	#import "MPLogging.h"
+#endif
+
 static NSString * const kNetworkName = @"mytarget";
-static NSString * const kNetworkVersion = @"5.6.3";
+static NSString * const kNetworkVersion = @"5.9.2";
 static NSString * const kAdapterRevision = @"0";
 
 static BOOL _isNativeBanner = NO;
@@ -30,7 +34,7 @@ static BOOL _isNativeBanner = NO;
 
 + (BOOL)isNativeBanner
 {
-    return _isNativeBanner;
+	return _isNativeBanner;
 }
 
 - (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration complete:(void(^ _Nullable)(NSError * _Nullable))complete

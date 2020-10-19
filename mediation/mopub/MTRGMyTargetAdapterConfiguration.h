@@ -1,6 +1,6 @@
 //
 //  MTRGMyTargetAdapterConfiguration.h
-//  MyTargetMediationApp
+//  MediationMopubApp
 //
 //  Created by Andrey Seredkin on 31/05/2019.
 //  Copyright © 2019 Mail.ru Group. All rights reserved.

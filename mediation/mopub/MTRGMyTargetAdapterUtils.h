@@ -1,12 +1,20 @@
 //
 //  MTRGMyTargetAdapterUtils.h
-//  MyTargetMediationApp
+//  MediationMopubApp
 //
 //  Created by Andrey Seredkin on 08/06/2020.
 //  Copyright © 2020 Mail.ru Group. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+
+#ifndef MTRG_MOPUB_CGFLOAT_EQUALS
+	#if defined(__LP64__) && __LP64__
+		#define MTRG_MOPUB_CGFLOAT_EQUALS(a, b) fabs(a - b) < DBL_EPSILON
+	#else
+		#define MTRG_MOPUB_CGFLOAT_EQUALS(a, b) fabsf(a - b) < FLT_EPSILON
+	#endif
+#endif
 
 @class MTRGCustomParams;
 

@@ -1,6 +1,6 @@
 //
 //  MTRGMopubInterstitialCustomEvent.m
-//  myTargetSDKMopubMediation
+//  MediationMopubApp
 //
 //  Created by Anton Bulankin on 16.02.15.
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
@@ -12,6 +12,7 @@
 
 #if __has_include("MoPub.h")
     #import "MPLogging.h"
+	#import "MPError.h"
 #endif
 
 static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCustomEvent";
@@ -24,6 +25,12 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 {
 	MTRGInterstitialAd *_Nullable _interstitialAd;
 	NSString *_Nullable _placementId;
+	BOOL _hasAdAvailable;
+}
+
+- (BOOL)hasAdAvailable
+{
+	return _hasAdAvailable;
 }
 
 - (BOOL)isRewardExpected
@@ -41,16 +48,24 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 	// Handle when an ad was played for this network, but under a different ad unit ID.
 	// This method will only be called if your adapter has reported that an ad had successfully loaded.
 	// If the adapter no longer has an ad available, report back up to the application that this ad has expired.
-	if (_interstitialAd && self.hasAdAvailable) return;
-	self.hasAdAvailable = NO;
+	if (_interstitialAd && _hasAdAvailable)
+	{
+		MPLogDebug(@"Interstitial ad is not available");
+		return;
+	}
+	_hasAdAvailable = NO;
 	[self delegateOnExpireWithReason:@"Interstitial ad is no longer available"];
 }
 
 - (void)handleDidInvalidateAd
 {
 	// Handle when the adapter itself is no longer needed.
-	if (!_interstitialAd) return;
-    _interstitialAd.delegate = nil;
+	if (!_interstitialAd)
+	{
+		MPLogDebug(@"Interstitial ad is not available");
+		return;
+	}
+	_interstitialAd.delegate = nil;
 	_interstitialAd = nil;
 }
 
@@ -61,6 +76,7 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 
 	if (slotId == 0)
 	{
+		MPLogDebug(@"Failed to load, slotId not found");
 		[self delegateOnNoAdWithReason:@"Failed to load, slotId not found"];
 		return;
 	}
@@ -75,9 +91,9 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 	MPLogAdEvent([MPLogEvent adLoadAttemptForAdapter:kMoPubInterstitialAdapter dspCreativeId:nil dspName:nil], _placementId);
 	if (adMarkup)
 	{
-        MPLogInfo(@"Loading interstitial ad from bid");
-        [_interstitialAd loadFromBid:adMarkup];
-    }
+		MPLogInfo(@"Loading interstitial ad from bid");
+		[_interstitialAd loadFromBid:adMarkup];
+	}
 	else
 	{
 		MPLogInfo(@"Loading interstitial ad");
@@ -87,9 +103,10 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 
 - (void)presentAdFromViewController:(UIViewController *)viewController
 {
-	if (!_interstitialAd || !self.hasAdAvailable)
+	if (!_interstitialAd || !_hasAdAvailable)
 	{
-		self.hasAdAvailable = NO;
+		_hasAdAvailable = NO;
+		MPLogDebug(@"Interstitial ad is not available");
 		[self delegateOnShowFailedWithReason:@"Failed to show interstitial ad"];
 		return;
 	}
@@ -102,14 +119,14 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate fullscreenAdAdapterAdWillAppear:self];
-    [delegate fullscreenAdAdapterDidTrackImpression:self];
+	[delegate fullscreenAdAdapterDidTrackImpression:self];
 }
 
 #pragma mark - private
 
 - (void)delegateOnNoAdWithReason:(NSString *)reason
 {
-	NSError *error = MPNativeAdNSErrorForInvalidAdServerResponse(reason);
+	NSError *error = [NSError errorWithCode:MOPUBErrorNoNetworkData localizedDescription:reason];
 	MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:kMoPubInterstitialAdapter error:error], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
@@ -118,7 +135,7 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 
 - (void)delegateOnShowFailedWithReason:(NSString *)reason
 {
-	NSError *error = [NSError errorWithCode:MOPUBErrorAdapterInvalid localizedDescription:reason];
+	NSError *error = [NSError errorWithCode:MOPUBErrorUnknown localizedDescription:reason];
 	MPLogAdEvent([MPLogEvent adShowFailedForAdapter:kMoPubInterstitialAdapter error:error], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
@@ -127,7 +144,7 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 
 - (void)delegateOnExpireWithReason:(NSString *)reason
 {
-	NSError *error = [NSError errorWithCode:MOPUBErrorAdapterInvalid localizedDescription:reason];
+	NSError *error = [NSError errorWithCode:MOPUBErrorUnknown localizedDescription:reason];
 	MPLogAdEvent([MPLogEvent adShowFailedForAdapter:kMoPubInterstitialAdapter error:error], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
@@ -139,7 +156,7 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 - (void)onLoadWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
 	MPLogAdEvent([MPLogEvent adLoadSuccessForAdapter:kMoPubInterstitialAdapter], _placementId);
-	self.hasAdAvailable = YES;
+	_hasAdAvailable = YES;
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate fullscreenAdAdapterDidLoadAd:self];
@@ -147,7 +164,7 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 
 - (void)onNoAdWithReason:(NSString *)reason interstitialAd:(MTRGInterstitialAd *)interstitialAd
 {
-	self.hasAdAvailable = NO;
+	_hasAdAvailable = NO;
 	[self delegateOnNoAdWithReason:reason];
 }
 

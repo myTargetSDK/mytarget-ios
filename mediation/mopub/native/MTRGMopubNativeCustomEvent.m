@@ -1,6 +1,6 @@
 //
 //  MTRGMopubNativeCustomEvent.m
-//  myTargetSDKMopubMediation
+//  MediationMopubApp
 //
 //  Created by Anton Bulankin on 27.01.15.
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
@@ -14,6 +14,7 @@
 
 #if __has_include("MoPub.h")
 	#import "MPNativeAd.h"
+	#import "MPNativeAdError.h"
 	#import "MPLogging.h"
 #endif
 
@@ -47,6 +48,7 @@ static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRig
 
 	if (slotId == 0)
 	{
+		MPLogDebug(@"Failed to load, slotId not found");
 		[self delegateOnNoAdWithReason:@"Failed to load, slotId not found"];
 		return;
 	}

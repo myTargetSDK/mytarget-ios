@@ -1,6 +1,6 @@
 //
 //  MTRGMopubAdViewCustomEvent.m
-//  myTargetSDKMopubMediation
+//  MediationMopubApp
 //
 //  Created by Anton Bulankin on 12.03.15.
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
@@ -12,6 +12,7 @@
 
 #if __has_include("MoPub.h")
     #import "MPLogging.h"
+	#import "MPError.h"
 #endif
 
 static NSString * const kMoPubStandardAdapter = @"MTRGMopubAdViewCustomEvent";
@@ -38,47 +39,32 @@ static NSString * const kMoPubStandardAdapter = @"MTRGMopubAdViewCustomEvent";
 
 	if (slotId == 0)
 	{
+		MPLogDebug(@"Failed to load, slotId not found");
 		[self delegateOnNoAdWithReason:@"Failed to load, slotId not found"];
 		return;
 	}
 
-	MTRGAdSize adSize;
-	if (size.width == 320 && size.height == 50)
-	{
-		adSize = MTRGAdSize_320x50;
-	}
-	else if (size.width == 300 && size.height == 250)
-	{
-		adSize = MTRGAdSize_300x250;
-	}
-	else if (size.width == 728 && size.height == 90)
-	{
-		adSize = MTRGAdSize_728x90;
-	}
-	else
-	{
-		NSString *reason = [NSString stringWithFormat:@"Failed to load, invalid ad size: %.fx%.f", size.width, size.height];
-		[self delegateOnNoAdWithReason:reason];
-		return;
-	}
+	MTRGAdSize *adSize = [self adSizeWithWidth:size.width height:size.height];
+	if (!adSize) return;
 
 	[MTRGMyTargetAdapterUtils setupConsent];
 
 	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
 	UIViewController *viewController = delegate ? [delegate inlineAdAdapterViewControllerForPresentingModalView:self] : nil;
 
-	_adView = [MTRGAdView adViewWithSlotId:slotId withRefreshAd:NO adSize:adSize];
+	_adView = [MTRGAdView adViewWithSlotId:slotId shouldRefreshAd:NO];
+	_adView.adSize = adSize;
 	_adView.viewController = viewController;
 	_adView.delegate = self;
-	
+
 	[MTRGMyTargetAdapterUtils fillCustomParams:_adView.customParams dictionary:self.localExtras];
 
 	MPLogAdEvent([MPLogEvent adLoadAttemptForAdapter:kMoPubStandardAdapter dspCreativeId:nil dspName:nil], _placementId);
 	if (adMarkup)
 	{
-        MPLogInfo(@"Loading banner ad from bid");
-        [_adView loadFromBid:adMarkup];
-    }
+		MPLogInfo(@"Loading banner ad from bid");
+		[_adView loadFromBid:adMarkup];
+	}
 	else
 	{
 		MPLogInfo(@"Loading banner ad");
@@ -89,14 +75,45 @@ static NSString * const kMoPubStandardAdapter = @"MTRGMopubAdViewCustomEvent";
 - (void)dealloc
 {
 	if (!_adView) return;
-    _adView.delegate = nil;
+	_adView.delegate = nil;
 }
 
 #pragma mark - private
 
+- (nullable MTRGAdSize *)adSizeWithWidth:(CGFloat)width height:(CGFloat)height
+{
+	if (MTRG_MOPUB_CGFLOAT_EQUALS(height, 50))
+	{
+		return [MTRGAdSize adSize320x50];
+	}
+	else if (MTRG_MOPUB_CGFLOAT_EQUALS(height, 250))
+	{
+		return [MTRGAdSize adSize300x250];
+	}
+	else if (MTRG_MOPUB_CGFLOAT_EQUALS(height, 90))
+	{
+		return [MTRGAdSize adSize728x90];
+	}
+	else if (MTRG_MOPUB_CGFLOAT_EQUALS(height, 0) && width > 0)
+	{
+		return [MTRGAdSize adSizeForCurrentOrientationForWidth:width];
+	}
+	else if (MTRG_MOPUB_CGFLOAT_EQUALS(height, 0) && MTRG_MOPUB_CGFLOAT_EQUALS(width, 0))
+	{
+		return [MTRGAdSize adSizeForCurrentOrientation];
+	}
+	else
+	{
+		MPLogDebug(@"Failed to load, invalid ad size: %.fx%.f", width, height);
+		NSString *reason = [NSString stringWithFormat:@"Failed to load, invalid ad size: %.fx%.f", width, height];
+		[self delegateOnNoAdWithReason:reason];
+		return nil;
+	}
+}
+
 - (void)delegateOnNoAdWithReason:(NSString *)reason
 {
-	NSError *error = MPNativeAdNSErrorForInvalidAdServerResponse(reason);
+	NSError *error = [NSError errorWithCode:MOPUBErrorNoNetworkData localizedDescription:reason];
 	MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:kMoPubStandardAdapter error:error], _placementId);
 	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
@@ -110,6 +127,10 @@ static NSString * const kMoPubStandardAdapter = @"MTRGMopubAdViewCustomEvent";
 	MPLogAdEvent([MPLogEvent adLoadSuccessForAdapter:kMoPubStandardAdapter], _placementId);
 	MPLogAdEvent([MPLogEvent adShowAttemptForAdapter:kMoPubStandardAdapter], _placementId);
 	MPLogAdEvent([MPLogEvent adShowSuccessForAdapter:kMoPubStandardAdapter], _placementId);
+
+	CGRect frame = adView.frame;
+	frame.size = adView.adSize.size;
+	adView.frame = frame;
 
 	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
@@ -128,7 +149,7 @@ static NSString * const kMoPubStandardAdapter = @"MTRGMopubAdViewCustomEvent";
 
 	id <MPInlineAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-    [delegate inlineAdAdapterDidTrackClick:self];
+	[delegate inlineAdAdapterDidTrackClick:self];
 }
 
 - (void)onShowModalWithAdView:(MTRGAdView *)adView

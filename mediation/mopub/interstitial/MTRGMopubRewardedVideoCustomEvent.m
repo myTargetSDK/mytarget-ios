@@ -1,6 +1,6 @@
 //
 //  MTRGMopubRewardedVideoCustomEvent.m
-//  myTargetSDKMopubMediation
+//  MediationMopubApp
 //
 //  Created by Andrey Seredkin on 05.10.16.
 //  Copyright (c) 2016 Mail.ru Group. All rights reserved.
@@ -13,18 +13,25 @@
 #if __has_include("MoPub.h")
 	#import "MPReward.h"
 	#import "MPLogging.h"
+	#import "MPError.h"
 #endif
 
 static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEvent";
 
-@interface MTRGMopubRewardedVideoCustomEvent () <MTRGInterstitialAdDelegate>
+@interface MTRGMopubRewardedVideoCustomEvent () <MTRGRewardedAdDelegate>
 
 @end
 
 @implementation MTRGMopubRewardedVideoCustomEvent
 {
-	MTRGInterstitialAd *_Nullable _interstitialAd;
+	MTRGRewardedAd *_Nullable _rewardedAd;
 	NSString *_Nullable _placementId;
+	BOOL _hasAdAvailable;
+}
+
+- (BOOL)hasAdAvailable
+{
+	return _hasAdAvailable;
 }
 
 - (BOOL)isRewardExpected
@@ -42,17 +49,25 @@ static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEv
 	// Handle when an ad was played for this network, but under a different ad unit ID.
 	// This method will only be called if your adapter has reported that an ad had successfully loaded.
 	// If the adapter no longer has an ad available, report back up to the application that this ad has expired.
-	if (_interstitialAd && self.hasAdAvailable) return;
-	self.hasAdAvailable = NO;
-	[self delegateOnExpireWithReason:@"Rewarded Video is no longer available"];
+	if (_rewardedAd && _hasAdAvailable)
+	{
+		MPLogDebug(@"Rewarded ad is not available");
+		return;
+	}
+	_hasAdAvailable = NO;
+	[self delegateOnExpireWithReason:@"Rewarded ad is no longer available"];
 }
 
 - (void)handleDidInvalidateAd
 {
 	// Handle when the adapter itself is no longer needed.
-	if (!_interstitialAd) return;
-    _interstitialAd.delegate = nil;
-	_interstitialAd = nil;
+	if (!_rewardedAd)
+	{
+		MPLogDebug(@"Rewarded ad is not available");
+		return;
+	}
+	_rewardedAd.delegate = nil;
+	_rewardedAd = nil;
 }
 
 - (void)requestAdWithAdapterInfo:(NSDictionary *)info adMarkup:(NSString * _Nullable)adMarkup
@@ -62,55 +77,57 @@ static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEv
 
 	if (slotId == 0)
 	{
+		MPLogDebug(@"Failed to load, slotId not found");
 		[self delegateOnNoAdWithReason:@"Failed to load, slotId not found"];
 		return;
 	}
 
 	[MTRGMyTargetAdapterUtils setupConsent];
 
-	_interstitialAd = [[MTRGInterstitialAd alloc] initWithSlotId:slotId];
-	_interstitialAd.delegate = self;
+	_rewardedAd = [MTRGRewardedAd rewardedAdWithSlotId:slotId];
+	_rewardedAd.delegate = self;
 	
-	[MTRGMyTargetAdapterUtils fillCustomParams:_interstitialAd.customParams dictionary:self.localExtras];
+	[MTRGMyTargetAdapterUtils fillCustomParams:_rewardedAd.customParams dictionary:self.localExtras];
 
 	MPLogAdEvent([MPLogEvent adLoadAttemptForAdapter:kMoPubRewardedAdapter dspCreativeId:nil dspName:nil], _placementId);
 	if (adMarkup)
 	{
-        MPLogInfo(@"Loading Rewarded Video from bid");
-        [_interstitialAd loadFromBid:adMarkup];
-    }
+		MPLogInfo(@"Loading Rewarded ad from bid");
+		[_rewardedAd loadFromBid:adMarkup];
+	}
 	else
 	{
-		MPLogInfo(@"Loading Rewarded Video");
-		[_interstitialAd load];
+		MPLogInfo(@"Loading Rewarded ad");
+		[_rewardedAd load];
 	}
 }
 
 - (void)presentAdFromViewController:(UIViewController *)viewController
 {
-	if (!_interstitialAd || !self.hasAdAvailable)
+	if (!_rewardedAd || !_hasAdAvailable)
 	{
-		self.hasAdAvailable = NO;
-		[self delegateOnShowFailedWithReason:@"Failed to show Rewarded Video"];
+		_hasAdAvailable = NO;
+		MPLogDebug(@"Rewarded ad is not available");
+		[self delegateOnShowFailedWithReason:@"Failed to show Rewarded ad"];
 		return;
 	}
 
 	MPLogAdEvent([MPLogEvent adShowAttemptForAdapter:kMoPubRewardedAdapter], _placementId);
 	MPLogAdEvent([MPLogEvent adWillAppearForAdapter:kMoPubRewardedAdapter], _placementId);
 
-	[_interstitialAd showWithController:viewController];
+	[_rewardedAd showWithController:viewController];
 
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate fullscreenAdAdapterAdWillAppear:self];
-    [delegate fullscreenAdAdapterDidTrackImpression:self];
+	[delegate fullscreenAdAdapterDidTrackImpression:self];
 }
 
 #pragma mark - private
 
 - (void)delegateOnNoAdWithReason:(NSString *)reason
 {
-	NSError *error = MPNativeAdNSErrorForInvalidAdServerResponse(reason);
+	NSError *error = [NSError errorWithCode:MOPUBErrorNoNetworkData localizedDescription:reason];
 	MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:kMoPubRewardedAdapter error:error], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
@@ -119,7 +136,7 @@ static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEv
 
 - (void)delegateOnShowFailedWithReason:(NSString *)reason
 {
-	NSError *error = [NSError errorWithCode:MOPUBErrorAdapterInvalid localizedDescription:reason];
+	NSError *error = [NSError errorWithCode:MOPUBErrorUnknown localizedDescription:reason];
 	MPLogAdEvent([MPLogEvent adShowFailedForAdapter:kMoPubRewardedAdapter error:error], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
@@ -128,31 +145,31 @@ static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEv
 
 - (void)delegateOnExpireWithReason:(NSString *)reason
 {
-	NSError *error = [NSError errorWithCode:MOPUBErrorAdapterInvalid localizedDescription:reason];
+	NSError *error = [NSError errorWithCode:MOPUBErrorUnknown localizedDescription:reason];
 	MPLogAdEvent([MPLogEvent adShowFailedForAdapter:kMoPubRewardedAdapter error:error], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate fullscreenAdAdapterDidExpire:self];
 }
 
-#pragma mark - MTRGInterstitialAdDelegate
+#pragma mark - MTRGRewardedAdDelegate
 
-- (void)onLoadWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+- (void)onLoadWithRewardedAd:(MTRGRewardedAd *)rewardedAd
 {
 	MPLogAdEvent([MPLogEvent adLoadSuccessForAdapter:kMoPubRewardedAdapter], _placementId);
-	self.hasAdAvailable = YES;
+	_hasAdAvailable = YES;
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate fullscreenAdAdapterDidLoadAd:self];
 }
 
-- (void)onNoAdWithReason:(NSString *)reason interstitialAd:(MTRGInterstitialAd *)interstitialAd
+- (void)onNoAdWithReason:(NSString *)reason rewardedAd:(MTRGRewardedAd *)rewardedAd
 {
-	self.hasAdAvailable = NO;
+	_hasAdAvailable = NO;
 	[self delegateOnNoAdWithReason:reason];
 }
 
-- (void)onClickWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+- (void)onClickWithRewardedAd:(MTRGRewardedAd *)rewardedAd
 {
 	MPLogAdEvent([MPLogEvent adTappedForAdapter:kMoPubRewardedAdapter], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
@@ -161,7 +178,7 @@ static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEv
 	[delegate fullscreenAdAdapterDidReceiveTap:self];
 }
 
-- (void)onCloseWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+- (void)onCloseWithRewardedAd:(MTRGRewardedAd *)rewardedAd
 {
 	MPLogAdEvent([MPLogEvent adWillDisappearForAdapter:kMoPubRewardedAdapter], _placementId);
 	MPLogAdEvent([MPLogEvent adDidDisappearForAdapter:kMoPubRewardedAdapter], _placementId);
@@ -171,15 +188,16 @@ static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEv
 	[delegate fullscreenAdAdapterAdDidDisappear:self];
 }
 
-- (void)onVideoCompleteWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+- (void)onReward:(MTRGReward *)reward rewardedAd:(MTRGRewardedAd *)rewardedAd
 {
-	MPLogInfo(@"Rewarded Video has finished playing successfully");
+	MPReward *mpReward = MPReward.unspecifiedReward;
+	MPLogAdEvent([MPLogEvent adShouldRewardUserWithReward:mpReward], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-	[delegate fullscreenAdAdapter:self willRewardUser:MPReward.unspecifiedReward];
+	[delegate fullscreenAdAdapter:self willRewardUser:mpReward];
 }
 
-- (void)onDisplayWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+- (void)onDisplayWithRewardedAd:(MTRGRewardedAd *)rewardedAd
 {
 	MPLogAdEvent([MPLogEvent adDidAppearForAdapter:kMoPubRewardedAdapter], _placementId);
 	MPLogAdEvent([MPLogEvent adShowSuccessForAdapter:kMoPubRewardedAdapter], _placementId);
@@ -188,7 +206,7 @@ static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEv
 	[delegate fullscreenAdAdapterAdDidAppear:self];
 }
 
-- (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd
+- (void)onLeaveApplicationWithRewardedAd:(MTRGRewardedAd *)rewardedAd
 {
 	MPLogAdEvent([MPLogEvent adWillLeaveApplicationForAdapter:kMoPubRewardedAdapter], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;

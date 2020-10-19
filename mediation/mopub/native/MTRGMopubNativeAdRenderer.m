@@ -1,6 +1,6 @@
 //
 //  MTRGMopubNativeAdRenderer.m
-//  myTargetSDKMopubMediation
+//  MediationMopubApp
 //
 //  Created by Andrey Seredkin on 25.06.2020.
 //  Copyright © 2020 Mail.ru Group. All rights reserved.
@@ -10,7 +10,6 @@
 #import <MyTargetSDK/MyTargetSDK.h>
 
 #if __has_include("MoPub.h")
-	#import "MPLogging.h"
 	#import "MPNativeAdAdapter.h"
 	#import "MPNativeAdConstants.h"
 	#import "MPNativeAdError.h"
@@ -44,11 +43,11 @@
 
 + (MPNativeAdRendererConfiguration *)rendererConfigurationWithRendererSettings:(id <MPNativeAdRendererSettings>)rendererSettings
 {
-    MPNativeAdRendererConfiguration *config = [[MPNativeAdRendererConfiguration alloc] init];
-    config.rendererClass = [self class];
-    config.rendererSettings = rendererSettings;
-    config.supportedCustomEvents = @[@"MTRGMopubNativeCustomEvent"];
-    return config;
+	MPNativeAdRendererConfiguration *config = [[MPNativeAdRendererConfiguration alloc] init];
+	config.rendererClass = [self class];
+	config.rendererSettings = rendererSettings;
+	config.supportedCustomEvents = @[@"MTRGMopubNativeCustomEvent"];
+	return config;
 }
 
 - (instancetype)initWithRendererSettings:(id<MPNativeAdRendererSettings>)rendererSettings
@@ -65,8 +64,8 @@
 		{
 			_viewSizeHandler = [rendererSettings.viewSizeHandler copy];
 		}
-        _rendererImageHandler = [MPNativeAdRendererImageHandler new];
-        _rendererImageHandler.delegate = self;
+		_rendererImageHandler = [MPNativeAdRendererImageHandler new];
+		_rendererImageHandler.delegate = self;
 	}
 	return self;
 }
@@ -77,19 +76,19 @@
 	// You should recreate the view each time this is called if possible.
 	if (!adapter || ![adapter isKindOfClass:[MTRGMopubNativeAdAdapter class]])
 	{
-        if (error)
+		if (error)
 		{
-            *error = MPNativeAdNSErrorForRenderValueTypeError();
-        }
-        return nil;
-    }
+			*error = MPNativeAdNSErrorForRenderValueTypeError();
+		}
+		return nil;
+	}
 
-    _adapter = (MTRGMopubNativeAdAdapter *) adapter;
+	_adapter = (MTRGMopubNativeAdAdapter *) adapter;
 
 	_hasIconView = [_adapter respondsToSelector:@selector(iconMediaView)] && _adapter.iconMediaView;
 	_hasMediaView = [_adapter respondsToSelector:@selector(mainMediaView)] && _adapter.mainMediaView;
 
-    if (!_renderingViewClass)
+	if (!_renderingViewClass)
 	{
 		if (_adapter.nativeAd)
 		{
@@ -106,39 +105,39 @@
 			return adView;
 		}
 		return nil;
-    }
+	}
 
-    if ([_renderingViewClass respondsToSelector:@selector(nibForAd)])
+	if ([_renderingViewClass respondsToSelector:@selector(nibForAd)])
 	{
 		UINib *nib = [_renderingViewClass nibForAd];
 		_adView = (UIView<MPNativeAdRendering> *) [[nib instantiateWithOwner:nil options:nil] firstObject];
-    }
+	}
 	else
 	{
-        _adView = [[_renderingViewClass alloc] init];
-    }
+		_adView = [[_renderingViewClass alloc] init];
+	}
 
-    _adView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_adView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
-    if ([_adView respondsToSelector:@selector(nativeMainTextLabel)])
+	if ([_adView respondsToSelector:@selector(nativeMainTextLabel)])
 	{
-        _adView.nativeMainTextLabel.text = [adapter.properties objectForKey:kAdTextKey];
-    }
+		_adView.nativeMainTextLabel.text = [adapter.properties objectForKey:kAdTextKey];
+	}
 
-    if ([_adView respondsToSelector:@selector(nativeTitleTextLabel)])
+	if ([_adView respondsToSelector:@selector(nativeTitleTextLabel)])
 	{
-        _adView.nativeTitleTextLabel.text = [adapter.properties objectForKey:kAdTitleKey];
-    }
+		_adView.nativeTitleTextLabel.text = [adapter.properties objectForKey:kAdTitleKey];
+	}
 
-    if ([_adView respondsToSelector:@selector(nativeCallToActionTextLabel)] && _adView.nativeCallToActionTextLabel)
+	if ([_adView respondsToSelector:@selector(nativeCallToActionTextLabel)] && _adView.nativeCallToActionTextLabel)
 	{
-        _adView.nativeCallToActionTextLabel.text = [adapter.properties objectForKey:kAdCTATextKey];
-    }
+		_adView.nativeCallToActionTextLabel.text = [adapter.properties objectForKey:kAdCTATextKey];
+	}
 
 	if (_hasIconView && _adView && [_adView respondsToSelector:@selector(nativeIconImageView)])
 	{
-        UIView *iconView = [_adapter iconMediaView];
-        UIView *iconImageView = [_adView nativeIconImageView];
+		UIView *iconView = [_adapter iconMediaView];
+		UIView *iconImageView = [_adView nativeIconImageView];
 
 		if (iconImageView)
 		{
@@ -147,7 +146,7 @@
 			iconImageView.userInteractionEnabled = YES;
 			[iconImageView addSubview:iconView];
 		}
-    }
+	}
 
 	if (_hasMediaView && _adView)
 	{
@@ -169,25 +168,26 @@
 			superview.userInteractionEnabled = YES;
 			[superview addSubview:mediaView];
 		}
-    }
+	}
 
-    if ([_adView respondsToSelector:@selector(layoutStarRating:)])
+	if ([_adView respondsToSelector:@selector(layoutStarRating:)])
 	{
-        NSNumber *starRating = [adapter.properties objectForKey:kAdStarRatingKey];
-        if (starRating && [starRating isKindOfClass:[NSNumber class]] && starRating.floatValue >= kStarRatingMinValue && starRating.floatValue <= kStarRatingMaxValue)
+		NSNumber *starRating = [adapter.properties objectForKey:kAdStarRatingKey];
+		if (starRating && [starRating isKindOfClass:[NSNumber class]] && starRating.floatValue >= kStarRatingMinValue && starRating.floatValue <= kStarRatingMaxValue)
 		{
-            [_adView layoutStarRating:starRating];
-        }
-    }
+			[_adView layoutStarRating:starRating];
+		}
+	}
 
-    return _adView;
+	return _adView;
 }
 
 - (void)adViewWillMoveToSuperview:(UIView *)superview
 {
-    if (!superview || !_adView)
+	if (!superview || !_adView)
 	{
 		_adViewInViewHierarchy = NO;
+		MPLogDebug(@"adView is not in views hierarchy");
 		return;
 	}
 	_adViewInViewHierarchy = YES;
@@ -223,7 +223,7 @@
 
 - (BOOL)nativeAdViewInViewHierarchy
 {
-    return _adViewInViewHierarchy;
+	return _adViewInViewHierarchy;
 }
 
 @end

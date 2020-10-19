@@ -1,6 +1,6 @@
 //
 //  MTRGMopubNativeAdAdapter.m
-//  myTargetSDKMopubMediation
+//  MediationMopubApp
 //
 //  Created by Anton Bulankin on 27.01.15.
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.
@@ -103,7 +103,7 @@
 	// Determines whether MPNativeAd should track clicks
 	// If not implemented, this will be assumed to return NO, and MPNativeAd will track clicks.
 	// If this returns YES, then MPNativeAd will defer to the MPNativeAdAdapterDelegate callbacks to track clicks
-    return NO;
+	return NO;
 }
 
 - (NSURL *)defaultActionURL
@@ -140,13 +140,16 @@
 	NSTimeInterval delay = 0.1;
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^
 	{
-		if (self.nativeAd)
+		MTRGNativeAd *nativeAd = self.nativeAd;
+		if (nativeAd)
 		{
-			[self.nativeAd registerView:view withController:controller withClickableViews:adContentViews];
+			[nativeAd registerView:view withController:controller withClickableViews:adContentViews];
+			return;
 		}
-		else if (self.nativeBannerAd)
+		MTRGNativeBannerAd *nativeBannerAd = self.nativeBannerAd;
+		if (nativeBannerAd)
 		{
-			[self.nativeBannerAd registerView:view withController:controller withClickableViews:adContentViews];
+			[nativeBannerAd registerView:view withController:controller withClickableViews:adContentViews];
 		}
 	});
 }

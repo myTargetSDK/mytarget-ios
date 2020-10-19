@@ -1,6 +1,6 @@
 //
 //  MTRGMopubNativeCustomEvent.h
-//  myTargetSDKMopubMediation
+//  MediationMopubApp
 //
 //  Created by Anton Bulankin on 27.01.15.
 //  Copyright (c) 2015 Mail.ru Group. All rights reserved.

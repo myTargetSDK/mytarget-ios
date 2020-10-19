@@ -1,6 +1,6 @@
 //
 //  MTRGMopubNativeAdRenderer.h
-//  myTargetSDKMopubMediation
+//  MediationMopubApp
 //
 //  Created by Andrey Seredkin on 25.06.2020.
 //  Copyright © 2020 Mail.ru Group. All rights reserved.
