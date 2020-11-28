@@ -19,16 +19,12 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 	private let collectionController = CollectionViewController()
 
 	private let sizeGroup = RadioButtonsGroup()
-	private let typeGroup = RadioButtonsGroup()
 
 	@IBOutlet weak var radioButtonAdaptiveAuto: RadioButton!
 	@IBOutlet weak var radioButtonAdaptiveManual: RadioButton!
 	@IBOutlet weak var radioButton320x50: RadioButton!
 	@IBOutlet weak var radioButton300x250: RadioButton!
 	@IBOutlet weak var radioButton728x90: RadioButton!
-
-	@IBOutlet weak var radioButtonWebview: RadioButton!
-	@IBOutlet weak var radioButtonHtml: RadioButton!
 
 	@IBOutlet weak var showButton: CustomButton!
 
@@ -44,11 +40,9 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 		collectionController.delegate = self
 
 		radioButtonAdaptiveAuto.isSelected = true
-		radioButtonWebview.isSelected = true
 		radioButton728x90.isEnabled = (UIDevice.current.model == "iPad")
 
 		sizeGroup.addButtons([radioButtonAdaptiveAuto, radioButtonAdaptiveManual, radioButton320x50, radioButton300x250, radioButton728x90])
-		typeGroup.addButtons([radioButtonWebview, radioButtonHtml])
 	}
 
 	override func viewWillAppear(_ animated: Bool)
@@ -67,18 +61,18 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 
 	private func defaultSlot(adSize: MTRGAdSize?) -> UInt
 	{
-		var slot = Slot.bannerAdaptive.rawValue
+		var slot = Slot.standard.bannerAdaptive.rawValue
 		guard let adSize = adSize else { return slot }
 		switch adSize.type
 		{
 			case MTRGAdSizeType320x50:
-				slot = radioButtonHtml.isSelected ? Slot.banner320x50.html.rawValue : Slot.banner320x50.regular.rawValue
+				slot = Slot.standard.banner320x50.rawValue
 				break
 			case MTRGAdSizeType300x250:
-				slot = radioButtonHtml.isSelected ? Slot.banner300x250.html.rawValue : Slot.banner300x250.regular.rawValue
+				slot = Slot.standard.banner300x250.rawValue
 				break
 			case MTRGAdSizeType728x90:
-				slot = radioButtonHtml.isSelected ? Slot.banner728x90.html.rawValue : Slot.banner728x90.regular.rawValue
+				slot = Slot.standard.banner728x90.rawValue
 				break
 			default:
 				break
@@ -110,6 +104,10 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 		else if radioButtonAdaptiveManual.isSelected
 		{
 			adSize = MTRGAdSize.forCurrentOrientation()
+		}
+		else
+		{
+			adSize = nil
 		}
 
 		let slotId = self.slotId ?? defaultSlot(adSize: adSize)

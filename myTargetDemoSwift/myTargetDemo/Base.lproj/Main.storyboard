@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17140" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zML-OO-Kb6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zML-OO-Kb6">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17115"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -99,16 +99,16 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="200"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="RJP-Ca-pfn">
-                                        <rect key="frame" x="0.0" y="0.0" width="204.5" height="200"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Size" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l5A-Lr-bSi">
-                                                <rect key="frame" x="0.0" y="0.0" width="204.5" height="29"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="29"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yvi-o7-KqZ" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="34" width="204.5" height="29.5"/>
+                                                <rect key="frame" x="0.0" y="34" width="414" height="29.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -117,7 +117,7 @@
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wlN-vD-4x8" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="68.5" width="204.5" height="29"/>
+                                                <rect key="frame" x="0.0" y="68.5" width="414" height="29"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -126,7 +126,7 @@
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CPF-lI-FRU" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="102.5" width="204.5" height="29"/>
+                                                <rect key="frame" x="0.0" y="102.5" width="414" height="29"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -135,7 +135,7 @@
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cUs-ii-lQZ" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="136.5" width="204.5" height="29.5"/>
+                                                <rect key="frame" x="0.0" y="136.5" width="414" height="29.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -144,40 +144,11 @@
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Etn-ie-9W6" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="171" width="204.5" height="29"/>
+                                                <rect key="frame" x="0.0" y="171" width="414" height="29"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="728x90 (iPad only)">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1mp-vy-buW">
-                                        <rect key="frame" x="209.5" y="0.0" width="204.5" height="200"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNh-4p-Rb5">
-                                                <rect key="frame" x="0.0" y="0.0" width="204.5" height="63.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LgJ-dW-z2I" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="68.5" width="204.5" height="63"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="WebView">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jez-Md-ubd" customClass="RadioButton" customModule="myTargetDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="136.5" width="204.5" height="63.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="HTML">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                             </button>
@@ -206,8 +177,6 @@
                         <outlet property="radioButton728x90" destination="Etn-ie-9W6" id="lwQ-Th-OaO"/>
                         <outlet property="radioButtonAdaptiveAuto" destination="Yvi-o7-KqZ" id="1pJ-f6-re6"/>
                         <outlet property="radioButtonAdaptiveManual" destination="wlN-vD-4x8" id="5Oe-Xb-Dqk"/>
-                        <outlet property="radioButtonHtml" destination="Jez-Md-ubd" id="auq-yH-xsE"/>
-                        <outlet property="radioButtonWebview" destination="LgJ-dW-z2I" id="GKT-AS-rxG"/>
                         <outlet property="showButton" destination="rkr-2O-LKg" id="cxI-JO-pcA"/>
                     </connections>
                 </viewController>
@@ -1211,14 +1180,8 @@
         <designable name="Etn-ie-9W6">
             <size key="intrinsicContentSize" width="140" height="28"/>
         </designable>
-        <designable name="Jez-Md-ubd">
-            <size key="intrinsicContentSize" width="52" height="28"/>
-        </designable>
         <designable name="Klu-UV-YBd">
             <size key="intrinsicContentSize" width="96" height="28"/>
-        </designable>
-        <designable name="LgJ-dW-z2I">
-            <size key="intrinsicContentSize" width="74" height="28"/>
         </designable>
         <designable name="NlY-ak-L5N">
             <size key="intrinsicContentSize" width="52" height="28"/>

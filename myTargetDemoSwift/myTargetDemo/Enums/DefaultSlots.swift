@@ -10,25 +10,29 @@ import Foundation
 
 enum Slot: UInt
 {
-	enum banner320x50: UInt
+	enum standard: UInt
 	{
-		case regular = 30268
-		case html = 93229
-	}
+		case bannerAdaptive
+		case banner320x50
+		case banner300x250
+		case banner728x90
 
-	enum banner300x250: UInt
-	{
-		case regular = 64528
-		case html = 93231
-	}
+		var rawValue: UInt
+		{
+			switch self
+			{
+			case .bannerAdaptive:
+				return 794557
+			case .banner320x50:
+				return 794557
+			case .banner300x250:
+				return 93231
+			case .banner728x90:
+				return 794557
+			}
+		}
 
-	enum banner728x90: UInt
-	{
-		case regular = 81626
-		case html = 328709
 	}
-
-	case bannerAdaptive = 794557
 
 	case nativePromo = 30294
 	case nativeVideo = 30152
