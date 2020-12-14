@@ -153,7 +153,10 @@
 		UIView *superview = nil;
 		if ([_adView respondsToSelector:@selector(nativeVideoView)])
 		{
-			superview = [_adView nativeVideoView];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+			superview = [_adView nativeVideoView]; // Removed native video support in 5.15.0
+#pragma clang diagnostic pop
 		}
 		else if ([_adView respondsToSelector:@selector(nativeMainImageView)])
 		{

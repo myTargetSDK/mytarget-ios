@@ -186,6 +186,14 @@ static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEv
 	if (!delegate) return;
 	[delegate fullscreenAdAdapterAdWillDisappear:self];
 	[delegate fullscreenAdAdapterAdDidDisappear:self];
+	
+	if ([delegate respondsToSelector:@selector(fullscreenAdAdapterAdDidDismiss:)])
+	{
+		// When an ad has has been dismissed.
+		// Call this after the adapter has called fullscreenAdAdapterAdDidDisappear:self.
+		// Introduced in v5.15.0 of the MoPub iOS SDK
+		[delegate fullscreenAdAdapterAdDidDismiss:self];
+	}
 }
 
 - (void)onReward:(MTRGReward *)reward rewardedAd:(MTRGRewardedAd *)rewardedAd
