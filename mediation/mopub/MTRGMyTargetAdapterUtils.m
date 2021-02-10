@@ -19,7 +19,7 @@
 #endif
 
 static NSString * const kSlotIdKey = @"slotId";
-static NSString * const kNativeBannerKey = @"native_banner";
+static NSString * const kNativeBannerKey = @"mytarget_native_banner";
 static NSString * const kGenderKey = @"mytarget_gender";
 static NSString * const kAgeKey = @"mytarget_age";
 static NSString * const kVkIdKey = @"mytarget_vk_id";
