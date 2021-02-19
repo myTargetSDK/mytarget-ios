@@ -162,7 +162,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 	{
 		super.viewDidLoad()
 
-		MTRGAdView.setDebugMode(true)
+		MTRGManager.setDebugMode(true)
 
 		if #available(iOS 11.0, *)
 		{
