@@ -4,7 +4,8 @@ workspace 'myTargetDemo'
 
 target :myTargetDemo do
   project 'myTargetDemo.xcodeproj'
-  pod 'myTargetSDK', '>= 5.10.2'
+  pod 'myTargetSDK', '>= 5.10.3'
+
 
 
 
