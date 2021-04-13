@@ -10,6 +10,7 @@
 #import <MyTargetSDK/MyTargetSDK.h>
 
 #if __has_include("MoPub.h")
+	#import "MPLogging.h"
 	#import "MPNativeAdAdapter.h"
 	#import "MPNativeAdConstants.h"
 	#import "MPNativeAdError.h"
@@ -151,14 +152,7 @@
 	if (_hasMediaView && _adView)
 	{
 		UIView *superview = nil;
-		if ([_adView respondsToSelector:@selector(nativeVideoView)])
-		{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-			superview = [_adView nativeVideoView]; // Removed native video support in 5.15.0
-#pragma clang diagnostic pop
-		}
-		else if ([_adView respondsToSelector:@selector(nativeMainImageView)])
+		if ([_adView respondsToSelector:@selector(nativeMainImageView)])
 		{
 			superview = [_adView nativeMainImageView];
 		}

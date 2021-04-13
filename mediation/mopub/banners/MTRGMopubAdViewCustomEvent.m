@@ -94,11 +94,11 @@ static NSString * const kMoPubStandardAdapter = @"MTRGMopubAdViewCustomEvent";
 	{
 		return [MTRGAdSize adSize728x90];
 	}
-	else if (MTRG_MOPUB_CGFLOAT_EQUALS(height, 0) && width > 0)
+	else if (MTRG_MOPUB_CGFLOAT_EQUALS(height, 1) && width > 1)
 	{
 		return [MTRGAdSize adSizeForCurrentOrientationForWidth:width];
 	}
-	else if (MTRG_MOPUB_CGFLOAT_EQUALS(height, 0) && MTRG_MOPUB_CGFLOAT_EQUALS(width, 0))
+	else if (MTRG_MOPUB_CGFLOAT_EQUALS(height, 1) && MTRG_MOPUB_CGFLOAT_EQUALS(width, 1))
 	{
 		return [MTRGAdSize adSizeForCurrentOrientation];
 	}

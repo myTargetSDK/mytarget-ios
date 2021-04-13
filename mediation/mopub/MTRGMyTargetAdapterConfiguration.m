@@ -15,7 +15,7 @@
 #endif
 
 static NSString * const kNetworkName = @"mytarget";
-static NSString * const kNetworkVersion = @"5.9.2";
+static NSString * const kNetworkVersion = @"5.10.3";
 static NSString * const kAdapterRevision = @"0";
 
 static BOOL _isNativeBanner = NO;
@@ -24,12 +24,7 @@ static BOOL _isNativeBanner = NO;
 
 + (void)setDebugMode:(BOOL)debugMode
 {
-	[MTRGBaseAd setDebugMode:debugMode];
-}
-
-+ (BOOL)debugMode
-{
-	return [MTRGBaseAd isDebugMode];
+	[MTRGManager setDebugMode:debugMode];
 }
 
 + (BOOL)isNativeBanner

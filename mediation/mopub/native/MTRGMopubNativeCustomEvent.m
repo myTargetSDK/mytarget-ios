@@ -18,7 +18,7 @@
 	#import "MPLogging.h"
 #endif
 
-static NSString * const kMoPubNativeAdapter = @"MTRGMopubNativeCustomEvent";
+static NSString * const kMoPubNativeCustomEvent = @"MTRGMopubNativeCustomEvent";
 static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRight;
 
 @interface MTRGMopubNativeCustomEvent () <MTRGNativeAdDelegate, MTRGNativeBannerAdDelegate>
@@ -55,7 +55,7 @@ static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRig
 
 	[MTRGMyTargetAdapterUtils setupConsent];
 
-	MPLogAdEvent([MPLogEvent adLoadAttemptForAdapter:kMoPubNativeAdapter dspCreativeId:nil dspName:nil], _placementId);
+	MPLogAdEvent([MPLogEvent adLoadAttemptForAdapter:kMoPubNativeCustomEvent dspCreativeId:nil dspName:nil], _placementId);
 	BOOL isNativeBanner = MTRGMyTargetAdapterConfiguration.isNativeBanner;
 	_isNativeBanner = isNativeBanner || [MTRGMyTargetAdapterUtils isNativeBannerWithDictionary:self.localExtras];
 	if (_isNativeBanner)
@@ -102,14 +102,7 @@ static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRig
 
 - (void)dealloc
 {
-	if (_nativeAd)
-	{
-		_nativeAd.delegate = nil;
-	}
-	if (_nativeBannerAd)
-	{
-		_nativeBannerAd.delegate = nil;
-	}
+	MPLogInfo(@"MTRGMopubNativeCustomEvent.dealloc()");
 }
 
 #pragma mark - private
@@ -131,53 +124,10 @@ static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRig
 - (void)delegateOnNoAdWithReason:(NSString *)reason
 {
 	NSError *error = MPNativeAdNSErrorForInvalidAdServerResponse(reason);
-	MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:kMoPubNativeAdapter error:error], _placementId);
+	MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:kMoPubNativeCustomEvent error:error], _placementId);
 	id <MPNativeCustomEventDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate nativeCustomEvent:self didFailToLoadAdWithError:error];
-}
-
-- (void)delegateOnAdShow
-{
-	MPLogAdEvent([MPLogEvent adShowAttemptForAdapter:kMoPubNativeAdapter], _placementId);
-	MPLogAdEvent([MPLogEvent adWillAppearForAdapter:kMoPubNativeAdapter], _placementId);
-	MPLogAdEvent([MPLogEvent adDidAppearForAdapter:kMoPubNativeAdapter], _placementId);
-	MPLogAdEvent([MPLogEvent adShowSuccessForAdapter:kMoPubNativeAdapter], _placementId);
-	id <MTRGMopubNativeCustomEventDelegate> delegate = _adapter;
-	if (!delegate) return;
-	[delegate onNativeAdShow];
-}
-
-- (void)delegateOnAdClick
-{
-	MPLogAdEvent([MPLogEvent adTappedForAdapter:kMoPubNativeAdapter], _placementId);
-	id <MTRGMopubNativeCustomEventDelegate> delegate = _adapter;
-	if (!delegate) return;
-	[delegate onNativeAdClick];
-}
-
-- (void)delegateOnShowModal
-{
-	MPLogAdEvent([MPLogEvent adWillPresentModalForAdapter:kMoPubNativeAdapter], _placementId);
-	id <MTRGMopubNativeCustomEventDelegate> delegate = _adapter;
-	if (!delegate) return;
-	[delegate onNativeAdShowModal];
-}
-
-- (void)delegateOnDismissModal
-{
-	MPLogAdEvent([MPLogEvent adDidDismissModalForAdapter:kMoPubNativeAdapter], _placementId);
-	id <MTRGMopubNativeCustomEventDelegate> delegate = _adapter;
-	if (!delegate) return;
-	[delegate onNativeAdDismissModal];
-}
-
-- (void)delegateOnLeaveApplication
-{
-	MPLogAdEvent([MPLogEvent adWillLeaveApplicationForAdapter:kMoPubNativeAdapter], _placementId);
-	id <MTRGMopubNativeCustomEventDelegate> delegate = _adapter;
-	if (!delegate) return;
-	[delegate onNativeAdLeaveApplication];
 }
 
 #pragma mark - MTRGNativeAdDelegate
@@ -190,8 +140,10 @@ static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRig
 		[self delegateOnNoAdWithReason:@"Missing one or more required assets."];
 		return;
 	}
-	MPLogAdEvent([MPLogEvent adLoadSuccessForAdapter:kMoPubNativeAdapter], _placementId);
-	_adapter = [MTRGMopubNativeAdAdapter adapterWithPromoBanner:promoBanner nativeAd:nativeAd];
+	MPLogAdEvent([MPLogEvent adLoadSuccessForAdapter:kMoPubNativeCustomEvent], _placementId);
+	_adapter = [MTRGMopubNativeAdAdapter adapterWithPromoBanner:promoBanner
+													   nativeAd:nativeAd
+													placementId:_placementId];
 	MPNativeAd *moPubNativeAd = [[MPNativeAd alloc] initWithAdAdapter:_adapter];
 
 	NSMutableArray<NSURL *> *images = [NSMutableArray<NSURL *> new];
@@ -213,7 +165,7 @@ static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRig
 		if (!delegate) return;
 		if (errors)
 		{
-			MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:kMoPubNativeAdapter error:MPNativeAdNSErrorForImageDownloadFailure()], placementId);
+			MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:kMoPubNativeCustomEvent error:MPNativeAdNSErrorForImageDownloadFailure()], placementId);
 			[delegate nativeCustomEvent:self didFailToLoadAdWithError:MPNativeAdNSErrorForImageDownloadFailure()];
 		}
 		else
@@ -228,31 +180,6 @@ static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRig
 	[self delegateOnNoAdWithReason:reason];
 }
 
-- (void)onAdShowWithNativeAd:(MTRGNativeAd *)nativeAd
-{
-	[self delegateOnAdShow];
-}
-
-- (void)onAdClickWithNativeAd:(MTRGNativeAd *)nativeAd
-{
-	[self delegateOnAdClick];
-}
-
-- (void)onShowModalWithNativeAd:(MTRGNativeAd *)nativeAd
-{
-	[self delegateOnShowModal];
-}
-
-- (void)onDismissModalWithNativeAd:(MTRGNativeAd *)nativeAd
-{
-	[self delegateOnDismissModal];
-}
-
-- (void)onLeaveApplicationWithNativeAd:(MTRGNativeAd *)nativeAd
-{
-	[self delegateOnLeaveApplication];
-}
-
 #pragma mark - MTRGNativeBannerAdDelegate
 
 - (void)onLoadWithNativeBanner:(MTRGNativeBanner *)banner nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
@@ -263,8 +190,10 @@ static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRig
 		[self delegateOnNoAdWithReason:@"Missing one or more required assets."];
 		return;
 	}
-	MPLogAdEvent([MPLogEvent adLoadSuccessForAdapter:kMoPubNativeAdapter], _placementId);
-	_adapter = [MTRGMopubNativeAdAdapter adapterWithBanner:banner nativeBannerAd:nativeBannerAd];
+	MPLogAdEvent([MPLogEvent adLoadSuccessForAdapter:kMoPubNativeCustomEvent], _placementId);
+	_adapter = [MTRGMopubNativeAdAdapter adapterWithBanner:banner
+											nativeBannerAd:nativeBannerAd
+											   placementId:_placementId];
 	MPNativeAd *moPubNativeAd = [[MPNativeAd alloc] initWithAdAdapter:_adapter];
 
 	NSMutableArray<NSURL *> *images = [NSMutableArray<NSURL *> new];
@@ -281,7 +210,7 @@ static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRig
 		if (!delegate) return;
 		if (errors)
 		{
-			MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:kMoPubNativeAdapter error:MPNativeAdNSErrorForImageDownloadFailure()], placementId);
+			MPLogAdEvent([MPLogEvent adLoadFailedForAdapter:kMoPubNativeCustomEvent error:MPNativeAdNSErrorForImageDownloadFailure()], placementId);
 			[delegate nativeCustomEvent:self didFailToLoadAdWithError:MPNativeAdNSErrorForImageDownloadFailure()];
 		}
 		else
@@ -294,31 +223,6 @@ static MTRGAdChoicesPlacement _adChoicesPlacement = MTRGAdChoicesPlacementTopRig
 - (void)onNoAdWithReason:(NSString *)reason nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
 {
 	[self delegateOnNoAdWithReason:reason];
-}
-
-- (void)onAdShowWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
-{
-	[self delegateOnAdShow];
-}
-
-- (void)onAdClickWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
-{
-	[self delegateOnAdClick];
-}
-
-- (void)onShowModalWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
-{
-	[self delegateOnShowModal];
-}
-
-- (void)onDismissModalWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
-{
-	[self delegateOnDismissModal];
-}
-
-- (void)onLeaveApplicationWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
-{
-	[self delegateOnLeaveApplication];
 }
 
 @end

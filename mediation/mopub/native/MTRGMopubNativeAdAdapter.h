@@ -8,13 +8,13 @@
 
 #if __has_include(<MoPub/MoPub.h>)
 	#import <MoPub/MoPub.h>
+#elif __has_include(<MoPubSDK/MoPub.h>)
+	#import <MoPubSDK/MoPub.h>
 #elif __has_include(<MoPubSDKFramework/MoPub.h>)
 	#import <MoPubSDKFramework/MoPub.h>
 #else
 	#import "MPNativeAdAdapter.h"
 #endif
-
-#import "MTRGMopubNativeCustomEvent.h"
 
 @class MTRGNativeAd;
 @class MTRGNativeBannerAd;
@@ -24,15 +24,19 @@
 NS_ASSUME_NONNULL_BEGIN
 
 __attribute__((objc_subclassing_restricted))
-@interface MTRGMopubNativeAdAdapter : NSObject <MPNativeAdAdapter, MTRGMopubNativeCustomEventDelegate>
+@interface MTRGMopubNativeAdAdapter : NSObject <MPNativeAdAdapter>
 
 @property (nonatomic, weak) id <MPNativeAdAdapterDelegate> delegate;
 @property (nonatomic, readonly, nullable) MTRGNativeAd *nativeAd;
 @property (nonatomic, readonly, nullable) MTRGNativeBannerAd *nativeBannerAd;
 
-+ (instancetype)adapterWithPromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd;
++ (instancetype)adapterWithPromoBanner:(MTRGNativePromoBanner *)promoBanner
+							  nativeAd:(MTRGNativeAd *)nativeAd
+						   placementId:(nullable NSString *)placementId;
 
-+ (instancetype)adapterWithBanner:(MTRGNativeBanner *)banner nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd;
++ (instancetype)adapterWithBanner:(MTRGNativeBanner *)banner
+				   nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+					  placementId:(nullable NSString *)placementId;
 
 + (instancetype)new NS_UNAVAILABLE;
 

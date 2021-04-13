@@ -14,29 +14,51 @@
 	#import "MPLogging.h"
 #endif
 
+static NSString * const kMoPubNativeAdapter = @"MTRGMopubNativeAdAdapter";
+
+@interface MTRGMopubNativeAdAdapter () <MTRGNativeAdDelegate, MTRGNativeAdMediaDelegate>
+@end
+
+@interface MTRGMopubNativeAdAdapter () <MTRGNativeBannerAdDelegate, MTRGNativeBannerAdMediaDelegate>
+@end
+
 @implementation MTRGMopubNativeAdAdapter
 {
 	MTRGMediaAdView *_Nullable _mediaAdView;
 	MTRGIconAdView *_Nullable _iconAdView;
+	NSString *_Nullable _placementId;
 	NSDictionary<NSString *, NSString *> *_properties;
 }
 
-+ (instancetype)adapterWithPromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd
++ (instancetype)adapterWithPromoBanner:(MTRGNativePromoBanner *)promoBanner
+							  nativeAd:(MTRGNativeAd *)nativeAd
+						   placementId:(nullable NSString *)placementId
 {
-	return [[MTRGMopubNativeAdAdapter alloc] initWithPromoBanner:promoBanner nativeAd:nativeAd];
+	return [[MTRGMopubNativeAdAdapter alloc] initWithPromoBanner:promoBanner
+														nativeAd:nativeAd
+													 placementId:placementId];
 }
 
-+ (instancetype)adapterWithBanner:(MTRGNativeBanner *)banner nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
++ (instancetype)adapterWithBanner:(MTRGNativeBanner *)banner
+				   nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+					  placementId:(nullable NSString *)placementId
 {
-	return [[MTRGMopubNativeAdAdapter alloc] initWithBanner:banner nativeBannerAd:nativeBannerAd];
+	return [[MTRGMopubNativeAdAdapter alloc] initWithBanner:banner
+											 nativeBannerAd:nativeBannerAd
+												placementId:placementId];
 }
 
-- (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd
+- (instancetype)initWithPromoBanner:(MTRGNativePromoBanner *)promoBanner
+						   nativeAd:(MTRGNativeAd *)nativeAd
+						placementId:(nullable NSString *)placementId
 {
 	self = [super init];
 	if (self)
 	{
 		_nativeAd = nativeAd;
+		_nativeAd.delegate = self;
+		_nativeAd.mediaDelegate = self;
+		_placementId = placementId;
 		_mediaAdView = [MTRGNativeViewsFactory createMediaAdView];
 		_iconAdView = [MTRGNativeViewsFactory createIconAdView];
 
@@ -54,12 +76,17 @@
 	return self;
 }
 
-- (instancetype)initWithBanner:(MTRGNativeBanner *)banner nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+- (instancetype)initWithBanner:(MTRGNativeBanner *)banner
+				nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+				   placementId:(nullable NSString *)placementId
 {
 	self = [super init];
 	if (self)
 	{
 		_nativeBannerAd = nativeBannerAd;
+		_nativeBannerAd.delegate = self;
+		_nativeBannerAd.mediaDelegate = self;
+		_placementId = placementId;
 		_iconAdView = [MTRGNativeViewsFactory createIconAdView];
 
 		NSMutableDictionary *properties = [NSMutableDictionary dictionary];
@@ -71,6 +98,21 @@
 		_properties = properties;
 	}
 	return self;
+}
+
+- (void)dealloc
+{
+	MPLogInfo(@"MTRGMopubNativeAdAdapter.dealloc()");
+	if (_nativeAd)
+	{
+		_nativeAd.delegate = nil;
+		_nativeAd.mediaDelegate = nil;
+	}
+	if (_nativeBannerAd)
+	{
+		_nativeBannerAd.delegate = nil;
+		_nativeBannerAd.mediaDelegate = nil;
+	}
 }
 
 - (UIView *)mainMediaView
@@ -154,10 +196,125 @@
 	});
 }
 
-#pragma mark - MTRGMopubNativeCustomEventDelegate
+#pragma mark - MTRGNativeAdDelegate
 
-- (void)onNativeAdShow
+- (void)onLoadWithNativePromoBanner:(MTRGNativePromoBanner *)promoBanner nativeAd:(MTRGNativeAd *)nativeAd
 {
+	// nothing here, already handled in MTRGMopubNativeCustomEvent
+}
+
+- (void)onNoAdWithReason:(NSString *)reason nativeAd:(MTRGNativeAd *)nativeAd
+{
+	// nothing here, already handled in MTRGMopubNativeCustomEvent
+}
+
+- (void)onAdShowWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	[self delegateOnNativeAdShow];
+}
+
+- (void)onAdClickWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	[self delegateOnNativeAdClick];
+}
+
+- (void)onShowModalWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	[self delegateOnNativeAdShowModal];
+}
+
+- (void)onDismissModalWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	[self delegateOnNativeAdDismissModal];
+}
+
+- (void)onLeaveApplicationWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	[self delegateOnNativeAdLeaveApplication];
+}
+
+- (void)onVideoPlayWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	// nothing here, there is no corresponding callback in MoPub
+}
+
+- (void)onVideoPauseWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	// nothing here, there is no corresponding callback in MoPub
+}
+
+- (void)onVideoCompleteWithNativeAd:(MTRGNativeAd *)nativeAd
+{
+	// nothing here, there is no corresponding callback in MoPub
+}
+
+#pragma mark - MTRGNativeAdMediaDelegate
+
+- (void)onIconLoadWithNativeAd:(MTRGNativeAd *)nativeAd
+
+{
+	// nothing here, there is no corresponding callback in MoPub
+}
+
+- (void)onImageLoadWithNativeAd:(MTRGNativeAd *)nativeAd
+
+{
+	// nothing here, there is no corresponding callback in MoPub
+}
+
+#pragma mark - MTRGNativeBannerAdDelegate
+
+- (void)onLoadWithNativeBanner:(MTRGNativeBanner *)banner nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+{
+	// nothing here, already handled in MTRGMopubNativeCustomEvent
+}
+
+- (void)onNoAdWithReason:(NSString *)reason nativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+{
+	// nothing here, already handled in MTRGMopubNativeCustomEvent
+}
+
+- (void)onAdShowWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+{
+	[self delegateOnNativeAdShow];
+}
+
+- (void)onAdClickWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+{
+	[self delegateOnNativeAdClick];
+}
+
+- (void)onShowModalWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+{
+	[self delegateOnNativeAdShowModal];
+}
+
+- (void)onDismissModalWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+{
+	[self delegateOnNativeAdDismissModal];
+}
+
+- (void)onLeaveApplicationWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+{
+	[self delegateOnNativeAdLeaveApplication];
+}
+
+#pragma mark - MTRGNativeBannerAdMediaDelegate
+
+- (void)onIconLoadWithNativeBannerAd:(MTRGNativeBannerAd *)nativeBannerAd
+{
+	// nothing here, there is no corresponding callback in MoPub
+}
+
+#pragma mark - delegates
+
+- (void)delegateOnNativeAdShow
+{
+	MPLogAdEvent([MPLogEvent adShowAttemptForAdapter:kMoPubNativeAdapter], _placementId);
+	MPLogAdEvent([MPLogEvent adWillAppearForAdapter:kMoPubNativeAdapter], _placementId);
+	MPLogAdEvent([MPLogEvent adDidAppearForAdapter:kMoPubNativeAdapter], _placementId);
+	MPLogAdEvent([MPLogEvent adShowSuccessForAdapter:kMoPubNativeAdapter], _placementId);
+	
 	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate || ![delegate respondsToSelector:@selector(nativeAdWillLogImpression:)])
 	{
@@ -167,8 +324,10 @@
 	[delegate nativeAdWillLogImpression:self];
 }
 
-- (void)onNativeAdClick
+- (void)delegateOnNativeAdClick
 {
+	MPLogAdEvent([MPLogEvent adTappedForAdapter:kMoPubNativeAdapter], _placementId);
+	
 	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate || ![delegate respondsToSelector:@selector(nativeAdDidClick:)])
 	{
@@ -178,22 +337,28 @@
 	[delegate nativeAdDidClick:self];
 }
 
-- (void)onNativeAdShowModal
+- (void)delegateOnNativeAdShowModal
 {
+	MPLogAdEvent([MPLogEvent adWillPresentModalForAdapter:kMoPubNativeAdapter], _placementId);
+	
 	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate nativeAdWillPresentModalForAdapter:self];
 }
 
-- (void)onNativeAdDismissModal
+- (void)delegateOnNativeAdDismissModal
 {
+	MPLogAdEvent([MPLogEvent adDidDismissModalForAdapter:kMoPubNativeAdapter], _placementId);
+	
 	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate nativeAdDidDismissModalForAdapter:self];
 }
 
-- (void)onNativeAdLeaveApplication
+- (void)delegateOnNativeAdLeaveApplication
 {
+	MPLogAdEvent([MPLogEvent adWillLeaveApplicationForAdapter:kMoPubNativeAdapter], _placementId);
+	
 	id <MPNativeAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
 	[delegate nativeAdWillLeaveApplicationFromAdapter:self];
