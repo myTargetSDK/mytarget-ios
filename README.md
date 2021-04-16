@@ -11,6 +11,11 @@ After you integrate the myTarget SDK, thousands of myTarget customers will becom
 ## Integrate
 
 **Installation**
+ - **[Swift Package Manager](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app)**
+ 
+   To add a package dependency to your Xcode project, select File > Swift Packages > Add Package Dependency and enter its repository URL:
+   [https://github.com/myTargetSDK/mytarget-ios-spm](https://github.com/myTargetSDK/mytarget-ios-spm)
+
  - **[CocoaPods](https://cocoapods.org/pods/myTargetSDK)**
  
    Add the following line to your Podfile:
