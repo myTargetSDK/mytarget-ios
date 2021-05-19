@@ -118,7 +118,7 @@ class TitleView: UIView
 	}
 }
 
-protocol AdViewController: class
+protocol AdViewController: AnyObject
 {
 	var slotId: UInt? { get set }
 	func refresh()
