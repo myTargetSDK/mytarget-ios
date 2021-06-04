@@ -118,7 +118,8 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-	[delegate fullscreenAdAdapterAdWillAppear:self];
+	[delegate fullscreenAdAdapterAdWillAppear:self]; // legacy since 5.17.0 but not deprecated yet and must be called
+	[delegate fullscreenAdAdapterAdWillPresent:self];
 	[delegate fullscreenAdAdapterDidTrackImpression:self];
 }
 
@@ -206,7 +207,8 @@ static NSString * const kMoPubInterstitialAdapter = @"MTRGMopubInterstitialCusto
 	MPLogAdEvent([MPLogEvent adShowSuccessForAdapter:kMoPubInterstitialAdapter], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-	[delegate fullscreenAdAdapterAdDidAppear:self];
+	[delegate fullscreenAdAdapterAdDidAppear:self]; // legacy since 5.17.0 but not deprecated yet and must be called
+	[delegate fullscreenAdAdapterAdDidPresent:self];
 }
 
 - (void)onLeaveApplicationWithInterstitialAd:(MTRGInterstitialAd *)interstitialAd

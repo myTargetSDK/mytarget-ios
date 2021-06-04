@@ -119,7 +119,8 @@ static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEv
 
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-	[delegate fullscreenAdAdapterAdWillAppear:self];
+	[delegate fullscreenAdAdapterAdWillAppear:self]; // legacy since 5.17.0 but not deprecated yet and must be called
+	[delegate fullscreenAdAdapterAdWillPresent:self];
 	[delegate fullscreenAdAdapterDidTrackImpression:self];
 }
 
@@ -211,7 +212,8 @@ static NSString * const kMoPubRewardedAdapter = @"MTRGMopubRewardedVideoCustomEv
 	MPLogAdEvent([MPLogEvent adShowSuccessForAdapter:kMoPubRewardedAdapter], _placementId);
 	id <MPFullscreenAdAdapterDelegate> delegate = self.delegate;
 	if (!delegate) return;
-	[delegate fullscreenAdAdapterAdDidAppear:self];
+	[delegate fullscreenAdAdapterAdDidAppear:self]; // legacy since 5.17.0 but not deprecated yet and must be called
+	[delegate fullscreenAdAdapterAdDidPresent:self];
 }
 
 - (void)onLeaveApplicationWithRewardedAd:(MTRGRewardedAd *)rewardedAd
