@@ -30,7 +30,8 @@ Demo-app with examples of integration available in [myTargetDemo folder](https:/
 
 ## Requirements
 
-iOS 9.0
+iOS 9.0+
+Xcode 12.5+
 
 [license-svg]: https://img.shields.io/badge/license-LGPL-lightgrey.svg
 [license-link]: https://github.com/myTargetSDK/mytarget-ios/blob/master/LICENSE
