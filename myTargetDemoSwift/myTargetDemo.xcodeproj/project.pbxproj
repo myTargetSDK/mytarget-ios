@@ -45,6 +45,7 @@
 		894F9AAD22E1F6FA008D0064 /* StandardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardViewController.swift; sourceTree = "<group>"; };
 		89537E3A246BFAA400224397 /* LoadingReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingReusableView.swift; sourceTree = "<group>"; };
 		89537E3B246BFAA400224397 /* LoadingReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingReusableView.xib; sourceTree = "<group>"; };
+		89862A5E2678F6E300D4408D /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		89BB245E22DCBEE900610CFF /* RadioButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtons.swift; sourceTree = "<group>"; };
 		89BD289824E697110040BE73 /* RewardedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedViewController.swift; sourceTree = "<group>"; };
 		89CEA60B22E6F67000D0CD1E /* UIColor+DarkMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DarkMode.swift"; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 		77E4B3635FAADC3AA48FF260 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				89862A5E2678F6E300D4408D /* AppTrackingTransparency.framework */,
 				89CEA61222E7462100D0CD1E /* CoreTelephony.framework */,
 			);
 			name = Frameworks;
@@ -204,7 +206,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 1020;
-				ORGANIZATIONNAME = "Mail.Ru Group";
+				ORGANIZATIONNAME = "Mail.ru Group";
 				TargetAttributes = {
 					89F0E1D722BA71FC006B8B93 = {
 						CreatedOnToolsVersion = 10.2.1;
