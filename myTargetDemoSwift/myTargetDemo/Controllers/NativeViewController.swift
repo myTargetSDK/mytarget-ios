@@ -11,6 +11,8 @@ import MyTargetSDK
 
 class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDelegate, MTRGMediaAdViewDelegate
 {
+	var query: [String : String]?
+	
 	var slotId: UInt?
 
 	private var nativeAds = [MTRGNativeAd]()
@@ -87,7 +89,9 @@ class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDele
 		let slotId = self.slotId ?? slot.rawValue
 		let nativeAdLoader = MTRGNativeAdLoader.init(forCount: 3, slotId: slotId)
 		self.nativeAdLoader = nativeAdLoader
-
+	
+		self.setQueryParams(for: nativeAdLoader)
+		
 		nativeAds.removeAll()
 		nativeViews.removeAll()
 		notificationView?.showMessage("Loading...")
@@ -113,6 +117,9 @@ class NativeViewController: UIViewController, AdViewController, MTRGNativeAdDele
 		let slotId = self.slotId ?? slot.rawValue
 		let nativeAd = MTRGNativeAd(slotId: slotId)
 		nativeAd.delegate = self
+		
+		self.setQueryParams(for: nativeAd)
+		
 		nativeAd.load()
 		nativeAds.append(nativeAd)
 		notificationView?.showMessage("Loading...")

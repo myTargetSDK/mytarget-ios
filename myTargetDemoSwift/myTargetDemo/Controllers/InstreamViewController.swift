@@ -11,6 +11,8 @@ import MyTargetSDK
 
 class InstreamViewController: UIViewController, AdViewController, MTRGInstreamAdDelegate, VideoPlayerViewDelegate
 {
+	var query: [String : String]?
+	
 	var slotId: UInt?
 
 	private var instreamAd: MTRGInstreamAd?
@@ -296,6 +298,8 @@ class InstreamViewController: UIViewController, AdViewController, MTRGInstreamAd
 		configureMidrolls()
 		instreamAd.customParams.age = 100
 		instreamAd.customParams.gender = MTRGGenderUnknown
+		
+		self.setQueryParams(for: instreamAd)
 
 		instreamAd.load()
 	}

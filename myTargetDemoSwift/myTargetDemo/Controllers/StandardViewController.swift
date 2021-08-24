@@ -11,6 +11,8 @@ import MyTargetSDK
 
 class StandardViewController: UIViewController, AdViewController, MTRGAdViewDelegate, CollectionViewControllerDelegate
 {
+	var query: [String : String]?
+	
 	var slotId: UInt?
 
 	private var adView: MTRGAdView?
@@ -126,7 +128,15 @@ class StandardViewController: UIViewController, AdViewController, MTRGAdViewDele
 		collectionController.isBottom = adView.adSize.size.height < 100
 
 		prepareAdView(true)
-
+		
+		if let query = self.query, query.count > 0
+		{
+			for item in query
+			{
+				adView.customParams.setCustomParam(item.value, forKey: item.key)
+			}
+		}
+		
 		adView.delegate = self
 		adView.load()
 

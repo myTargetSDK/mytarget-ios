@@ -11,6 +11,8 @@ import MyTargetSDK
 
 class InterstitialViewController: UIViewController, AdViewController, MTRGInterstitialAdDelegate
 {
+	var query: [String : String]?
+	
 	var slotId: UInt?
 
 	private var interstitialAd: MTRGInterstitialAd?
@@ -75,6 +77,9 @@ class InterstitialViewController: UIViewController, AdViewController, MTRGInters
 		interstitialAd = MTRGInterstitialAd(slotId: slotId)
 		guard let interstitialAd = interstitialAd else { return }
 		interstitialAd.delegate = self
+		
+		self.setQueryParams(for: interstitialAd)
+		
 		interstitialAd.load()
 		notificationView?.showMessage("Loading...")
 	}

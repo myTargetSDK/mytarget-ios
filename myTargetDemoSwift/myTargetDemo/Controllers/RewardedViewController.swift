@@ -11,6 +11,8 @@ import MyTargetSDK
 
 class RewardedViewController: UIViewController, AdViewController, MTRGRewardedAdDelegate
 {
+	var query: [String : String]?
+	
 	var slotId: UInt?
 
 	private var rewardedAd: MTRGRewardedAd?
@@ -49,6 +51,9 @@ class RewardedViewController: UIViewController, AdViewController, MTRGRewardedAd
 		rewardedAd = MTRGRewardedAd(slotId: slotId)
 		guard let rewardedAd = rewardedAd else { return }
 		rewardedAd.delegate = self
+		
+		self.setQueryParams(for: rewardedAd)
+		
 		rewardedAd.load()
 		notificationView?.showMessage("Loading...")
 	}

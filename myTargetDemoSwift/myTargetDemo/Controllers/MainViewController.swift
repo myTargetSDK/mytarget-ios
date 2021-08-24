@@ -25,6 +25,7 @@ struct Advertisment
 	let description: String?
 	let type: AdvertismentType
 	let slotId: UInt
+	let query: [String: String]?
 	let isCustom: Bool
 
 	private enum CodingKeys: String
@@ -34,15 +35,22 @@ struct Advertisment
 		case type
 		case slotId
 		case isCustom
+		case query
 	}
 
-	init(title: String, description: String?, type: AdvertismentType, slotId: UInt = 0, isCustom: Bool = false)
+	init(title: String,
+		 description: String?,
+		 type: AdvertismentType,
+		 slotId: UInt = 0,
+		 query: [String: String]? = nil,
+		 isCustom: Bool = false)
 	{
 		self.title = title
 		self.description = description
 		self.type = type
 		self.slotId = slotId
 		self.isCustom = isCustom
+		self.query = query
 	}
 
 	init(dictionary: [String:Any])
@@ -52,6 +60,7 @@ struct Advertisment
 		let type = dictionary[CodingKeys.type.rawValue] as? UInt
 		let slotId = dictionary[CodingKeys.slotId.rawValue] as? UInt
 		let isCustom = dictionary[CodingKeys.isCustom.rawValue] as? Bool
+		let query = dictionary[CodingKeys.query.rawValue] as? [String: String]
 
 		var advertismentType = AdvertismentType.standard
 		if let type = type
@@ -64,6 +73,7 @@ struct Advertisment
 		self.type = advertismentType
 		self.slotId = slotId ?? 0
 		self.isCustom = isCustom ?? false
+		self.query = query
 	}
 
 	func toDictionary() -> [String:Any]
@@ -73,6 +83,7 @@ struct Advertisment
 		dictionary[CodingKeys.description.rawValue] = description
 		dictionary[CodingKeys.type.rawValue] = type.rawValue
 		dictionary[CodingKeys.slotId.rawValue] = slotId
+		dictionary[CodingKeys.query.rawValue] = query
 		dictionary[CodingKeys.isCustom.rawValue] = isCustom
 		return dictionary
 	}
@@ -121,6 +132,7 @@ class TitleView: UIView
 protocol AdViewController: AnyObject
 {
 	var slotId: UInt? { get set }
+	var query: [String: String]? { get set }
 	func refresh()
 	func loadMore()
 	func supportsInfiniteScroll() -> Bool
@@ -131,6 +143,17 @@ extension AdViewController
 	func refresh() {}
 	func loadMore() {}
 	func supportsInfiniteScroll() -> Bool { return false }
+	
+	func setQueryParams(for ad: MTRGBaseAd)
+	{
+		if let query = self.query, query.count > 0
+		{
+			for item in query
+			{
+				ad.customParams.setCustomParam(item.value, forKey: item.key)
+			}
+		}
+	}
 }
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
@@ -213,6 +236,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 		guard let indexPath = tableView.indexPathForSelectedRow else { return }
 		let advertisment = advertisments[indexPath.row]
 		controller.slotId = advertisment.isCustom ? advertisment.slotId : nil
+		controller.query = advertisment.query
 	}
 
 // MARK: - UITableViewDataSource

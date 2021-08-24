@@ -18,6 +18,7 @@ class UnitViewController: UIViewController, UITextFieldDelegate
 
 	@IBOutlet weak var slotIdTextField: UITextField!
 	@IBOutlet weak var slotTitleTextField: UITextField!
+	@IBOutlet weak var slotQueryTextField: UITextField!
 
 	@IBOutlet weak var radioButtonNative: RadioButton!
 	@IBOutlet weak var radioButtonNativeBanner: RadioButton!
@@ -83,11 +84,14 @@ class UnitViewController: UIViewController, UITextFieldDelegate
 		let toolbarSize = CGSize(width: toolbarWidth, height: toolbarHeight)
 		let toolbar = UIView(frame: CGRect(origin: .zero, size: toolbarSize))
 		toolbar.addSubview(doneButton)
+		
 		slotIdTextField.inputAccessoryView = toolbar
         slotIdTextField.accessibilityLabel = "Slot id"
 
 		slotTitleTextField.delegate = self
         slotTitleTextField.accessibilityLabel = "Unit title"
+		
+		slotQueryTextField.accessibilityIdentifier = "query"
     }
 
 	override func viewDidAppear(_ animated: Bool)
@@ -106,10 +110,28 @@ class UnitViewController: UIViewController, UITextFieldDelegate
 		guard let slot = slotIdTextField.text, let slotId = UInt(slot), slotId > 0 else { return }
 		guard let title = slotTitleTextField.text, !title.isEmpty else { return }
 		guard let selectedButton = typeGroup.selectedButton else { return }
-
+		
+		var query:[String: String]?
+		
+		if let queryStr = slotQueryTextField.text, queryStr.count > 0
+		{
+			query = queryStr.components(separatedBy: "&")
+							.map
+							{
+								$0.components(separatedBy: "=")
+							}
+							.reduce(into: [String:String]())
+							{ dict, pair in
+								if pair.count == 2
+								{
+									dict[pair[0]] = pair[1]
+								}
+							}
+		}
+		
 		let type = selectedButton.adType
 		let description = selectedButton.adDescription + ", Slot: \(slotId)"
-		let advertisment = Advertisment(title: title, description: description, type: type, slotId: slotId, isCustom: true)
+		let advertisment = Advertisment(title: title, description: description, type: type, slotId: slotId, query: query, isCustom: true)
 
 		let userDefaults = UserDefaults.standard
 		var customAdvertisments = userDefaults.array(forKey: customAdvertismentsKey) as? [[String:Any]] ?? [[String:Any]]()

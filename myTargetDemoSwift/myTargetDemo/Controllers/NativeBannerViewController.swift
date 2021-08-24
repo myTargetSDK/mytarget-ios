@@ -11,6 +11,8 @@ import MyTargetSDK
 
 class NativeBannerViewController: UIViewController, AdViewController, MTRGNativeBannerAdDelegate
 {
+	var query: [String : String]?
+	
 	var slotId: UInt?
 
 	private var nativeBannerAds = [MTRGNativeBannerAd]()
@@ -69,11 +71,13 @@ class NativeBannerViewController: UIViewController, AdViewController, MTRGNative
 		let slotId = self.slotId ?? Slot.nativeBanner.rawValue
 		let nativeBannerAdLoader = MTRGNativeBannerAdLoader.init(forCount: 3, slotId: slotId)
 		self.nativeBannerAdLoader = nativeBannerAdLoader
-
+		
+		self.setQueryParams(for: nativeBannerAdLoader)
+		
 		nativeBannerAds.removeAll()
 		nativeBannerViews.removeAll()
 		notificationView?.showMessage("Loading...")
-
+		
 		nativeBannerAdLoader.load { (nativeBannerAds: [MTRGNativeBannerAd]) in
 			self.notificationView?.showMessage("Loaded \(nativeBannerAds.count) ads")
 			self.nativeBannerAds = nativeBannerAds
@@ -94,6 +98,9 @@ class NativeBannerViewController: UIViewController, AdViewController, MTRGNative
 		let slotId = self.slotId ?? Slot.nativeBanner.rawValue
 		let nativeBannerAd = MTRGNativeBannerAd(slotId: slotId)
 		nativeBannerAd.delegate = self
+		
+		self.setQueryParams(for: nativeBannerAd)
+		
 		nativeBannerAd.load()
 		nativeBannerAds.append(nativeBannerAd)
 		notificationView?.showMessage("Loading...")
