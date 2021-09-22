@@ -24,7 +24,7 @@ After you integrate the myTarget SDK, thousands of myTarget customers will becom
    ```
    Run `pod install`.
 
-Integration instructions are available on our [website](https://target.my.com/help/partners/en).
+Integration instructions are available on our [website](https://target.my.com/help/partners/mob/iossdkstart/en).
 
 Demo-app with examples of integration available in [myTargetDemo folder](https://github.com/myTargetSDK/mytarget-ios/blob/master/myTargetDemo).
 
