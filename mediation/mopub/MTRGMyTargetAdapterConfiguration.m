@@ -15,9 +15,9 @@
 #endif
 
 static NSString * const kNetworkName = @"mytarget";
-static NSString * const kNetworkVersion = @"5.11.1";
+static NSString * const kNetworkVersion = @"5.14.3";
 static NSString * const kAdapterRevision = @"0";
-static NSString * const kMoPubSdkVersion = @"5.17.0";
+static NSString * const kMoPubSdkVersion = @"5.18.2";
 
 static BOOL _isNativeBanner = NO;
 
