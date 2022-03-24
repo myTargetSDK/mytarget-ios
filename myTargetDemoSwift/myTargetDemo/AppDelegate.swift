@@ -14,28 +14,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 {
 	var window: UIWindow?
 
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
+	func applicationDidBecomeActive(_ application: UIApplication)
 	{
 		if #available(iOS 14.5, *)
 		{
 			ATTrackingManager.requestTrackingAuthorization
-			{ status in
-				switch status
-				{
-				case .notDetermined:
-					print("Tracking Authorization Status: Not determined")
-				case .restricted:
-					print("Tracking Authorization Status: Restricted")
-				case .denied:
-					print("Tracking Authorization Status: Denied")
-				case .authorized:
-					print("Tracking Authorization Status: Authorized")
-				@unknown default:
-					print("Unknown")
-				}
-			}
+							 { status in
+								 switch status
+								 {
+								 case .notDetermined:
+									 print("Tracking Authorization Status: Not determined")
+								 case .restricted:
+									 print("Tracking Authorization Status: Restricted")
+								 case .denied:
+									 print("Tracking Authorization Status: Denied")
+								 case .authorized:
+									 print("Tracking Authorization Status: Authorized")
+								 @unknown default:
+									 print("Unknown")
+								 }
+							 }
 		}
-		return true
 	}
-
 }
