@@ -8,27 +8,24 @@
 
 import UIKit
 
-class VideoProgressView: UIView
-{
-	var position: TimeInterval = 0.0
-	{
-		didSet
-		{
+final class VideoProgressView: UIView {
+	var position: TimeInterval = 0.0 {
+		didSet {
 			setNeedsLayout()
 			layoutIfNeeded()
 		}
 	}
 
-	var points = [Float]()
-	{
-		didSet
-		{
+	var points = [Double]() {
+		didSet {
 			advertisingPoints.forEach { $0.view.removeFromSuperview() }
 			advertisingPoints.removeAll()
 
-			points.forEach
-			{ (point) in
-				guard point >= 0, point <= Float(duration) else { return }
+			points.forEach { (point) in
+				guard point >= 0, point <= duration else {
+                    return
+                }
+                
 				let view = UIView()
 				view.backgroundColor = UIColor.yellow.withAlphaComponent(0.4)
 				let advertisingPoint = AdvertisingPoint(point: point, view: view)
@@ -40,9 +37,8 @@ class VideoProgressView: UIView
 		}
 	}
 
-	private struct AdvertisingPoint
-	{
-		let point: Float
+	private struct AdvertisingPoint {
+		let point: Double
 		let view: UIView
 	}
 
@@ -51,23 +47,20 @@ class VideoProgressView: UIView
 	private var progressView = UIView()
 	private var advertisingPoints = [AdvertisingPoint]()
 
-	init(duration: TimeInterval)
-	{
+	init(duration: TimeInterval) {
 		super.init(frame: .zero)
 		self.duration = duration
 		setupView()
 	}
 
-	required init?(coder: NSCoder)
-	{
+	required init?(coder: NSCoder) {
 		super.init(coder: coder)
 		setupView()
 	}
 
 // MARK: - private
 
-	private func setupView()
-	{
+	private func setupView() {
 		backgroundColor = UIColor.black.withAlphaComponent(0.4)
 		progressView.backgroundColor = UIColor.blue.withAlphaComponent(0.4)
 		addSubview(progressView)
@@ -75,8 +68,7 @@ class VideoProgressView: UIView
 
 // MARK: - layout
 
-	override func layoutSubviews()
-	{
+	override func layoutSubviews() {
 		super.layoutSubviews()
 
 		let width = frame.width
@@ -84,9 +76,11 @@ class VideoProgressView: UIView
 		let progressWidth = (duration > 0) ? width * CGFloat(position) / CGFloat(duration) : 0
 		progressView.frame = CGRect(x: 0, y: 0, width: progressWidth, height: height)
 
-		advertisingPoints.forEach
-		{ (advertisingPoint) in
-			guard advertisingPoint.point >= 0, advertisingPoint.point <= Float(duration) else { return }
+		advertisingPoints.forEach { (advertisingPoint) in
+			guard advertisingPoint.point >= 0, advertisingPoint.point <= duration else {
+                return
+            }
+            
 			let offsetX = (duration > 0) ? width * CGFloat(advertisingPoint.point) / CGFloat(duration) : 0
 			advertisingPoint.view.frame = CGRect(x: offsetX, y: 0, width: advertisingPointWidth, height: height)
 		}

@@ -8,177 +8,131 @@
 
 import UIKit
 
-class RadioButtonsGroup
-{
-	@IBOutlet var radioButtons: [RadioButton] = []
-	@IBOutlet public private(set) var selectedButton: RadioButton?
-
-	var isEnabled = true
-	{
-		didSet
-		{
-			radioButtons.forEach { $0.isEnabled = isEnabled }
-		}
-	}
-
-	func addButton(_ button: RadioButton)
-	{
-		guard !radioButtons.contains(button) else { return }
-		button.group = self
-		button.index = radioButtons.count
-		radioButtons.append(button)
-		if button.isSelected
-		{
-			selectedButton = button
-		}
-	}
-
-	func addButtons(_ buttons: [RadioButton])
-	{
-		buttons.forEach { addButton($0) }
-	}
-
-	fileprivate func setSelected(button: RadioButton)
-	{
-		radioButtons.forEach { $0.isSelected = ($0 == button) }
-		selectedButton = button
-	}
+final class RadioButtonsView<T: RawRepresentable & CaseIterable>: UIStackView where T.RawValue == String {
+    
+    private let title: String
+    private(set) var selectedRadioButtonType: T {
+        didSet {
+            for subview in arrangedSubviews {
+                if let button = subview as? RadioButton {
+                    button.isSelected = button.radioButtonType == selectedRadioButtonType
+                }
+            }
+        }
+    }
+    
+    init(title: String) {
+        precondition(!T.allCases.isEmpty, "Enum must have at least 1 case")
+        self.title = title
+        self.selectedRadioButtonType = T.allCases.first!
+        super.init(frame: .zero)
+        setup()
+    }
+    
+    @available(*, unavailable)
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setup() {
+        axis = .vertical
+        alignment = .fill
+        distribution = .fillEqually
+        spacing = 8
+        
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 17, weight: .bold)
+        label.textColor = .foregroundColor()
+        label.text = title
+        addArrangedSubview(label)
+        
+        for button in T.allCases {
+            let radioButton = RadioButton(title: button.rawValue, radioButtonType: button)
+            radioButton.isSelected = button == selectedRadioButtonType
+            radioButton.onTap = { [weak self] radioButtonType in
+                self?.selectedRadioButtonType = radioButtonType
+            }
+            addArrangedSubview(radioButton)
+        }
+    }
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        systemLayoutSizeFitting(size)
+    }
+    
+    func changeEnabled(_ isEnabled: Bool, for radioButtonType: T) {
+        for subview in arrangedSubviews {
+            if let button = subview as? RadioButton, button.radioButtonType == radioButtonType {
+                button.isEnabled = isEnabled
+            }
+        }
+    }
+    
 }
 
-@IBDesignable class RadioButton: UIButton
-{
-	weak fileprivate var group: RadioButtonsGroup?
-	fileprivate var index: Int = 0
+// MARK: - RadioButton
 
-	var slot = Slot(rawValue: 0)
-	var adType = AdvertismentType.standard
-	var adDescription = ""
-
-	@IBInspectable var iconWidth: CGFloat = 16.0
-	@IBInspectable var iconColor: UIColor?
-	@IBInspectable var indicatorColor: UIColor?
-
-	private var activeImage: UIImage?
-	private var inactiveImage: UIImage?
-
-	override init(frame: CGRect)
-	{
-		super.init(frame: frame)
-		configure()
-	}
-
-	required init?(coder: NSCoder)
-	{
-		super.init(coder: coder)
-		configure()
-	}
-
-	init(title: String, frame: CGRect = .zero)
-	{
-		super.init(frame: frame)
-		setTitle(title, for: .normal)
-		configure()
-	}
-
-	override func tintColorDidChange()
-	{
-		super.tintColorDidChange()
-		activeImage = nil
-		inactiveImage = nil
-		configure()
-	}
-
-	private func configure()
-	{
-		super.addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
-
-		backgroundColor = UIColor.backgroundColor()
-		setTitleColor(UIColor.foregroundColor(), for: .normal)
-		setTitleColor(UIColor.disabledColor(), for: .disabled)
-
-		setImage(inactiveIcon(), for: .normal)
-		setImage(activeIcon(), for: .selected)
-		setImage(activeIcon(), for: [.selected, .highlighted])
-	}
-
-	override var isSelected: Bool
-	{
-		willSet(newValue)
-		{
-			if isSelected != newValue
-			{
-				let activeImage = activeIcon()
-				let inactiveImage = inactiveIcon()
-				let animation = CABasicAnimation(keyPath: "contents")
-				animation.duration = 0.2
-				animation.fromValue = isSelected ? activeImage.cgImage : inactiveImage.cgImage
-				animation.toValue = isSelected ? inactiveImage.cgImage : activeImage.cgImage
-				imageView?.layer.add(animation, forKey: "icon")
-			}
-			super.isSelected = newValue;
-		}
-	}
-
-	@objc func touchUpInside()
-	{
-		guard let group = self.group else { return }
-		group.setSelected(button: self)
-	}
-
-	private func activeIcon() -> UIImage
-	{
-		let image = activeImage ?? draw(selected: true)
-		activeImage = image
-		return image
-	}
-
-	private func inactiveIcon() -> UIImage
-	{
-		let image = inactiveImage ?? draw(selected: false)
-		inactiveImage = image
-		return image
-	}
-
-	private func draw(selected: Bool) -> UIImage
-	{
-		var image = UIImage()
-
-		let defaultColor = titleColor(for: .normal) ?? UIColor.foregroundColor()
-		let iconColor = self.iconColor ?? defaultColor
-		let indicatorColor = self.indicatorColor ?? defaultColor
-
-		let iconSize = CGSize(width: iconWidth, height: iconWidth)
-		let indicatorSize = CGSize(width: 0.5 * iconWidth, height: 0.5 * iconWidth)
-		let strokeWidth: CGFloat = 1.0
-
-		UIGraphicsBeginImageContextWithOptions(iconSize, false, 0.0)
-
-		var iconRect = CGRect.zero
-		iconRect.origin.x = 0.5 * strokeWidth
-		iconRect.origin.y = 0.5 * strokeWidth
-		iconRect.size.width = iconSize.width - strokeWidth
-		iconRect.size.height = iconSize.height - strokeWidth
-
-		let iconPath = UIBezierPath(ovalIn: iconRect)
-		iconPath.lineWidth = strokeWidth
-		iconColor.setStroke()
-		iconPath.stroke()
-
-		if selected
-		{
-			var indicatorRect = CGRect.zero
-			indicatorRect.origin.x = 0.5 * (iconSize.width - indicatorSize.width)
-			indicatorRect.origin.y = 0.5 * (iconSize.height - indicatorSize.height)
-			indicatorRect.size = indicatorSize
-
-			let indicatorPath = UIBezierPath(ovalIn: indicatorRect)
-			indicatorColor.setFill()
-			indicatorPath.fill()
-		}
-
-		image = UIGraphicsGetImageFromCurrentImageContext() ?? image
-		UIGraphicsPopContext()
-		UIGraphicsEndImageContext()
-		return image
-	}
+private extension RadioButtonsView {
+    
+    final class RadioButton: UIButton {
+        
+        var onTap: ((T) -> Void)?
+        
+        let radioButtonType: T
+        
+        init(title: String, radioButtonType: T) {
+            self.radioButtonType = radioButtonType
+            super.init(frame: .zero)
+            setTitle(title, for: .normal)
+            setup()
+        }
+        
+        @available(*, unavailable)
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        private func setup() {
+            backgroundColor = .backgroundColor()
+            tintColor = .foregroundColor()
+            
+            setTitleColor(.foregroundColor(), for: .normal)
+            setTitleColor(.disabledColor(), for: .disabled)
+            titleLabel?.font = .systemFont(ofSize: 15)
+            
+            let activeIcon = drawIcon(isActive: true)
+            let inactiveIcon = drawIcon(isActive: false)
+            setImage(inactiveIcon, for: .normal)
+            setImage(activeIcon, for: .selected)
+            setImage(activeIcon, for: [.selected, .highlighted])
+            
+            contentHorizontalAlignment = .left
+            contentEdgeInsets.right = 8
+            titleEdgeInsets.left = 8
+            titleEdgeInsets.right = -8
+            
+            addTarget(self, action: #selector(self.tapped), for: .touchUpInside)
+        }
+        
+        private func drawIcon(isActive: Bool) -> UIImage {
+            return UIGraphicsImageRenderer(size: .init(width: 16, height: 16)).image { context in
+                UIColor.black.setStroke()
+                let path = UIBezierPath(ovalIn: context.format.bounds.inset(by: .init(top: 0.5, left: 0.5, bottom: 0.5, right: 0.5)))
+                path.lineWidth = 1
+                path.stroke()
+                
+                if isActive {
+                    UIColor.black.setFill()
+                    let inset = context.format.bounds.size.width / 4
+                    UIBezierPath(ovalIn: context.format.bounds.inset(by: .init(top: inset, left: inset, bottom: inset, right: inset))).fill()
+                }
+                
+            }.withRenderingMode(.alwaysTemplate)
+        }
+        
+        @objc private func tapped() {
+            onTap?(radioButtonType)
+        }
+    }
+    
 }

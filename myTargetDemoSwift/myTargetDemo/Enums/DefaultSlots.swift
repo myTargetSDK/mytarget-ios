@@ -8,49 +8,74 @@
 
 import Foundation
 
-enum Slot: UInt
-{
-	enum standard: UInt
-	{
+enum Slot {
+    
+	enum Standard {
 		case bannerAdaptive
 		case banner320x50
 		case banner300x250
 		case banner728x90
 
-		var rawValue: UInt
-		{
-			switch self
-			{
-			case .bannerAdaptive:
-				return 794557
-			case .banner320x50:
+        var id: UInt {
+			switch self {
+            case .bannerAdaptive,
+                 .banner320x50,
+                 .banner728x90:
 				return 794557
 			case .banner300x250:
 				return 93231
-			case .banner728x90:
-				return 794557
 			}
 		}
-
 	}
 
-	case nativePromo = 30294
-	case nativeVideo = 30152
-	case nativeCards = 54928
+	case nativePromo
+	case nativeVideo
+	case nativeCards
+	case nativeBanner
 
-	case nativeBanner = 708246
+	case intertitialPromo
+	case intertitialImage
+	case interstitialHtml
+	case interstitialVast
+	case interstitialCards
 
-	case intertitialPromo = 6899
-	case intertitialImage = 6498
-	case interstitialHtml = 93233
-	case interstitialVast = 101600
-	case interstitialCards = 102654
+	case intertitialPromoVideo
+	case intertitialPromoVideoStyle
+	case intertitialRewardedVideo
 
-	case intertitialPromoVideo = 22091
-	case intertitialPromoVideoStyle = 38838
-	case intertitialRewardedVideo = 45102
-
-	case rewardedVideo = 577495
-
-	case instreamVideo = 9525
+	case rewardedVideo
+	case instreamVideo
+    
+    var id: UInt {
+        switch self {
+        case .nativePromo:
+            return 30294
+        case .nativeVideo:
+            return 30152
+        case .nativeCards:
+            return 54928
+        case .nativeBanner:
+            return 708246
+        case .intertitialPromo:
+            return 6899
+        case .intertitialImage:
+            return 6498
+        case .interstitialHtml:
+            return 93233
+        case .interstitialVast:
+            return 101600
+        case .interstitialCards:
+            return 102654
+        case .intertitialPromoVideo:
+            return 22091
+        case .intertitialPromoVideoStyle:
+            return 38838
+        case .intertitialRewardedVideo:
+            return 45102
+        case .rewardedVideo:
+            return 577495
+        case .instreamVideo:
+            return 9525
+        }
+    }
 }

@@ -8,52 +8,36 @@
 
 import UIKit
 
-extension UIColor
-{
-	static func foregroundColor() -> UIColor
-	{
-		if #available(iOS 13.0, *)
-		{
+extension UIColor {
+    
+	static func foregroundColor() -> UIColor {
+		if #available(iOS 13.0, *) {
 			return UIColor.label
-		}
-		else
-		{
+		} else {
 			return UIColor.black
 		}
 	}
 
-	static func backgroundColor() -> UIColor
-	{
-		if #available(iOS 13.0, *)
-		{
+	static func backgroundColor() -> UIColor {
+		if #available(iOS 13.0, *) {
 			return UIColor.systemBackground
-		}
-		else
-		{
+		} else {
 			return UIColor.white
 		}
 	}
 
-	static func disabledColor() -> UIColor
-	{
-		if #available(iOS 13.0, *)
-		{
+	static func disabledColor() -> UIColor {
+		if #available(iOS 13.0, *) {
 			return UIColor.secondaryLabel
-		}
-		else
-		{
+		} else {
 			return UIColor.lightGray
 		}
 	}
 
-	static func separatorColor() -> UIColor
-	{
-		if #available(iOS 13.0, *)
-		{
+	static func separatorColor() -> UIColor {
+		if #available(iOS 13.0, *) {
 			return UIColor.separator
-		}
-		else
-		{
+		} else {
 			return UIColor.lightGray
 		}
 	}

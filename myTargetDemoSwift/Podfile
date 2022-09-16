@@ -1,13 +1,14 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '9.0'
+platform :ios, '10.0'
 
 workspace 'myTargetDemo'
 
 target :myTargetDemo do
 
   project 'myTargetDemo.xcodeproj'
-  pod 'myTargetSDK', '>= 5.15.2'
+  pod 'myTargetSDK', '>= 5.16.0'
+
 
 
 
