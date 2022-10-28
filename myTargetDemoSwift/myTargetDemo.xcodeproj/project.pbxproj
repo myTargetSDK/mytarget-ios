@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4FAC0ED728CF396400DB535C /* InstreamMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC0ED628CF396400DB535C /* InstreamMenu.swift */; };
+		4FAC0ED728CF396400DB535C /* AlertMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC0ED628CF396400DB535C /* AlertMenu.swift */; };
+		4FB1A9DF28F58A16008656D2 /* NativeCloseManuallyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB1A9DE28F58A16008656D2 /* NativeCloseManuallyViewController.swift */; };
+		4FF5AD3128EDA52E00B79C89 /* NativeDrawingManualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF5AD3028EDA52E00B79C89 /* NativeDrawingManualViewController.swift */; };
+		4FF5AD3528EDBEC700B79C89 /* CGSize+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF5AD3428EDBEC700B79C89 /* CGSize+Resize.swift */; };
 		891A138D22F2F11E00AE192B /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A138C22F2F11E00AE192B /* VideoPlayerView.swift */; };
 		891A13A122F9662A00AE192B /* VideoProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A13A022F9662A00AE192B /* VideoProgressView.swift */; };
 		89537E3C246BFAA400224397 /* LoadingReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89537E3A246BFAA400224397 /* LoadingReusableView.swift */; };
@@ -47,7 +50,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4FAC0ED628CF396400DB535C /* InstreamMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstreamMenu.swift; sourceTree = "<group>"; };
+		4FAC0ED628CF396400DB535C /* AlertMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertMenu.swift; sourceTree = "<group>"; };
+		4FB1A9DE28F58A16008656D2 /* NativeCloseManuallyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCloseManuallyViewController.swift; sourceTree = "<group>"; };
+		4FF5AD3028EDA52E00B79C89 /* NativeDrawingManualViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeDrawingManualViewController.swift; sourceTree = "<group>"; };
+		4FF5AD3428EDBEC700B79C89 /* CGSize+Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Resize.swift"; sourceTree = "<group>"; };
 		891A138C22F2F11E00AE192B /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		891A13A022F9662A00AE192B /* VideoProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressView.swift; sourceTree = "<group>"; };
 		89537E3A246BFAA400224397 /* LoadingReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingReusableView.swift; sourceTree = "<group>"; };
@@ -113,6 +119,7 @@
 		894F9AB122E5FDE3008D0064 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				4FF5AD3428EDBEC700B79C89 /* CGSize+Resize.swift */,
 				89CEA60B22E6F67000D0CD1E /* UIColor+DarkMode.swift */,
 				8A56C8BB28B6541B00C8086A /* UIView+SafeArea.swift */,
 				8A56C8B928B6536800C8086A /* UIViewController+SafeArea.swift */,
@@ -124,11 +131,11 @@
 			isa = PBXGroup;
 			children = (
 				8A56C89928A5474900C8086A /* AdCollectionCell.swift */,
+				4FAC0ED628CF396400DB535C /* AlertMenu.swift */,
 				89CEA60D22E7001000D0CD1E /* CustomButton.swift */,
 				8A56C89728A4F71100C8086A /* GeneralCollectionCell.swift */,
 				8A56C8B128AF834600C8086A /* InfoView.swift */,
 				8A56C8B728B51D8300C8086A /* InputView.swift */,
-				4FAC0ED628CF396400DB535C /* InstreamMenu.swift */,
 				89537E3A246BFAA400224397 /* LoadingReusableView.swift */,
 				8A56C8A528AD572400C8086A /* MenuTableViewCell.swift */,
 				89CEA61422E74A5100D0CD1E /* NotificationView.swift */,
@@ -156,6 +163,7 @@
 				89F0E1DA22BA71FC006B8B93 /* myTargetDemo */,
 				89F0E1D922BA71FC006B8B93 /* Products */,
 				77E4B3635FAADC3AA48FF260 /* Frameworks */,
+				B6E96249ADBC30DE0597EDE0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -247,6 +255,8 @@
 			children = (
 				8A56C8A728AE2F0300C8086A /* NativeSettingsViewController.swift */,
 				8A56C89B28A6BADB00C8086A /* NativeViewController.swift */,
+				4FF5AD3028EDA52E00B79C89 /* NativeDrawingManualViewController.swift */,
+				4FB1A9DE28F58A16008656D2 /* NativeCloseManuallyViewController.swift */,
 			);
 			path = Native;
 			sourceTree = "<group>";
@@ -266,6 +276,13 @@
 				8A56C8BD28B6691600C8086A /* InstreamView.swift */,
 			);
 			path = Instream;
+			sourceTree = "<group>";
+		};
+		B6E96249ADBC30DE0597EDE0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,9 +364,11 @@
 				89CEA61122E7072700D0CD1E /* DefaultSlots.swift in Sources */,
 				89CEA61522E74A5100D0CD1E /* NotificationView.swift in Sources */,
 				8A56C89C28A6BADB00C8086A /* NativeViewController.swift in Sources */,
-				4FAC0ED728CF396400DB535C /* InstreamMenu.swift in Sources */,
+				4FAC0ED728CF396400DB535C /* AlertMenu.swift in Sources */,
 				891A13A122F9662A00AE192B /* VideoProgressView.swift in Sources */,
 				8A56C8B228AF834600C8086A /* InfoView.swift in Sources */,
+				4FF5AD3528EDBEC700B79C89 /* CGSize+Resize.swift in Sources */,
+				4FB1A9DF28F58A16008656D2 /* NativeCloseManuallyViewController.swift in Sources */,
 				89BB245F22DCBEE900610CFF /* RadioButtons.swift in Sources */,
 				8A56C8A228ACF38700C8086A /* MainViewController.swift in Sources */,
 				8A56C8BC28B6541B00C8086A /* UIView+SafeArea.swift in Sources */,
@@ -368,6 +387,7 @@
 				8A56C88828A26D2A00C8086A /* TitleView.swift in Sources */,
 				8A56C8BA28B6536800C8086A /* UIViewController+SafeArea.swift in Sources */,
 				8A56C89628A3B57300C8086A /* NativeBannerViewController.swift in Sources */,
+				4FF5AD3128EDA52E00B79C89 /* NativeDrawingManualViewController.swift in Sources */,
 				8A56C8B628B5193700C8086A /* AddingAdViewController.swift in Sources */,
 				891A138D22F2F11E00AE192B /* VideoPlayerView.swift in Sources */,
 				8A56C89A28A5474900C8086A /* AdCollectionCell.swift in Sources */,
@@ -516,7 +536,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = L2QFT5NA2Q;
+				DEVELOPMENT_TEAM = A98KLPSGWM;
+				ENABLE_BITCODE = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "myTargetDemo/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -525,7 +546,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.my.target.myTargetDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.myTarget.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
@@ -537,9 +558,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = L2QFT5NA2Q;
+				DEVELOPMENT_TEAM = A98KLPSGWM;
+				ENABLE_BITCODE = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "myTargetDemo/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -548,8 +571,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.my.target.myTargetDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.myTarget.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = com.myTarget.demo_adHoc;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -101,7 +101,7 @@ final class InstreamViewController: UIViewController {
         instreamAd?.player?.adPlayerView.removeFromSuperview()
         instreamAd = nil
         
-        instreamAd = MTRGInstreamAd(slotId: slotId ?? Slot.instreamVideo.id, menuFactory: InstreamMenuFactory())
+        instreamAd = MTRGInstreamAd(slotId: slotId ?? Slot.instreamVideo.id, menuFactory: AlertMenuFactory())
         instreamAd?.useDefaultPlayer()
         instreamAd?.delegate = self
         
