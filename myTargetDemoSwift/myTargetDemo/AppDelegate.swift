@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AppTrackingTransparency
 import MyTargetSDK
 
 @UIApplicationMain
@@ -39,25 +38,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        if #available(iOS 14.5, *) {
-            ATTrackingManager.requestTrackingAuthorization { status in
-                switch status {
-                case .notDetermined:
-                    print("Tracking Authorization Status: Not determined")
-                case .restricted:
-                    print("Tracking Authorization Status: Restricted")
-                case .denied:
-                    print("Tracking Authorization Status: Denied")
-                case .authorized:
-                    print("Tracking Authorization Status: Authorized")
-                @unknown default:
-                    print("Unknown")
-                }
-            }
-        }
     }
 
 }

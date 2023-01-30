@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AppTrackingTransparency
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -26,5 +27,26 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
-    
+
+	@available(iOS 13.0, *)
+	func sceneDidBecomeActive(_ scene: UIScene) {
+		if #available(iOS 14.0, *) {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+				ATTrackingManager.requestTrackingAuthorization { status in
+					switch status {
+					case .notDetermined:
+						print("Tracking Authorization Status: Not determined")
+					case .restricted:
+						print("Tracking Authorization Status: Restricted")
+					case .denied:
+						print("Tracking Authorization Status: Denied")
+					case .authorized:
+						print("Tracking Authorization Status: Authorized")
+					@unknown default:
+						print("Unknown")
+					}
+				}
+			})
+		}
+	}
 }
