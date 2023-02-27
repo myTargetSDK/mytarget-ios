@@ -7,12 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F814DFC2991357000A34F7F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F814DFB2991357000A34F7F /* AudioPlayer.swift */; };
+		4F814DFE2991429700A34F7F /* AudioPlayer+Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F814DFD2991429700A34F7F /* AudioPlayer+Loader.swift */; };
 		4FAC0ED728CF396400DB535C /* AlertMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC0ED628CF396400DB535C /* AlertMenu.swift */; };
+		4FAD1E5D298CF892006FE0A0 /* UIImage+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAD1E5C298CF892006FE0A0 /* UIImage+Images.swift */; };
+		4FAD1E5F298D1DC2006FE0A0 /* UIImageView+Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAD1E5E298D1DC2006FE0A0 /* UIImageView+Download.swift */; };
 		4FB1A9DF28F58A16008656D2 /* NativeCloseManuallyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB1A9DE28F58A16008656D2 /* NativeCloseManuallyViewController.swift */; };
+		4FDFD988298BD94200D85FE7 /* InstreamAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDFD987298BD94200D85FE7 /* InstreamAudioViewController.swift */; };
+		4FDFD98A298BDA9500D85FE7 /* InstreamAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDFD989298BDA9500D85FE7 /* InstreamAudioView.swift */; };
 		4FF5AD3128EDA52E00B79C89 /* NativeDrawingManualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF5AD3028EDA52E00B79C89 /* NativeDrawingManualViewController.swift */; };
 		4FF5AD3528EDBEC700B79C89 /* CGSize+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF5AD3428EDBEC700B79C89 /* CGSize+Resize.swift */; };
 		891A138D22F2F11E00AE192B /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A138C22F2F11E00AE192B /* VideoPlayerView.swift */; };
-		891A13A122F9662A00AE192B /* VideoProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A13A022F9662A00AE192B /* VideoProgressView.swift */; };
+		891A13A122F9662A00AE192B /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891A13A022F9662A00AE192B /* ProgressView.swift */; };
 		89537E3C246BFAA400224397 /* LoadingReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89537E3A246BFAA400224397 /* LoadingReusableView.swift */; };
 		89BB245F22DCBEE900610CFF /* RadioButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BB245E22DCBEE900610CFF /* RadioButtons.swift */; };
 		89CEA60C22E6F67000D0CD1E /* UIColor+DarkMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CEA60B22E6F67000D0CD1E /* UIColor+DarkMode.swift */; };
@@ -50,12 +56,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F814DFB2991357000A34F7F /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		4F814DFD2991429700A34F7F /* AudioPlayer+Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AudioPlayer+Loader.swift"; sourceTree = "<group>"; };
 		4FAC0ED628CF396400DB535C /* AlertMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertMenu.swift; sourceTree = "<group>"; };
+		4FAD1E5C298CF892006FE0A0 /* UIImage+Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Images.swift"; sourceTree = "<group>"; };
+		4FAD1E5E298D1DC2006FE0A0 /* UIImageView+Download.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Download.swift"; sourceTree = "<group>"; };
 		4FB1A9DE28F58A16008656D2 /* NativeCloseManuallyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeCloseManuallyViewController.swift; sourceTree = "<group>"; };
+		4FDFD987298BD94200D85FE7 /* InstreamAudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstreamAudioViewController.swift; sourceTree = "<group>"; };
+		4FDFD989298BDA9500D85FE7 /* InstreamAudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstreamAudioView.swift; sourceTree = "<group>"; };
 		4FF5AD3028EDA52E00B79C89 /* NativeDrawingManualViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeDrawingManualViewController.swift; sourceTree = "<group>"; };
 		4FF5AD3428EDBEC700B79C89 /* CGSize+Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Resize.swift"; sourceTree = "<group>"; };
 		891A138C22F2F11E00AE192B /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
-		891A13A022F9662A00AE192B /* VideoProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProgressView.swift; sourceTree = "<group>"; };
+		891A13A022F9662A00AE192B /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		89537E3A246BFAA400224397 /* LoadingReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingReusableView.swift; sourceTree = "<group>"; };
 		89862A5E2678F6E300D4408D /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		89BB245E22DCBEE900610CFF /* RadioButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtons.swift; sourceTree = "<group>"; };
@@ -107,6 +119,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4FDFD986298BD86500D85FE7 /* InstreamAudio */ = {
+			isa = PBXGroup;
+			children = (
+				4FDFD987298BD94200D85FE7 /* InstreamAudioViewController.swift */,
+				4FDFD989298BDA9500D85FE7 /* InstreamAudioView.swift */,
+				4F814DFB2991357000A34F7F /* AudioPlayer.swift */,
+				4F814DFD2991429700A34F7F /* AudioPlayer+Loader.swift */,
+			);
+			path = InstreamAudio;
+			sourceTree = "<group>";
+		};
 		77E4B3635FAADC3AA48FF260 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +144,8 @@
 			children = (
 				4FF5AD3428EDBEC700B79C89 /* CGSize+Resize.swift */,
 				89CEA60B22E6F67000D0CD1E /* UIColor+DarkMode.swift */,
+				4FAD1E5C298CF892006FE0A0 /* UIImage+Images.swift */,
+				4FAD1E5E298D1DC2006FE0A0 /* UIImageView+Download.swift */,
 				8A56C8BB28B6541B00C8086A /* UIView+SafeArea.swift */,
 				8A56C8B928B6536800C8086A /* UIViewController+SafeArea.swift */,
 			);
@@ -143,7 +168,7 @@
 				89BB245E22DCBEE900610CFF /* RadioButtons.swift */,
 				8A56C88728A26D2A00C8086A /* TitleView.swift */,
 				891A138C22F2F11E00AE192B /* VideoPlayerView.swift */,
-				891A13A022F9662A00AE192B /* VideoProgressView.swift */,
+				891A13A022F9662A00AE192B /* ProgressView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -211,6 +236,7 @@
 				8A56C8C228B67A1400C8086A /* Native */,
 				8A56C8C328B67A1F00C8086A /* Native banner */,
 				8A56C8C428B67A2B00C8086A /* Instream */,
+				4FDFD986298BD86500D85FE7 /* InstreamAudio */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -359,13 +385,15 @@
 				8A56C8B028AF7FB900C8086A /* InstreamViewController.swift in Sources */,
 				8A56C8B828B51D8300C8086A /* InputView.swift in Sources */,
 				89CEA60C22E6F67000D0CD1E /* UIColor+DarkMode.swift in Sources */,
+				4F814DFE2991429700A34F7F /* AudioPlayer+Loader.swift in Sources */,
 				8A56C8A628AD572400C8086A /* MenuTableViewCell.swift in Sources */,
 				8A56C8AC28AF6A9D00C8086A /* InterstitialViewController.swift in Sources */,
 				89CEA61122E7072700D0CD1E /* DefaultSlots.swift in Sources */,
 				89CEA61522E74A5100D0CD1E /* NotificationView.swift in Sources */,
 				8A56C89C28A6BADB00C8086A /* NativeViewController.swift in Sources */,
+				4FDFD988298BD94200D85FE7 /* InstreamAudioViewController.swift in Sources */,
 				4FAC0ED728CF396400DB535C /* AlertMenu.swift in Sources */,
-				891A13A122F9662A00AE192B /* VideoProgressView.swift in Sources */,
+				891A13A122F9662A00AE192B /* ProgressView.swift in Sources */,
 				8A56C8B228AF834600C8086A /* InfoView.swift in Sources */,
 				4FF5AD3528EDBEC700B79C89 /* CGSize+Resize.swift in Sources */,
 				4FB1A9DF28F58A16008656D2 /* NativeCloseManuallyViewController.swift in Sources */,
@@ -379,15 +407,19 @@
 				89F0E1DC22BA71FC006B8B93 /* AppDelegate.swift in Sources */,
 				8A56C8BE28B6691600C8086A /* InstreamView.swift in Sources */,
 				8A56C8AE28AF76D000C8086A /* RewardedViewController.swift in Sources */,
+				4FAD1E5F298D1DC2006FE0A0 /* UIImageView+Download.swift in Sources */,
 				8A56C89E28A6CB1800C8086A /* BottomBannerViewController.swift in Sources */,
 				89CEA60E22E7001000D0CD1E /* CustomButton.swift in Sources */,
 				8A56C88628A26C3700C8086A /* AdvertismentType.swift in Sources */,
+				4FAD1E5D298CF892006FE0A0 /* UIImage+Images.swift in Sources */,
 				8A56C88428A26C1800C8086A /* Advertisment.swift in Sources */,
 				8A56C8B428B37AC300C8086A /* PlayerAdButton.swift in Sources */,
 				8A56C88828A26D2A00C8086A /* TitleView.swift in Sources */,
 				8A56C8BA28B6536800C8086A /* UIViewController+SafeArea.swift in Sources */,
+				4F814DFC2991357000A34F7F /* AudioPlayer.swift in Sources */,
 				8A56C89628A3B57300C8086A /* NativeBannerViewController.swift in Sources */,
 				4FF5AD3128EDA52E00B79C89 /* NativeDrawingManualViewController.swift in Sources */,
+				4FDFD98A298BDA9500D85FE7 /* InstreamAudioView.swift in Sources */,
 				8A56C8B628B5193700C8086A /* AddingAdViewController.swift in Sources */,
 				891A138D22F2F11E00AE192B /* VideoPlayerView.swift in Sources */,
 				8A56C89A28A5474900C8086A /* AdCollectionCell.swift in Sources */,

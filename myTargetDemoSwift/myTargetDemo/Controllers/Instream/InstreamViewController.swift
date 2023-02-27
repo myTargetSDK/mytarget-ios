@@ -34,8 +34,8 @@ final class InstreamViewController: UIViewController {
         }
     }
     
-    private static let mainVideoUrl = "https://r.mradx.net/img/ED/518795.mp4"
-    static let mainVideoDuration = 124.055
+    private static let mainVideoUrl = "https://r.mradx.net/img/1A/E16A8A.mp4"
+    static let mainVideoDuration = 30.0
     
     init(slotId: UInt? = nil, query: [String: String]? = nil) {
         self.slotId = slotId
@@ -401,7 +401,7 @@ extension InstreamViewController: VideoPlayerViewDelegate {
     }
 
     func onVideoComplete() {
-        guard state == .playing(.main) else {
+        guard state == .playing(.main) || state == .onPause(.main) else {
             return
         }
         

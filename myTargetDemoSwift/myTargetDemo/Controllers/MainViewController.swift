@@ -71,7 +71,8 @@ final class MainViewController: UIViewController {
             .advertisment(.init(title: "Rewarded video", description: "Fullscreen rewarded video", type: .rewarded)),
             .advertisment(.init(title: "Native Ads", description: "Advertisement inside app's content", type: .native)),
             .advertisment(.init(title: "Native Banners", description: "Compact advertisement inside app's content", type: .nativeBanner)),
-            .advertisment(.init(title: "In-stream video", description: "Advertisement inside video stream", type: .instream))
+            .advertisment(.init(title: "In-stream video", description: "Advertisement inside video stream", type: .instream)),
+            .advertisment(.init(title: "In-stream audio", description: "Advertisement inside audio stream", type: .instreamAudio))
         ]
         content.append(contentsOf: provider.receive().map { .custom($0) })
     }
@@ -118,6 +119,8 @@ extension MainViewController: UITableViewDelegate {
                 viewController = NativeBannerViewController()
             case .rewarded:
                 viewController = RewardedViewController()
+            case .instreamAudio:
+                viewController = InstreamAudioViewController()
             }
         case .custom(let customAdvertisment):
             switch customAdvertisment.type {
@@ -139,6 +142,8 @@ extension MainViewController: UITableViewDelegate {
             case .rewarded:
                 viewController = RewardedViewController(slotId: customAdvertisment.slotId,
                                                         query: customAdvertisment.query)
+            case .instreamAudio:
+                viewController = InstreamAudioViewController(slotId: customAdvertisment.slotId, query: customAdvertisment.query)
             }
         }
         

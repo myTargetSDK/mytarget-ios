@@ -45,6 +45,7 @@ enum Slot {
 
 	case rewardedVideo
 	case instreamVideo
+    case instreamAudio
     
     var id: UInt {
         switch self {
@@ -76,6 +77,8 @@ enum Slot {
             return 577495
         case .instreamVideo:
             return 9525
+        case .instreamAudio:
+            return 37047
         }
     }
 }

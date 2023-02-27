@@ -15,4 +15,5 @@ enum AdvertismentType: Codable {
     case native
     case nativeBanner
     case instream
+    case instreamAudio
 }
