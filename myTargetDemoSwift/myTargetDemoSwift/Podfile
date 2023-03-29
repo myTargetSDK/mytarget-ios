@@ -1,0 +1,29 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '10.0'
+
+workspace 'myTargetDemo'
+
+target :myTargetDemo do
+
+  project 'myTargetDemo.xcodeproj'
+  pod 'myTargetSDK', '>= 5.17.4'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+end

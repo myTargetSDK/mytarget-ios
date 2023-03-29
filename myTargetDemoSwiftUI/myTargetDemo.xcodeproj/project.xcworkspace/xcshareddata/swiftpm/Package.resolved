@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "mytarget-ios-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/myTargetSDK/mytarget-ios-spm",
+      "state" : {
+        "revision" : "d5fa4428c1f268923c7455f54a70c104cc735445",
+        "version" : "5.17.1"
+      }
+    },
+    {
+      "identity" : "mytracker-ios-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/myTrackerSDK/mytracker-ios-spm.git",
+      "state" : {
+        "revision" : "21f120be93ed160d714ea36b99e76d7c75996728",
+        "version" : "3.0.7"
+      }
+    }
+  ],
+  "version" : 2
+}
