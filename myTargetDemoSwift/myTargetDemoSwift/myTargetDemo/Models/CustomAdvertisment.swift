@@ -18,7 +18,7 @@ struct CustomAdvertisment: Codable, Equatable {
 
 final class CustomAdvertismentProvider {
     private let userDefaultsKey: String = "customAdvertismentKey"
-    
+
     private lazy var userDefaults: UserDefaults = .standard
     private lazy var decoder: JSONDecoder = .init()
     private lazy var encoder: JSONEncoder = .init()
@@ -28,33 +28,33 @@ final class CustomAdvertismentProvider {
         else {
             return []
         }
-        
+
         return customsAds
     }()
-    
+
     func receive() -> [CustomAdvertisment] {
         customAdvertisments
     }
-    
+
     func add(_ advertisment: CustomAdvertisment) {
         customAdvertisments.append(advertisment)
         save()
     }
-    
+
     func remove(_ advertisment: CustomAdvertisment) {
         guard let index = customAdvertisments.firstIndex(of: advertisment) else {
             return
         }
-        
+
         customAdvertisments.remove(at: index)
         save()
     }
-    
+
     private func save() {
         guard let encodedCustomAds = try? encoder.encode(customAdvertisments) else {
             return
         }
-        
+
         userDefaults.set(encodedCustomAds, forKey: userDefaultsKey)
     }
 }

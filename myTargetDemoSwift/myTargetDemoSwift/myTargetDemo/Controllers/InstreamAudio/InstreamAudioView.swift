@@ -54,8 +54,10 @@ final class InstreamAudioView: UIView {
     private lazy var scrollView: UIScrollView = .init()
     private lazy var contentView: UIView = .init()
 
-    private(set) lazy var audioParametersInfoView: InfoView<AudioParametersInfo> = .init(title: "Audio parameters", doubleColumns: true)
-    private(set) lazy var currentAdParametersInfoView: InfoView<CurrentAudioAdParametersInfo> = .init(title: "Current ad parameters", doubleColumns: true)
+    private(set) lazy var audioParametersInfoView: InfoView<AudioParametersInfo> = .init(title: "Audio parameters",
+                                                                                         doubleColumns: true)
+    private(set) lazy var currentAdParametersInfoView: InfoView<CurrentAudioAdParametersInfo> = .init(title: "Current ad parameters",
+                                                                                                      doubleColumns: true)
     private lazy var playerInfoView: InfoView<PlayerInfo> = .init(title: "Player info")
 
     private lazy var containerView: UIView = {
@@ -226,7 +228,7 @@ private extension InstreamAudioView {
                                      height: playerAdButtonHeight)
 
         let imageSize = adChoicesButton.image(for: .normal)?.size ?? .zero
-        let constrainedSize = CGSize(width: playerInfoView.frame.width - playerAdButtonInsets.left - ctaButton.frame.width - 2 * playerAdButtonInsets.right,
+        let constrainedSize = CGSize(width: playerInfoView.frame.width - ctaButton.frame.maxX - 2 * playerAdButtonInsets.right,
                                      height: playerAdButtonHeight)
         let fitImageSizeWidth = imageSize.resize(targetSize: constrainedSize).width
         adChoicesButton.frame = CGRect(x: playerInfoView.frame.width - playerAdButtonInsets.right - fitImageSizeWidth,
@@ -276,7 +278,7 @@ private extension InstreamAudioView {
 // MARK: - State
 
 private extension InstreamAudioView {
-    
+
     func applyCurrentState() {
         ctaButton.isHidden = true
         skipButton.isHidden = true

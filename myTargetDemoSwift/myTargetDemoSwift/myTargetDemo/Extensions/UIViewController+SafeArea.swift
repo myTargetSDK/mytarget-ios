@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIViewController {
-    
+
     var supportSafeAreaInsets: UIEdgeInsets {
         if #available(iOS 11.0, *) {
             return view.safeAreaInsets
@@ -20,5 +20,5 @@ extension UIViewController {
                          right: 0)
         }
     }
-    
+
 }

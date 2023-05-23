@@ -11,7 +11,7 @@ import UIKit
 private var tokenKey: Void?
 
 extension UIImageView {
-    
+
     private var token: UUID? {
         get {
             return objc_getAssociatedObject(self, &tokenKey) as? UUID
@@ -20,11 +20,11 @@ extension UIImageView {
             objc_setAssociatedObject(self, &tokenKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    
+
     private var loader: ImageLoader {
         ImageLoader.shared
     }
-    
+
     func loadImage(url: URL) {
         let uuid = loader.loadImage(url: url) { [weak self] result in
             DispatchQueue.main.async {
@@ -35,7 +35,7 @@ extension UIImageView {
         }
         self.token = uuid
     }
-    
+
     func cancelLoading() {
         token.map { loader.cancelLoading(by: $0) }
     }

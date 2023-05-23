@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIColor {
-    
+
 	static func foregroundColor() -> UIColor {
 		if #available(iOS 13.0, *) {
 			return UIColor.label
@@ -25,7 +25,7 @@ extension UIColor {
 			return UIColor.white
 		}
 	}
-    
+
     static func secondaryBackgroundColor() -> UIColor {
         if #available(iOS 13.0, *) {
             return UIColor.secondarySystemBackground
@@ -49,7 +49,7 @@ extension UIColor {
 			return UIColor.lightGray
 		}
 	}
-    
+
     static func activeColor() -> UIColor {
         if #available(iOS 13.0, *) {
             return UIColor.systemBlue
@@ -57,7 +57,7 @@ extension UIColor {
             return UIColor.blue
         }
     }
-    
+
     static func lightGrayColor() -> UIColor {
         if #available(iOS 13.0, *) {
             return UIColor.systemGray5

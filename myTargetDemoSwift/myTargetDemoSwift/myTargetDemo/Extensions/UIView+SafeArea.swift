@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIView {
-    
+
     var supportSafeAreaInsets: UIEdgeInsets {
         if #available(iOS 11.0, *) {
             return safeAreaInsets
@@ -17,11 +17,11 @@ extension UIView {
             return parentViewController?.supportSafeAreaInsets ?? .zero
         }
     }
-    
+
 }
 
 private extension UIResponder {
-    
+
     var parentViewController: UIViewController? {
         next as? UIViewController ?? next?.parentViewController
     }

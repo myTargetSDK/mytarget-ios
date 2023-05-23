@@ -27,6 +27,7 @@ final class InstreamAudioViewController: UIViewController {
     private var shouldSkipAllAds: Bool = false
 
     private var customView: InstreamAudioView {
+        // swiftlint:disable:next force_cast
         view as! InstreamAudioView
     }
     private var state: InstreamAudioView.State {
@@ -69,8 +70,14 @@ final class InstreamAudioViewController: UIViewController {
         customView.stopButton.addTarget(self, action: #selector(stopButtonTap(_:)), for: .touchUpInside)
         customView.loadButton.addTarget(self, action: #selector(loadButtonTap(_:)), for: .touchUpInside)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive(_:)), name: UIApplication.willResignActiveNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(applicationWillResignActive(_:)),
+                                               name: UIApplication.willResignActiveNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(applicationDidBecomeActive(_:)),
+                                               name: UIApplication.didBecomeActiveNotification,
+                                               object: nil)
 
         state = .notLoaded
     }

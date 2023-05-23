@@ -10,6 +10,6 @@ import UIKit
 
 extension UIImage {
 
-    static let defaultAudio: UIImage = .init(named: "default-audio")!
+    static let defaultAudio: UIImage! = .init(named: "default-audio")
 
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -375,6 +375,7 @@
 				89F0E1D422BA71FC006B8B93 /* Sources */,
 				89F0E1D522BA71FC006B8B93 /* Frameworks */,
 				89F0E1D622BA71FC006B8B93 /* Resources */,
+				8ADB70D229F967C00066F1ED /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -429,6 +430,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8ADB70D229F967C00066F1ED /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SWIFT_LINT=${SRCROOT}/../myTarget/scripts/swiftlint\nSWIFT_LINT_CONFIG=${SRCROOT}/../.swiftlint.yml\n\nif [ -f ${SWIFT_LINT} ] && [ -f ${SWIFT_LINT_CONFIG} ]; then\n    ${SWIFT_LINT} --fix --config ${SWIFT_LINT_CONFIG}\n    ${SWIFT_LINT} lint --config ${SWIFT_LINT_CONFIG}\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		89F0E1D422BA71FC006B8B93 /* Sources */ = {

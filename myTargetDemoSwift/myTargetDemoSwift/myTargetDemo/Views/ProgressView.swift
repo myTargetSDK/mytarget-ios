@@ -25,7 +25,7 @@ final class ProgressView: UIView {
 				guard point >= 0, point <= duration else {
                     return
                 }
-                
+
 				let view = UIView()
 				view.backgroundColor = UIColor.yellow.withAlphaComponent(0.4)
 				let advertisingPoint = AdvertisingPoint(point: point, view: view)
@@ -80,7 +80,7 @@ final class ProgressView: UIView {
 			guard advertisingPoint.point >= 0, advertisingPoint.point <= duration else {
                 return
             }
-            
+
 			let offsetX = (duration > 0) ? width * CGFloat(advertisingPoint.point) / CGFloat(duration) : 0
 			advertisingPoint.view.frame = CGRect(x: offsetX, y: 0, width: advertisingPointWidth, height: height)
 		}

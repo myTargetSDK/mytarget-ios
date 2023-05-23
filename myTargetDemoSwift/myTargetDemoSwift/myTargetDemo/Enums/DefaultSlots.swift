@@ -9,7 +9,7 @@
 import Foundation
 
 enum Slot {
-    
+
 	enum Standard {
 		case bannerAdaptive
 		case banner320x50
@@ -17,14 +17,14 @@ enum Slot {
 		case banner728x90
 
         var id: UInt {
-			switch self {
+            switch self {
             case .bannerAdaptive,
                  .banner320x50,
                  .banner728x90:
-				return 794557
-			case .banner300x250:
-				return 93231
-			}
+                return 794557
+            case .banner300x250:
+                return 93231
+            }
 		}
 	}
 
@@ -46,7 +46,7 @@ enum Slot {
 	case rewardedVideo
 	case instreamVideo
     case instreamAudio
-    
+
     var id: UInt {
         switch self {
         case .nativePromo:

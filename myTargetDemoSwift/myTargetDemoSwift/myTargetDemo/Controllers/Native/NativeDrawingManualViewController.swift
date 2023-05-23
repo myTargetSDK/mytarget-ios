@@ -11,8 +11,10 @@ import MyTargetSDK
 
 /// This ViewController demonstrates how to work with `MTRGAdChoicesPlacementDrawingManual` placement.
 /// This option enables to control AdChoicesView yourself.
-/// You should add your AdChoices view and place it manually. SDK provides AdChoices icon, which you can use for your AdChoices view (see `MTRGNativeBanner`).
-/// Remember: if `cachePolicy` set to none or video, SDK will download AdChoices image asynchronously. And you can get downloaded image in mediaDelegate's `onAdChoicesIconLoad(with:)` method.
+/// You should add your AdChoices view and place it manually.
+/// SDK provides AdChoices icon, which you can use for your AdChoices view (see `MTRGNativeBanner`).
+/// Remember: if `cachePolicy` set to none or video, SDK will download AdChoices image asynchronously.
+/// And you can get downloaded image in mediaDelegate's `onAdChoicesIconLoad(with:)` method.
 /// if `cachePolicy` set to all or image, SDK will download AdChoices image along with ad.
 /// You also should to notify SDK, when your AdChoices view has been clicked, via `handleAdChoicesClick(with:sourceView:)`
 /// You can customize menu, that presents AdChoices options (see `MTRGMenuFactory` and `MTRGMenu`)
@@ -167,7 +169,7 @@ final class NativeDrawingManualViewController: UIViewController {
 		return adChoicesView
 	}
 
-	//	MARK: - Actions
+	// MARK: - Actions
 
 	@objc private func adChoicesTapped(_ sender: UITapGestureRecognizer) {
 		guard let nativeAd = nativeAd else {

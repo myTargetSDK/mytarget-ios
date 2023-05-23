@@ -16,13 +16,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     @available(iOS 13.0, *)
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else {
-            return 
+            return
         }
-        
+
         let viewController = MainViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.navigationBar.tintColor = .foregroundColor()
-        
+
         window = UIWindow(windowScene: scene)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
