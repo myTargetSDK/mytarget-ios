@@ -55,7 +55,7 @@ final class RewardedViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = view.safeAreaInsets
         let centerY = view.bounds.height / 2
         loadButton.frame = CGRect(x: safeAreaInsets.left + buttonHorizontalMargin,
                                   y: centerY - buttonInteritemSpace / 2 - buttonHeight,
@@ -113,10 +113,10 @@ extension RewardedViewController: MTRGRewardedAdDelegate {
         notificationView.showMessage("onLoad() called")
     }
 
-    func onNoAd(withReason reason: String, rewardedAd: MTRGRewardedAd) {
+    func onLoadFailed(error: Error, rewardedAd: MTRGRewardedAd) {
         loadButton.isEnabled = true
         showButton.isEnabled = false
-        notificationView.showMessage("onNoAd(\(reason)) called")
+        notificationView.showMessage("onLoadFailed(\(error)) called")
     }
 
     func onClick(with rewardedAd: MTRGRewardedAd) {

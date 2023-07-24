@@ -68,7 +68,7 @@ final class BannerSettingsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = view.safeAreaInsets
         let radioButtonsWidth = view.bounds.width - safeAreaInsets.left - safeAreaInsets.right - radioButtonsInsets.left - radioButtonsInsets.right
 
         let sizeRadioButtonsHeight = sizeRadioButtons.sizeThatFits(.init(width: radioButtonsWidth, height: .greatestFiniteMagnitude)).height

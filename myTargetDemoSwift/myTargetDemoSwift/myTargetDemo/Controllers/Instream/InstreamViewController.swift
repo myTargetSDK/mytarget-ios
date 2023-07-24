@@ -318,11 +318,11 @@ extension InstreamViewController: MTRGInstreamAdDelegate {
         notificationView.showMessage("onLoad() called")
     }
 
-    func onNoAd(withReason reason: String, instreamAd: MTRGInstreamAd) {
+    func onLoadFailed(error: Error, instreamAd: MTRGInstreamAd) {
         self.instreamAd = nil
 
         state = .noAd
-        notificationView.showMessage("onNoAd(\(reason)) called")
+        notificationView.showMessage("onLoadFailed(\(error)) called")
     }
 
     func onError(withReason reason: String, instreamAd: MTRGInstreamAd) {

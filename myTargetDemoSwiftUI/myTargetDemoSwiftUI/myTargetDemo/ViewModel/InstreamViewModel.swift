@@ -385,11 +385,18 @@ extension InstreamViewModel: MTRGInstreamAdDelegate {
 	    print("InstreamViewModel: onLoad() called")
     }
 
-    func onNoAd(withReason reason: String, instreamAd: MTRGInstreamAd) {
-	    self.instreamAd = nil
+    func onLoadFailed(error: Error, instreamAd: MTRGInstreamAd) {
+        self.instreamAd = nil
 
-	    state = .noAd
-	    print("InstreamViewModel: onNoAd(\(reason)) called")
+        state = .noAd
+        print("InstreamViewModel: onLoadFailed(\(error)) called")
+    }
+
+    func onNoAd(withReason reason: String, instreamAd: MTRGInstreamAd) {
+        self.instreamAd = nil
+
+        state = .noAd
+        print("InstreamViewModel: onNoAd(\(reason)) called")
     }
 
     func onError(withReason reason: String, instreamAd: MTRGInstreamAd) {
@@ -490,5 +497,4 @@ extension InstreamViewModel: VideoPlayerViewDelegate {
 	    state = .error(reason: error)
 	    print("InstreamViewModel: onVideoFinished() called, error: \(error)")
     }
-
 }

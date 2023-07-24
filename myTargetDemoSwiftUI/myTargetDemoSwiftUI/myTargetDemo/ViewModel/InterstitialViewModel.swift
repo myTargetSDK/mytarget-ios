@@ -79,6 +79,12 @@ extension InterstitialViewModel: MTRGInterstitialAdDelegate {
         state = .loaded(interstitialAd)
     }
 
+    func onLoadFailed(error: Error, interstitialAd: MTRGInterstitialAd) {
+        print("InterstitialViewModel: onLoadFailed() called")
+        state = .noAd
+        currentAd = nil
+    }
+
     func onNoAd(withReason reason: String, interstitialAd: MTRGInterstitialAd) {
         print("InterstitialViewModel: onNoAd() called")
         state = .noAd

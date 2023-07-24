@@ -46,7 +46,7 @@ final class NativeSettingsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = view.safeAreaInsets
         let horizontalSafeArea = safeAreaInsets.left + safeAreaInsets.right
 
 		let radioButtonsWidth = view.bounds.width - horizontalSafeArea - radioButtonsInsets.left - radioButtonsInsets.right

@@ -71,7 +71,7 @@ final class BottomBannerViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = view.safeAreaInsets
 
         if !adViewContainer.isHidden, let adView = adView {
             let bottomOffset = safeAreaInsets.bottom
@@ -164,9 +164,9 @@ extension BottomBannerViewController: MTRGAdViewDelegate {
         notificationView.showMessage("onLoad() called")
     }
 
-    func onNoAd(withReason reason: String, adView: MTRGAdView) {
+    func onLoadFailed(error: Error, adView: MTRGAdView) {
         renderContent(withAd: false)
-        notificationView.showMessage("onNoAd(\(reason)) called")
+        notificationView.showMessage("onLoadFailed(\(error)) called")
     }
 
     func onAdClick(with adView: MTRGAdView) {

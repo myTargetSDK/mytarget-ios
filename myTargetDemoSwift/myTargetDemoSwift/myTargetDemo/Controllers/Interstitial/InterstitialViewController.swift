@@ -68,7 +68,7 @@ final class InterstitialViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = view.safeAreaInsets
         let horizontalSafeArea = safeAreaInsets.left + safeAreaInsets.right
 
         if slotId == nil {
@@ -168,10 +168,10 @@ extension InterstitialViewController: MTRGInterstitialAdDelegate {
         notificationView.showMessage("onLoad() called")
     }
 
-    func onNoAd(withReason reason: String, interstitialAd: MTRGInterstitialAd) {
+    func onLoadFailed(error: Error, interstitialAd: MTRGInterstitialAd) {
         loadButton.isEnabled = true
         showButton.isEnabled = false
-        notificationView.showMessage("onNoAd(\(reason)) called")
+        notificationView.showMessage("onLoadFailed(\(error)) called")
     }
 
     func onClick(with interstitialAd: MTRGInterstitialAd) {

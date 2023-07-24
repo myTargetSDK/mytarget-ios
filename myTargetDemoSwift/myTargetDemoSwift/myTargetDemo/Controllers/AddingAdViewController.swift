@@ -97,7 +97,7 @@ final class AddingAdViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = view.safeAreaInsets
         let contentWidth = view.bounds.width - safeAreaInsets.left - safeAreaInsets.right - contentInsets.left - contentInsets.right
 
         let slotInputViewSize = slotInputView.sizeThatFits(.init(width: contentWidth, height: .greatestFiniteMagnitude))

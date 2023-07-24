@@ -59,8 +59,6 @@
 		8A56C8B428B37AC300C8086A /* PlayerAdButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8B328B37AC300C8086A /* PlayerAdButton.swift */; };
 		8A56C8B628B5193700C8086A /* AddingAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8B528B5193700C8086A /* AddingAdViewController.swift */; };
 		8A56C8B828B51D8300C8086A /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8B728B51D8300C8086A /* InputView.swift */; };
-		8A56C8BA28B6536800C8086A /* UIViewController+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8B928B6536800C8086A /* UIViewController+SafeArea.swift */; };
-		8A56C8BC28B6541B00C8086A /* UIView+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8BB28B6541B00C8086A /* UIView+SafeArea.swift */; };
 		8A56C8BE28B6691600C8086A /* InstreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8BD28B6691600C8086A /* InstreamView.swift */; };
 		8A56C8C628B75AFC00C8086A /* CustomAdvertisment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8C528B75AFC00C8086A /* CustomAdvertisment.swift */; };
 /* End PBXBuildFile section */
@@ -122,8 +120,6 @@
 		8A56C8B328B37AC300C8086A /* PlayerAdButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAdButton.swift; sourceTree = "<group>"; };
 		8A56C8B528B5193700C8086A /* AddingAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingAdViewController.swift; sourceTree = "<group>"; };
 		8A56C8B728B51D8300C8086A /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
-		8A56C8B928B6536800C8086A /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
-		8A56C8BB28B6541B00C8086A /* UIView+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeArea.swift"; sourceTree = "<group>"; };
 		8A56C8BD28B6691600C8086A /* InstreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstreamView.swift; sourceTree = "<group>"; };
 		8A56C8C528B75AFC00C8086A /* CustomAdvertisment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAdvertisment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -167,8 +163,6 @@
 				8A4F33DB299BDAE400047F5A /* UIImageView+Loading.swift */,
 				4FAD1E5C298CF892006FE0A0 /* UIImage+Images.swift */,
 				4FAD1E5E298D1DC2006FE0A0 /* UIImageView+Download.swift */,
-				8A56C8BB28B6541B00C8086A /* UIView+SafeArea.swift */,
-				8A56C8B928B6536800C8086A /* UIViewController+SafeArea.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -480,7 +474,6 @@
 				4FB1A9DF28F58A16008656D2 /* NativeCloseManuallyViewController.swift in Sources */,
 				89BB245F22DCBEE900610CFF /* RadioButtons.swift in Sources */,
 				8A56C8A228ACF38700C8086A /* MainViewController.swift in Sources */,
-				8A56C8BC28B6541B00C8086A /* UIView+SafeArea.swift in Sources */,
 				8A4F33DE299BEFF600047F5A /* CustomNativeAdView.swift in Sources */,
 				8A56C8A428ACFB9600C8086A /* SceneDelegate.swift in Sources */,
 				8A56C8A028AAC12000C8086A /* BannerViewController.swift in Sources */,
@@ -500,7 +493,6 @@
 				8A56C88428A26C1800C8086A /* Advertisment.swift in Sources */,
 				8A56C8B428B37AC300C8086A /* PlayerAdButton.swift in Sources */,
 				8A56C88828A26D2A00C8086A /* TitleView.swift in Sources */,
-				8A56C8BA28B6536800C8086A /* UIViewController+SafeArea.swift in Sources */,
 				4F814DFC2991357000A34F7F /* AudioPlayer.swift in Sources */,
 				8A56C89628A3B57300C8086A /* NativeBannerViewController.swift in Sources */,
 				8A4F33DA299BD82500047F5A /* ImageLoader.swift in Sources */,
@@ -582,7 +574,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -639,7 +631,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -659,7 +651,7 @@
 				ENABLE_BITCODE = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "myTargetDemo/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -684,7 +676,7 @@
 				ENABLE_BITCODE = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "myTargetDemo/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

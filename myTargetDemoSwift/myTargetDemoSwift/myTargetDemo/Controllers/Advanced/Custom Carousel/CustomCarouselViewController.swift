@@ -40,7 +40,7 @@ final class CustomCarouselViewController: UIViewController {
             return
         }
 
-        let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = view.safeAreaInsets
         let horizontalInsets = safeAreaInsets.left + safeAreaInsets.right + defaultMargin * 2
         let verticalInsets = safeAreaInsets.top + safeAreaInsets.bottom + defaultMargin * 2
 
@@ -98,9 +98,9 @@ extension CustomCarouselViewController: MTRGNativeAdDelegate {
         notificationView.showMessage("onLoad() called")
     }
 
-    func onNoAd(withReason reason: String, nativeAd: MTRGNativeAd) {
+    func onLoadFailed(error: Error, nativeAd: MTRGNativeAd) {
         cleanup()
-        notificationView.showMessage("onNoAd(\(reason)) called")
+        notificationView.showMessage("onLoadFailed(\(error)) called")
     }
 
     func onAdShow(with nativeAd: MTRGNativeAd) {

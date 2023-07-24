@@ -149,7 +149,7 @@ final class InstreamAudioView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = safeAreaInsets
         let contentWidth = bounds.width - safeAreaInsets.left - safeAreaInsets.right - contentInsets.left - contentInsets.right
         let infoWidth = traitCollection.horizontalSizeClass == .regular ? contentWidth / 2 : contentWidth
 
@@ -263,7 +263,7 @@ private extension InstreamAudioView {
     }
 
     func layoutContentView(for contentWidth: CGFloat) {
-        contentView.frame = CGRect(x: supportSafeAreaInsets.left + contentInsets.left,
+        contentView.frame = CGRect(x: safeAreaInsets.left + contentInsets.left,
                                    y: contentInsets.top,
                                    width: contentWidth,
                                    height: loadButton.frame.maxY + contentInsets.bottom)

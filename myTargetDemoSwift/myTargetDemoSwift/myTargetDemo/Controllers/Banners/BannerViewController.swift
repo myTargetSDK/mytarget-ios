@@ -136,9 +136,9 @@ extension BannerViewController: MTRGAdViewDelegate {
         notificationView.showMessage("onLoad() called")
     }
 
-    func onNoAd(withReason reason: String, adView: MTRGAdView) {
+    func onLoadFailed(error: Error, adView: MTRGAdView) {
         renderContent(for: nil)
-        notificationView.showMessage("onNoAd(\(reason)) called")
+        notificationView.showMessage("onLoadFailed(\(error)) called")
     }
 
     func onAdClick(with adView: MTRGAdView) {

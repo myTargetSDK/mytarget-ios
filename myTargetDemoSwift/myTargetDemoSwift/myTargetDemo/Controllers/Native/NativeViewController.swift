@@ -199,10 +199,10 @@ extension NativeViewController: MTRGNativeAdDelegate {
         notificationView.showMessage("onLoad() called")
     }
 
-    func onNoAd(withReason reason: String, nativeAd: MTRGNativeAd) {
+    func onLoadFailed(error: Error, nativeAd: MTRGNativeAd) {
         loadableNativeAd.map { renderContent(with: [$0]) }
         loadableNativeAd = nil
-        notificationView.showMessage("onNoAd(\(reason)) called")
+        notificationView.showMessage("onLoadFailed(\(error)) called")
     }
 
     func onAdShow(with nativeAd: MTRGNativeAd) {

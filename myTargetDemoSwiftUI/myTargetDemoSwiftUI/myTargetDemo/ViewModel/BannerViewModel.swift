@@ -44,7 +44,11 @@ extension BannerViewModel: MTRGAdViewDelegate {
 	    print("BannerViewModel: onLoad() called")
     }
 
+	func onLoadFailed(error: Error, adView: MTRGAdView) {
+		print("BannerViewModel: onLoadFailed() called")
+	}
+
     func onNoAd(withReason reason: String, adView: MTRGAdView) {
-	    print("BannerViewModel: onNoAd() called")
+        print("BannerViewModel: onNoAd() called")
     }
 }

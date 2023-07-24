@@ -320,11 +320,11 @@ extension InstreamAudioViewController: MTRGInstreamAudioAdDelegate {
         notificationView.showMessage("onLoad() called")
     }
 
-    func onNoAd(withReason reason: String, instreamAudioAd: MTRGInstreamAudioAd) {
+    func onLoadFailed(error: Error, instreamAudioAd: MTRGInstreamAudioAd) {
         self.instreamAudioAd = nil
 
         state = .noAd
-        notificationView.showMessage("onNoAd(\(reason)) called")
+        notificationView.showMessage("onLoadFailed(\(error)) called")
     }
 
     func onError(withReason reason: String, instreamAudioAd: MTRGInstreamAudioAd) {

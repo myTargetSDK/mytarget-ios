@@ -32,18 +32,7 @@ struct RewardedView: View {
     	    	    .disabled(!viewModel.isShowButtonEnabled)
 	    	    }
 	    	    .padding(15)
-                if let state = viewModel.state {
-                    switch state {
-                    case .noAd:
-                        Text("Ad isn't loaded")
-                    case .loading:
-                        Text("Loading...")
-                    case .loaded:
-                        Text("Loaded")
-                    case .presenting:
-                        Text("Presenting...")
-                    }
-                }
+                stateText()
     	    }
 
     	    if let ad = viewModel.presentingAd {
@@ -51,6 +40,19 @@ struct RewardedView: View {
     	    	    .ignoresSafeArea()
     	    }
 	    }
+    }
+
+    private func stateText() -> some View {
+        switch viewModel.state {
+        case .noAd:
+            return Text("Ad isn't loaded")
+        case .loading:
+            return Text("Loading...")
+        case .loaded:
+            return Text("Loaded")
+        case .presenting:
+            return Text("Presenting...")
+        }
     }
 }
 

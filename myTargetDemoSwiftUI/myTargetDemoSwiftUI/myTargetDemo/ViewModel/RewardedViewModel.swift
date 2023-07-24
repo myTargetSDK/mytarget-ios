@@ -84,10 +84,16 @@ extension RewardedViewModel: MTRGRewardedAdDelegate {
 	    state = .loaded(rewardedAd)
     }
 
+    func onLoadFailed(error: Error, rewardedAd: MTRGRewardedAd) {
+        print("RewardedViewModel: onLoadFailed() called")
+        state = .noAd
+        currentAd = nil
+    }
+
     func onNoAd(withReason reason: String, rewardedAd: MTRGRewardedAd) {
-	    print("RewardedViewModel: onNoAd() called")
-	    state = .noAd
-	    currentAd = nil
+        print("RewardedViewModel: onNoAd() called")
+        state = .noAd
+        currentAd = nil
     }
 
     func onClose(with rewardedAd: MTRGRewardedAd) {
