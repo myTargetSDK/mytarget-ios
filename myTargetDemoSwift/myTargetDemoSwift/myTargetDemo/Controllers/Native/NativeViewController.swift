@@ -97,13 +97,16 @@ final class NativeViewController: UIViewController {
         let nativeAdLoader = MTRGNativeAdLoader(forCount: 3, slotId: slotId)
         query?.forEach { nativeAdLoader.customParams.setCustomParam($0.value, forKey: $0.key) }
 
-        nativeAdLoader.load { [weak self] nativeAds in
+        nativeAdLoader.load { [weak self] nativeAds, error in
             guard let self = self else {
                 return
             }
-
-            self.renderContent(with: nativeAds, shouldPreClean: true)
-            self.notificationView.showMessage("Loaded \(nativeAds.count) ads")
+            if let error = error {
+                self.notificationView.showMessage("Loading error: \(error.localizedDescription)")
+            } else {
+                self.renderContent(with: nativeAds, shouldPreClean: true)
+                self.notificationView.showMessage("Loaded \(nativeAds.count) ads")
+            }
         }
         notificationView.showMessage("Loading...")
     }

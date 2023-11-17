@@ -97,13 +97,16 @@ final class NativeBannerViewController: UIViewController {
         let nativeBannerAdLoader = MTRGNativeBannerAdLoader(forCount: 3, slotId: slotId)
         query?.forEach { nativeBannerAdLoader.customParams.setCustomParam($0.value, forKey: $0.key) }
 
-        nativeBannerAdLoader.load { [weak self] nativeBannerAds in
+        nativeBannerAdLoader.load { [weak self] nativeBannerAds, error in
             guard let self = self else {
                 return
             }
-
-            self.renderContent(with: nativeBannerAds, shouldPreClean: true)
-            self.notificationView.showMessage("Loaded \(nativeBannerAds.count) ads")
+            if let error = error {
+                self.notificationView.showMessage("Loading error: \(error.localizedDescription)")
+            } else {
+                self.renderContent(with: nativeBannerAds, shouldPreClean: true)
+                self.notificationView.showMessage("Loaded \(nativeBannerAds.count) ads")
+            }
         }
         notificationView.showMessage("Loading...")
     }

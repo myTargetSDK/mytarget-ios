@@ -25,32 +25,37 @@ final class NativeBannerViewModel: ObservableObject {
     private var nativeBannerAdLoader: MTRGNativeBannerAdLoader?
 
     init(slotId: UInt) {
-	    self.slotId = slotId
+        self.slotId = slotId
     }
 
     @available(*, unavailable)
     required init() {
-	    fatalError("init() has not been implemented")
+        fatalError("init() has not been implemented")
     }
 
     func loadAdvertisements() {
-	    let count: UInt = 3
-	    nativeBannerAdLoader = MTRGNativeBannerAdLoader(forCount: count, slotId: slotId)
-	    nativeBannerAdLoader?.load { [weak self] nativeBannerAds in
-    	    print("MTRGNativeBannerAdLoader loaded items: \(nativeBannerAds.count)")
-    	    if let self = self {
-	    	    nativeBannerAds.forEach { self.addAdvertisement($0) }
-    	    }
-	    }
+        let count: UInt = 3
+        nativeBannerAdLoader = MTRGNativeBannerAdLoader(forCount: count, slotId: slotId)
+        nativeBannerAdLoader?.load { [weak self] nativeBannerAds, error in
+            guard let self = self else {
+                return
+            }
+            if let error = error {
+                print("Loading error: \(error.localizedDescription)")
+            } else {
+                print("MTRGNativeBannerAdLoader loaded items: \(nativeBannerAds.count)")
+                nativeBannerAds.forEach { self.addAdvertisement($0) }
+            }
+        }
     }
 
     private func addAdvertisement(_ advertisement: MTRGNativeBannerAd) {
-	    let nativeBannerAd = NativeBannerAd(nativeBannerAd: advertisement)
-	    let batchCount = 16
-	    for index in 0..<batchCount {
-    	    // every third cell in a batch will be an ad
-    	    let cell: NativeBannerCell = index % batchCount - 2 == 0 ? .ad(nativeBannerAd) : .general
-    	    cells.append(cell)
-	    }
+        let nativeBannerAd = NativeBannerAd(nativeBannerAd: advertisement)
+        let batchCount = 16
+        for index in 0..<batchCount {
+            // every third cell in a batch will be an ad
+            let cell: NativeBannerCell = index % batchCount - 2 == 0 ? .ad(nativeBannerAd) : .general
+            cells.append(cell)
+        }
     }
 }
