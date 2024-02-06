@@ -10,18 +10,18 @@ import SwiftUI
 import MyTargetSDK
 
 struct RewardedAd: UIViewControllerRepresentable {
-	typealias UIViewControllerType = RewardedViewController
-	private let rewardedAd: MTRGRewardedAd
+    typealias UIViewControllerType = RewardedViewController
+    private let rewardedAd: MTRGRewardedAd
 
-	init(rewardedAd: MTRGRewardedAd) {
-		self.rewardedAd = rewardedAd
-	}
+    init(rewardedAd: MTRGRewardedAd) {
+	    self.rewardedAd = rewardedAd
+    }
 
-	func makeUIViewController(context: Context) -> RewardedViewController {
-		return RewardedViewController(rewardedAd: rewardedAd)
-	}
+    func makeUIViewController(context: Context) -> RewardedViewController {
+	    return RewardedViewController(rewardedAd: rewardedAd)
+    }
 
-	func updateUIViewController(_ uiViewController: RewardedViewController, context: Context) {
-		//
-	}
+    func updateUIViewController(_ uiViewController: RewardedViewController, context: Context) {
+	    //
+    }
 }

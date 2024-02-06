@@ -10,256 +10,258 @@ import UIKit
 import AVFoundation
 
 protocol VideoPlayerViewDelegate: AnyObject {
-	func onVideoStarted(url: URL)
-	func onVideoComplete()
-	func onVideoFinished(error: String)
+    func onVideoStarted(url: URL)
+    func onVideoComplete()
+    func onVideoFinished(error: String)
 }
 
 final class VideoPlayerView: UIView {
-	weak var delegate: VideoPlayerViewDelegate?
-	
-	private var position: TimeInterval = 0.0
-	private var isPaused = false
+    weak var delegate: VideoPlayerViewDelegate?
 
-	private var _currentTime: TimeInterval = 0.0
-	var currentTime: TimeInterval {
-		get {
-			guard let player = player else {
+    private var position: TimeInterval = 0.0
+    private var isPaused = false
+
+    private var _currentTime: TimeInterval = 0.0
+    var currentTime: TimeInterval {
+	    get {
+    	    guard let player = player else {
                 return _currentTime
             }
-            
-			return CMTimeGetSeconds(player.currentTime())
-		}
-		set {
-			_currentTime = newValue
-			guard let player = player else {
+
+    	    return CMTimeGetSeconds(player.currentTime())
+	    }
+	    set {
+    	    _currentTime = newValue
+    	    guard let player = player else {
                 return
             }
-            
-			player.seek(to: CMTimeMakeWithSeconds(_currentTime, preferredTimescale: 1))
-		}
-	}
 
-	private var _volume: Float = 1.0
-	var volume: Float {
-		get {
-			guard let player = player else {
+    	    player.seek(to: CMTimeMakeWithSeconds(_currentTime, preferredTimescale: 1))
+	    }
+    }
+
+    private var _volume: Float = 1.0
+    var volume: Float {
+	    get {
+    	    guard let player = player else {
                 return _volume
             }
-            
-			return player.volume
-		}
-		set {
-			_volume = newValue
-			guard let player = player else {
+
+    	    return player.volume
+	    }
+	    set {
+    	    _volume = newValue
+    	    guard let player = player else {
                 return
             }
-            
-			player.volume = _volume
-		}
-	}
 
-	private var url: URL?
-	private var asset: AVURLAsset?
-	private var playerItem: AVPlayerItem?
+    	    player.volume = _volume
+	    }
+    }
 
-	private var player: AVPlayer? {
-		get {
-			guard let layer = layer as? AVPlayerLayer else {
+    private var url: URL?
+    private var asset: AVURLAsset?
+    private var playerItem: AVPlayerItem?
+
+    private var player: AVPlayer? {
+	    get {
+    	    guard let layer = layer as? AVPlayerLayer else {
                 return nil
             }
-            
-			return layer.player
-		}
-		set {
-			guard let layer = layer as? AVPlayerLayer else {
+
+    	    return layer.player
+	    }
+	    set {
+    	    guard let layer = layer as? AVPlayerLayer else {
                 return
             }
-            
-			layer.player = newValue
-		}
-	}
 
-	private static var playerItemContext = 0
+    	    layer.player = newValue
+	    }
+    }
 
-	private var playerItemDuration: TimeInterval {
-		get {
-			guard let playerItem = playerItem, playerItem.status == .readyToPlay, CMTIME_IS_VALID(playerItem.duration) else {
-                return 0.0
-            }
+    private static var playerItemContext = 0
 
-			let duration = CMTimeGetSeconds(playerItem.duration)
-			return duration.isFinite ? duration : 0.0
-		}
-	}
+    private var playerItemDuration: TimeInterval {
+        guard let playerItem = playerItem, playerItem.status == .readyToPlay, CMTIME_IS_VALID(playerItem.duration) else {
+            return 0.0
+        }
 
-	deinit {
-		stop()
-	}
+        let duration = CMTimeGetSeconds(playerItem.duration)
+        return duration.isFinite ? duration : 0.0
+    }
 
-	override class var layerClass: AnyClass {
-		return AVPlayerLayer.self
-	}
+    deinit {
+	    stop()
+    }
+
+    override final class var layerClass: AnyClass {
+	    return AVPlayerLayer.self
+    }
 
 // MARK: - public
 
-	func start(with url: URL, position: TimeInterval) {
-		self.position = position
-		if let player = player, isPaused, let _url = self.url, _url.absoluteString == url.absoluteString {
-			player.play()
+    func start(with url: URL, position: TimeInterval) {
+	    self.position = position
+        if let player = player, isPaused, let internalURL = self.url, internalURL.absoluteString == url.absoluteString {
+    	    player.play()
             delegateOnVideoStarted(url: url)
-			return
-		}
+    	    return
+	    }
 
-		self.url = url
-		isPaused = false
-		asset = AVURLAsset(url: url)
-		guard let asset = asset else {
+	    self.url = url
+	    isPaused = false
+	    asset = AVURLAsset(url: url)
+	    guard let asset = asset else {
             return
         }
 
-		Task {
-			_ = try await asset.load(.isPlayable)
-			prepareToPlay()
-		}
-	}
+	    Task {
+    	    _ = try await asset.load(.isPlayable)
+    	    prepareToPlay()
+	    }
+    }
 
-	func pause() {
-		guard let player = player else {
+    func pause() {
+	    guard let player = player else {
             return
         }
-        
-		player.pause()
-		isPaused = true
-	}
 
-	func resume() {
-		guard let player = player else {
+	    player.pause()
+	    isPaused = true
+    }
+
+    func resume() {
+	    guard let player = player else {
             return
         }
-        
-		player.play()
-		isPaused = false
-	}
 
-	func stop() {
-		player?.pause()
-		deletePlayerItem()
-		deletePlayer()
-	}
+	    player.play()
+	    isPaused = false
+    }
 
-	func finish() {
-		stop()
-		delegateOnVideoComplete()
-	}
+    func stop() {
+	    player?.pause()
+	    deletePlayerItem()
+	    deletePlayer()
+    }
+
+    func finish() {
+	    stop()
+	    delegateOnVideoComplete()
+    }
 
 // MARK: - private
 
-	private func prepareToPlay() {
-		guard let asset = asset else {
+    private func prepareToPlay() {
+	    guard let asset = asset else {
             return
         }
 
-		switch asset.status(of: .isPlayable) {
-			case .notYetLoaded:
-				stop()
-				delegateOnVideoFinished(error: "Item cannot be played: notYetLoaded")
-				return
-			case .loading:
-				stop()
-				delegateOnVideoFinished(error: "Item cannot be played: loading")
-				return
-			case .loaded(_):
-				print("Item loaded")
-			case .failed(let error):
-				stop()
-				delegateOnVideoFinished(error: "Item cannot be played: status failed with error \(error)")
-				return
-		}
-
-		deletePlayerItem()
-		createPlayerItem()
-
-		deletePlayer()
-		createPlayer()
-
-		guard let player = player else {
+        switch asset.status(of: .isPlayable) {
+        case .notYetLoaded:
+            stop()
+            delegateOnVideoFinished(error: "Item cannot be played: notYetLoaded")
+            return
+        case .loading:
+            stop()
+            delegateOnVideoFinished(error: "Item cannot be played: loading")
+            return
+        case .loaded:
+            print("Item loaded")
+        case .failed(let error):
+            stop()
+            delegateOnVideoFinished(error: "Item cannot be played: status failed with error \(error)")
             return
         }
-        
-		player.seek(to: CMTimeMakeWithSeconds(position, preferredTimescale: 1))
-		player.play()
-	}
 
-	private func createPlayerItem() {
-		guard let asset = asset else {
-            return
-        }
-        
-		playerItem = AVPlayerItem(asset: asset)
-		guard let playerItem = playerItem else {
-            return
-        }
-        
-		playerItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.initial, .new], context: &VideoPlayerView.playerItemContext)
-		NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
-	}
+	    deletePlayerItem()
+	    createPlayerItem()
 
-	private func deletePlayerItem() {
-		guard let playerItem = playerItem else {
-            return
-        }
-        
-		playerItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
-		NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
-		self.playerItem = nil
-	}
+	    deletePlayer()
+	    createPlayer()
 
-	private func createPlayer() {
-		guard let playerItem = playerItem else {
+	    guard let player = player else {
             return
         }
-        
-		player = AVPlayer(playerItem: playerItem)
-		guard let player = player else { return }
-		player.volume = volume
-	}
 
-	private func deletePlayer() {
-		guard let player = player else {
+	    player.seek(to: CMTimeMakeWithSeconds(position, preferredTimescale: 1))
+	    player.play()
+    }
+
+    private func createPlayerItem() {
+	    guard let asset = asset else {
             return
         }
-        
-		player.pause()
-		self.player = nil
-	}
+
+	    playerItem = AVPlayerItem(asset: asset)
+	    guard let playerItem = playerItem else {
+            return
+        }
+
+	    playerItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.initial, .new], context: &VideoPlayerView.playerItemContext)
+	    NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
+    }
+
+    private func deletePlayerItem() {
+	    guard let playerItem = playerItem else {
+            return
+        }
+
+	    playerItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
+	    NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
+	    self.playerItem = nil
+    }
+
+    private func createPlayer() {
+	    guard let playerItem = playerItem else {
+            return
+        }
+
+	    player = AVPlayer(playerItem: playerItem)
+	    guard let player = player else {
+            return
+        }
+	    player.volume = volume
+    }
+
+    private func deletePlayer() {
+	    guard let player = player else {
+            return
+        }
+
+	    player.pause()
+	    self.player = nil
+    }
 
 // MARK: - observers
 
-	@objc private func playerItemDidReachEnd(notification: Notification) {
-		guard let object = notification.object as? AVPlayerItem, let playerItem = playerItem, object == playerItem else {
-            return
-        }
-        
-		stop()
-		delegateOnVideoComplete()
-	}
-
-	override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-		guard context == &VideoPlayerView.playerItemContext else {
-			super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-			return
-		}
-		guard keyPath == #keyPath(AVPlayerItem.status) else {
+    @objc private func playerItemDidReachEnd(notification: Notification) {
+	    guard let object = notification.object as? AVPlayerItem, let playerItem = playerItem, object == playerItem else {
             return
         }
 
-		var status = AVPlayerItem.Status.unknown
-		if let statusNumber = change?[.newKey] as? NSNumber {
-			status = AVPlayerItem.Status(rawValue: statusNumber.intValue)!
-		}
-		playerItemStatusChanged(status)
-	}
+	    stop()
+	    delegateOnVideoComplete()
+    }
+
+    // swiftlint:disable:next block_based_kvo
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+	    guard context == &VideoPlayerView.playerItemContext else {
+    	    super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+    	    return
+	    }
+	    guard keyPath == #keyPath(AVPlayerItem.status) else {
+            return
+        }
+
+        let statusNumber = change?[.newKey] as? NSNumber
+        let status = statusNumber.flatMap {
+            AVPlayerItem.Status(rawValue: $0.intValue)
+        } ?? .unknown
+
+	    playerItemStatusChanged(status)
+    }
 
     private func playerItemStatusChanged(_ status: AVPlayerItem.Status) {
         switch status {
@@ -289,15 +291,15 @@ final class VideoPlayerView: UIView {
 
 // MARK: - delegates
 
-	private func delegateOnVideoStarted(url: URL) {
-		delegate?.onVideoStarted(url: url)
-	}
+    private func delegateOnVideoStarted(url: URL) {
+	    delegate?.onVideoStarted(url: url)
+    }
 
-	private func delegateOnVideoComplete() {
-		delegate?.onVideoComplete()
-	}
+    private func delegateOnVideoComplete() {
+	    delegate?.onVideoComplete()
+    }
 
-	private func delegateOnVideoFinished(error: String) {
-		delegate?.onVideoFinished(error: error)
-	}
+    private func delegateOnVideoFinished(error: String) {
+	    delegate?.onVideoFinished(error: error)
+    }
 }

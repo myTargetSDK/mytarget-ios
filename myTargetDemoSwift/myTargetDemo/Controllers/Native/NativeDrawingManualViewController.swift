@@ -11,8 +11,10 @@ import MyTargetSDK
 
 /// This ViewController demonstrates how to work with `MTRGAdChoicesPlacementDrawingManual` placement.
 /// This option enables to control AdChoicesView yourself.
-/// You should add your AdChoices view and place it manually. SDK provides AdChoices icon, which you can use for your AdChoices view (see `MTRGNativeBanner`).
-/// Remember: if `cachePolicy` set to none or video, SDK will download AdChoices image asynchronously. And you can get downloaded image in mediaDelegate's `onAdChoicesIconLoad(with:)` method.
+/// You should add your AdChoices view and place it manually.
+/// SDK provides AdChoices icon, which you can use for your AdChoices view (see `MTRGNativeBanner`).
+/// Remember: if `cachePolicy` set to none or video, SDK will download AdChoices image asynchronously.
+/// And you can get downloaded image in mediaDelegate's `onAdChoicesIconLoad(with:)` method.
 /// if `cachePolicy` set to all or image, SDK will download AdChoices image along with ad.
 /// You also should to notify SDK, when your AdChoices view has been clicked, via `handleAdChoicesClick(with:sourceView:)`
 /// You can customize menu, that presents AdChoices options (see `MTRGMenuFactory` and `MTRGMenu`)
@@ -70,7 +72,7 @@ final class NativeDrawingManualViewController: UIViewController {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 
-		let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = view.safeAreaInsets
 
 		if let adContainerView = adContainerView {
 			let adContainerSize = adContainerView.sizeThatFits(adViewMaxSize)
@@ -167,7 +169,7 @@ final class NativeDrawingManualViewController: UIViewController {
 		return adChoicesView
 	}
 
-	//	MARK: - Actions
+	// MARK: - Actions
 
 	@objc private func adChoicesTapped(_ sender: UITapGestureRecognizer) {
 		guard let nativeAd = nativeAd else {
@@ -192,9 +194,9 @@ extension NativeDrawingManualViewController: MTRGNativeAdDelegate {
 		notificationView.showMessage("onLoad() called")
 	}
 
-	func onNoAd(withReason reason: String, nativeAd: MTRGNativeAd) {
+    func onLoadFailed(error: Error, nativeAd: MTRGNativeAd) {
 		render(nativeAd: nativeAd)
-		notificationView.showMessage("onNoAd(\(reason)) called")
+		notificationView.showMessage("onLoadFailed(\(error)) called")
 	}
 
 	func onAdShow(with nativeAd: MTRGNativeAd) {

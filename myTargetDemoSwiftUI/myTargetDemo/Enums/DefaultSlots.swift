@@ -9,43 +9,43 @@
 import Foundation
 
 enum Slot {
-    
-	enum Standard {
-		case bannerAdaptive
-		case banner320x50
-		case banner300x250
-		case banner728x90
+
+    enum Standard {
+	    case bannerAdaptive
+	    case banner320x50
+	    case banner300x250
+	    case banner728x90
 
         var id: UInt {
-			switch self {
+            switch self {
             case .bannerAdaptive,
                  .banner320x50,
                  .banner728x90:
-				return 794557
-			case .banner300x250:
-				return 93231
-			}
-		}
-	}
+                return 794557
+            case .banner300x250:
+                return 93231
+            }
+        }
+    }
 
-	case nativePromo
-	case nativeVideo
-	case nativeCards
-	case nativeBanner
+    case nativePromo
+    case nativeVideo
+    case nativeCards
+    case nativeBanner
 
-	case intertitialPromo
-	case intertitialImage
-	case interstitialHtml
-	case interstitialVast
-	case interstitialCards
+    case intertitialPromo
+    case intertitialImage
+    case interstitialHtml
+    case interstitialVast
+    case interstitialCards
 
-	case intertitialPromoVideo
-	case intertitialPromoVideoStyle
-	case intertitialRewardedVideo
+    case intertitialPromoVideo
+    case intertitialPromoVideoStyle
+    case intertitialRewardedVideo
 
-	case rewardedVideo
-	case instreamVideo
-    
+    case rewardedVideo
+    case instreamVideo
+
     var id: UInt {
         switch self {
         case .nativePromo:

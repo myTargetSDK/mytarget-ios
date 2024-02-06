@@ -54,8 +54,10 @@ final class InstreamAudioView: UIView {
     private lazy var scrollView: UIScrollView = .init()
     private lazy var contentView: UIView = .init()
 
-    private(set) lazy var audioParametersInfoView: InfoView<AudioParametersInfo> = .init(title: "Audio parameters", doubleColumns: true)
-    private(set) lazy var currentAdParametersInfoView: InfoView<CurrentAudioAdParametersInfo> = .init(title: "Current ad parameters", doubleColumns: true)
+    private(set) lazy var audioParametersInfoView: InfoView<AudioParametersInfo> = .init(title: "Audio parameters",
+                                                                                         doubleColumns: true)
+    private(set) lazy var currentAdParametersInfoView: InfoView<CurrentAudioAdParametersInfo> = .init(title: "Current ad parameters",
+                                                                                                      doubleColumns: true)
     private lazy var playerInfoView: InfoView<PlayerInfo> = .init(title: "Player info")
 
     private lazy var containerView: UIView = {
@@ -147,7 +149,7 @@ final class InstreamAudioView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = safeAreaInsets
         let contentWidth = bounds.width - safeAreaInsets.left - safeAreaInsets.right - contentInsets.left - contentInsets.right
         let infoWidth = traitCollection.horizontalSizeClass == .regular ? contentWidth / 2 : contentWidth
 
@@ -226,7 +228,7 @@ private extension InstreamAudioView {
                                      height: playerAdButtonHeight)
 
         let imageSize = adChoicesButton.image(for: .normal)?.size ?? .zero
-        let constrainedSize = CGSize(width: playerInfoView.frame.width - playerAdButtonInsets.left - ctaButton.frame.width - 2 * playerAdButtonInsets.right,
+        let constrainedSize = CGSize(width: playerInfoView.frame.width - ctaButton.frame.maxX - 2 * playerAdButtonInsets.right,
                                      height: playerAdButtonHeight)
         let fitImageSizeWidth = imageSize.resize(targetSize: constrainedSize).width
         adChoicesButton.frame = CGRect(x: playerInfoView.frame.width - playerAdButtonInsets.right - fitImageSizeWidth,
@@ -261,7 +263,7 @@ private extension InstreamAudioView {
     }
 
     func layoutContentView(for contentWidth: CGFloat) {
-        contentView.frame = CGRect(x: supportSafeAreaInsets.left + contentInsets.left,
+        contentView.frame = CGRect(x: safeAreaInsets.left + contentInsets.left,
                                    y: contentInsets.top,
                                    width: contentWidth,
                                    height: loadButton.frame.maxY + contentInsets.bottom)
@@ -276,7 +278,7 @@ private extension InstreamAudioView {
 // MARK: - State
 
 private extension InstreamAudioView {
-    
+
     func applyCurrentState() {
         ctaButton.isHidden = true
         skipButton.isHidden = true

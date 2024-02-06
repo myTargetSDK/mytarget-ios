@@ -9,7 +9,7 @@
 import Foundation
 
 enum AdState {
-	case noAd
-	case loading
-	case ready
+    case noAd
+    case loading
+    case ready
 }

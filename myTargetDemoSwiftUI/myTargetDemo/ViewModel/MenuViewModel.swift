@@ -9,9 +9,9 @@
 import SwiftUI
 
 final class MenuViewModel {
-	private let menu = MainMenu()
+    private let menu = MainMenu()
 
-	var mainAdvertisments: [Advertisment] {
-		menu.mainAdvertisments
-	}
+    var mainAdvertisments: [Advertisment] {
+	    menu.mainAdvertisments
+    }
 }

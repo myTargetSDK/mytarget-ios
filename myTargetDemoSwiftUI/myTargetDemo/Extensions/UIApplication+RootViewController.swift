@@ -10,9 +10,9 @@ import UIKit
 
 extension UIApplication {
 
-	static func rootViewController() -> UIViewController? {
-		let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
-		return scene?.windows.first(where: { $0.isKeyWindow })?.rootViewController
-	}
+    static func rootViewController() -> UIViewController? {
+	    let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
+	    return scene?.windows.first(where: { $0.isKeyWindow })?.rootViewController
+    }
 
 }

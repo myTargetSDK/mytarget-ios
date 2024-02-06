@@ -17,22 +17,20 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         MTRGManager.setDebugMode(true)
-        
-        if #available(iOS 13.0, *) {
-            // scene
-        } else {
+
+        if #unavailable(iOS 13.0) {
             let viewController = MainViewController()
             let navigationController = UINavigationController(rootViewController: viewController)
             navigationController.navigationBar.tintColor = .foregroundColor()
-            
+
             window = UIWindow()
             window?.rootViewController = navigationController
             window?.makeKeyAndVisible()
         }
-        
+
         return true
     }
-    
+
     @available(iOS 13.0, *)
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,

@@ -10,7 +10,7 @@ import SwiftUI
 import MyTargetSDK
 
 struct InterstitialAd: UIViewControllerRepresentable {
-	typealias UIViewControllerType = InterstitialViewController
+    typealias UIViewControllerType = InterstitialViewController
     private let interstitialAd: MTRGInterstitialAd
 
     init(interstitialAd: MTRGInterstitialAd) {
@@ -22,6 +22,6 @@ struct InterstitialAd: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: InterstitialViewController, context: Context) {
-		//
+	    //
     }
 }

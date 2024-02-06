@@ -17,7 +17,7 @@ protocol VideoPlayerViewDelegate: AnyObject {
 
 final class VideoPlayerView: UIView {
 	weak var delegate: VideoPlayerViewDelegate?
-	
+
 	private var position: TimeInterval = 0.0
 	private var isPaused = false
 
@@ -27,7 +27,7 @@ final class VideoPlayerView: UIView {
 			guard let player = player else {
                 return _currentTime
             }
-            
+
 			return CMTimeGetSeconds(player.currentTime())
 		}
 		set {
@@ -35,7 +35,7 @@ final class VideoPlayerView: UIView {
 			guard let player = player else {
                 return
             }
-            
+
 			player.seek(to: CMTimeMakeWithSeconds(_currentTime, preferredTimescale: 1))
 		}
 	}
@@ -46,7 +46,7 @@ final class VideoPlayerView: UIView {
 			guard let player = player else {
                 return _volume
             }
-            
+
 			return player.volume
 		}
 		set {
@@ -54,7 +54,7 @@ final class VideoPlayerView: UIView {
 			guard let player = player else {
                 return
             }
-            
+
 			player.volume = _volume
 		}
 	}
@@ -68,14 +68,14 @@ final class VideoPlayerView: UIView {
 			guard let layer = layer as? AVPlayerLayer else {
                 return nil
             }
-            
+
 			return layer.player
 		}
 		set {
 			guard let layer = layer as? AVPlayerLayer else {
                 return
             }
-            
+
 			layer.player = newValue
 		}
 	}
@@ -84,21 +84,19 @@ final class VideoPlayerView: UIView {
 	private let requiredAssetKeys = ["playable"]
 
 	private var playerItemDuration: TimeInterval {
-		get {
-			guard let playerItem = playerItem, playerItem.status == .readyToPlay, CMTIME_IS_VALID(playerItem.duration) else {
-                return 0.0
-            }
+        guard let playerItem = playerItem, playerItem.status == .readyToPlay, CMTIME_IS_VALID(playerItem.duration) else {
+            return 0.0
+        }
 
-			let duration = CMTimeGetSeconds(playerItem.duration)
-			return duration.isFinite ? duration : 0.0
-		}
+        let duration = CMTimeGetSeconds(playerItem.duration)
+        return duration.isFinite ? duration : 0.0
 	}
 
 	deinit {
 		stop()
 	}
 
-	override class var layerClass: AnyClass {
+	override final class var layerClass: AnyClass {
 		return AVPlayerLayer.self
 	}
 
@@ -106,7 +104,7 @@ final class VideoPlayerView: UIView {
 
 	func start(with url: URL, position: TimeInterval) {
 		self.position = position
-		if let player = player, isPaused, let _url = self.url, _url.absoluteString == url.absoluteString {
+		if let player = player, isPaused, let internalURL = self.url, internalURL.absoluteString == url.absoluteString {
 			player.play()
             delegateOnVideoStarted(url: url)
 			return
@@ -130,7 +128,7 @@ final class VideoPlayerView: UIView {
 		guard let player = player else {
             return
         }
-        
+
 		player.pause()
 		isPaused = true
 	}
@@ -139,7 +137,7 @@ final class VideoPlayerView: UIView {
 		guard let player = player else {
             return
         }
-        
+
 		player.play()
 		isPaused = false
 	}
@@ -161,7 +159,7 @@ final class VideoPlayerView: UIView {
 		guard let asset = asset else {
             return
         }
-        
+
 		requiredAssetKeys.forEach { (key: String) in
 			var error: NSError?
 			let keyStatus = asset.statusOfValue(forKey: key, error: &error)
@@ -186,7 +184,7 @@ final class VideoPlayerView: UIView {
 		guard let player = player else {
             return
         }
-        
+
 		player.seek(to: CMTimeMakeWithSeconds(position, preferredTimescale: 1))
 		player.play()
 	}
@@ -195,12 +193,12 @@ final class VideoPlayerView: UIView {
 		guard let asset = asset else {
             return
         }
-        
+
 		playerItem = AVPlayerItem(asset: asset)
 		guard let playerItem = playerItem else {
             return
         }
-        
+
 		playerItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.initial, .new], context: &VideoPlayerView.playerItemContext)
 		NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
 	}
@@ -209,7 +207,7 @@ final class VideoPlayerView: UIView {
 		guard let playerItem = playerItem else {
             return
         }
-        
+
 		playerItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
 		NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
 		self.playerItem = nil
@@ -219,9 +217,11 @@ final class VideoPlayerView: UIView {
 		guard let playerItem = playerItem else {
             return
         }
-        
+
 		player = AVPlayer(playerItem: playerItem)
-		guard let player = player else { return }
+		guard let player = player else {
+            return
+        }
 		player.volume = volume
 	}
 
@@ -229,7 +229,7 @@ final class VideoPlayerView: UIView {
 		guard let player = player else {
             return
         }
-        
+
 		player.pause()
 		self.player = nil
 	}
@@ -240,12 +240,13 @@ final class VideoPlayerView: UIView {
 		guard let object = notification.object as? AVPlayerItem, let playerItem = playerItem, object == playerItem else {
             return
         }
-        
+
 		stop()
 		delegateOnVideoComplete()
 	}
 
-	override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    // swiftlint:disable:next block_based_kvo
+	override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
 		guard context == &VideoPlayerView.playerItemContext else {
 			super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
 			return
@@ -254,10 +255,11 @@ final class VideoPlayerView: UIView {
             return
         }
 
-		var status = AVPlayerItem.Status.unknown
-		if let statusNumber = change?[.newKey] as? NSNumber {
-			status = AVPlayerItem.Status(rawValue: statusNumber.intValue)!
-		}
+        let statusNumber = change?[.newKey] as? NSNumber
+        let status = statusNumber.flatMap {
+            AVPlayerItem.Status(rawValue: $0.intValue)
+        } ?? .unknown
+
 		playerItemStatusChanged(status)
 	}
 

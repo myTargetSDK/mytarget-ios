@@ -34,7 +34,7 @@ extension UIImageView {
             }
 
             let renderer = UIGraphicsImageRenderer(size: size)
-            let resizedImage = renderer.image { (context) in
+            let resizedImage = renderer.image { (_) in
                 image.draw(in: CGRect(origin: .zero, size: size))
             }
 

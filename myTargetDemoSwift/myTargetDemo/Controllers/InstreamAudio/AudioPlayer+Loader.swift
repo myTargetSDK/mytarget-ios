@@ -41,7 +41,9 @@ extension AudioPlayer {
         private lazy var cache: URLCache = {
             let cachesURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
             let diskCacheURL = cachesURL.appendingPathComponent("AudioCache")
-            let cache = URLCache(memoryCapacity: Constants.cacheCapacity, diskCapacity: Constants.cacheDiskCapacity, diskPath: diskCacheURL.absoluteString)
+            let cache = URLCache(memoryCapacity: Constants.cacheCapacity,
+                                 diskCapacity: Constants.cacheDiskCapacity,
+                                 diskPath: diskCacheURL.absoluteString)
             return cache
         }()
 

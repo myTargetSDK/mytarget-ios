@@ -9,7 +9,7 @@
 import UIKit
 
 final class NativeSettingsViewController: UIViewController {
-    
+
     private enum ViewRadioButtons: String, CaseIterable {
         case promo = "Promo"
         case video = "Video"
@@ -21,33 +21,35 @@ final class NativeSettingsViewController: UIViewController {
 		case nativeCustomAdChoices = "custom adChoices (drawingManual)"
 		case nativeCloseManually = "close manually"
 	}
-    
+
     private lazy var viewRadioButtons: RadioButtonsView<ViewRadioButtons> = .init(title: "View type")
 	private lazy var kindRadioButtons: RadioButtonsView<KindRadioButtons> = .init(title: "Kind")
     private lazy var showButton: CustomButton = .init(title: "Show")
-    
+
     private let radioButtonsInsets: UIEdgeInsets = .init(top: 0, left: 16, bottom: 16, right: 16)
     private let showButtonInsets: UIEdgeInsets = .init(top: 0, left: 16, bottom: 0, right: 16)
     private let buttonHeight: CGFloat = 40
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         navigationItem.title = "Native Ads settings"
-        
+
         view.backgroundColor = .backgroundColor()
         view.addSubview(viewRadioButtons)
 		view.addSubview(kindRadioButtons)
         view.addSubview(showButton)
-        
+
         showButton.addTarget(self, action: #selector(showButtonTap(_:)), for: .touchUpInside)
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let safeAreaInsets = supportSafeAreaInsets
-		let radioButtonsWidth = view.bounds.width - safeAreaInsets.left - safeAreaInsets.right - radioButtonsInsets.left - radioButtonsInsets.right
+        let safeAreaInsets = view.safeAreaInsets
+        let horizontalSafeArea = safeAreaInsets.left + safeAreaInsets.right
+
+		let radioButtonsWidth = view.bounds.width - horizontalSafeArea - radioButtonsInsets.left - radioButtonsInsets.right
 
 		let viewRadioButtonsHeight = viewRadioButtons.sizeThatFits(.init(width: radioButtonsWidth, height: .greatestFiniteMagnitude)).height
 		viewRadioButtons.frame = CGRect(x: safeAreaInsets.left + radioButtonsInsets.left,
@@ -63,12 +65,12 @@ final class NativeSettingsViewController: UIViewController {
 
         showButton.frame = CGRect(x: safeAreaInsets.left + showButtonInsets.left,
                                   y: kindRadioButtons.frame.maxY + radioButtonsInsets.bottom + showButtonInsets.top,
-                                  width: view.bounds.width - safeAreaInsets.left - safeAreaInsets.right - showButtonInsets.left - showButtonInsets.right,
+                                  width: view.bounds.width - horizontalSafeArea - showButtonInsets.left - showButtonInsets.right,
                                   height: buttonHeight)
     }
-    
+
     // MARK: - Actions
-    
+
     @objc private func showButtonTap(_ sender: CustomButton) {
         let slot: Slot
         switch viewRadioButtons.selectedRadioButtonType {
@@ -92,5 +94,5 @@ final class NativeSettingsViewController: UIViewController {
 
         navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
 }

@@ -18,13 +18,13 @@ extension CGSize {
 			return .zero
 		}
 
-		let widthRatio  = targetSize.width  / width
+		let widthRatio  = targetSize.width / width
 		let heightRatio = targetSize.height / height
 
 		if widthRatio > heightRatio {
 			return CGSize(width: width * heightRatio, height: height * heightRatio)
 		} else {
-			return CGSize(width: width * widthRatio,  height: height * widthRatio)
+			return CGSize(width: width * widthRatio, height: height * widthRatio)
 		}
 	}
 

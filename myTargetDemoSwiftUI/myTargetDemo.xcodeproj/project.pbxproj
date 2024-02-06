@@ -44,7 +44,7 @@
 		89A1EE3A28FD70CA00F234FE /* NativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A1EE3928FD70CA00F234FE /* NativeView.swift */; };
 		89A1EE3C28FD712200F234FE /* NativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A1EE3B28FD712200F234FE /* NativeViewModel.swift */; };
 		89CB57E3298BB58B00CB28CA /* UIApplication+RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CB57E2298BB58B00CB28CA /* UIApplication+RootViewController.swift */; };
-		89FD154728C0EC5400CD4041 /* myTargetDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FD154628C0EC5400CD4041 /* myTargetDemoApp.swift */; };
+		89FD154728C0EC5400CD4041 /* MyTargetDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FD154628C0EC5400CD4041 /* MyTargetDemoApp.swift */; };
 		89FD154928C0EC5400CD4041 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FD154828C0EC5400CD4041 /* MainView.swift */; };
 		89FD154B28C0EC5400CD4041 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89FD154A28C0EC5400CD4041 /* Assets.xcassets */; };
 		89FD154E28C0EC5400CD4041 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89FD154D28C0EC5400CD4041 /* Preview Assets.xcassets */; };
@@ -53,6 +53,8 @@
 		89FD155D28C6010900CD4041 /* Advertisment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FD155C28C6010900CD4041 /* Advertisment.swift */; };
 		89FD155F28C6012700CD4041 /* AdvertismentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FD155E28C6012700CD4041 /* AdvertismentType.swift */; };
 		89FD156328C6048F00CD4041 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FD156228C6048F00CD4041 /* MenuViewModel.swift */; };
+		8A8CB4DB29C4E78C000AD2AF /* InstreamViewModel+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8CB4DA29C4E78C000AD2AF /* InstreamViewModel+State.swift */; };
+		8A8CB4DD29C4F1EA000AD2AF /* InstreamViewModel+Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A8CB4DC29C4F1EA000AD2AF /* InstreamViewModel+Parameters.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,7 +96,7 @@
 		89A1EE3B28FD712200F234FE /* NativeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeViewModel.swift; sourceTree = "<group>"; };
 		89CB57E2298BB58B00CB28CA /* UIApplication+RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+RootViewController.swift"; sourceTree = "<group>"; };
 		89FD154328C0EC5400CD4041 /* myTargetDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myTargetDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		89FD154628C0EC5400CD4041 /* myTargetDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myTargetDemoApp.swift; sourceTree = "<group>"; };
+		89FD154628C0EC5400CD4041 /* MyTargetDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTargetDemoApp.swift; sourceTree = "<group>"; };
 		89FD154828C0EC5400CD4041 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		89FD154A28C0EC5400CD4041 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		89FD154D28C0EC5400CD4041 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -102,6 +104,8 @@
 		89FD155C28C6010900CD4041 /* Advertisment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advertisment.swift; sourceTree = "<group>"; };
 		89FD155E28C6012700CD4041 /* AdvertismentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertismentType.swift; sourceTree = "<group>"; };
 		89FD156228C6048F00CD4041 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
+		8A8CB4DA29C4E78C000AD2AF /* InstreamViewModel+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InstreamViewModel+State.swift"; sourceTree = "<group>"; };
+		8A8CB4DC29C4F1EA000AD2AF /* InstreamViewModel+Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InstreamViewModel+Parameters.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,7 +193,7 @@
 		89FD154528C0EC5400CD4041 /* myTargetDemo */ = {
 			isa = PBXGroup;
 			children = (
-				89FD154628C0EC5400CD4041 /* myTargetDemoApp.swift */,
+				89FD154628C0EC5400CD4041 /* MyTargetDemoApp.swift */,
 				89661E1528C782650085A8DE /* Ads */,
 				89FD156528C77E9F00CD4041 /* Controller */,
 				89661E1828C8B3700085A8DE /* Enums */,
@@ -243,6 +247,8 @@
 				897306BA2951C82800B689C5 /* BannerViewModel.swift */,
 				4F3B8A622948CED10037367E /* InterstitialViewModel.swift */,
 				895E2949294B59BD00420050 /* InstreamViewModel.swift */,
+				8A8CB4DA29C4E78C000AD2AF /* InstreamViewModel+State.swift */,
+				8A8CB4DC29C4F1EA000AD2AF /* InstreamViewModel+Parameters.swift */,
 				89FD156228C6048F00CD4041 /* MenuViewModel.swift */,
 				89A1EE3B28FD712200F234FE /* NativeViewModel.swift */,
 				897862E028EC60DE0061273F /* NativeBannerViewModel.swift */,
@@ -274,6 +280,7 @@
 				89FD153F28C0EC5400CD4041 /* Sources */,
 				89FD154028C0EC5400CD4041 /* Frameworks */,
 				89FD154128C0EC5400CD4041 /* Resources */,
+				8ADB70D329F969980066F1ED /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -336,6 +343,28 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8ADB70D329F969980066F1ED /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SWIFT_LINT=${SRCROOT}/../myTarget/scripts/swiftlint\nSWIFT_LINT_CONFIG=${SRCROOT}/../.swiftlint.yml\n\nif [ -f ${SWIFT_LINT} ] && [ -f ${SWIFT_LINT_CONFIG} ]; then\n    ${SWIFT_LINT} --fix --config ${SWIFT_LINT_CONFIG}\n    ${SWIFT_LINT} lint --config ${SWIFT_LINT_CONFIG}\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		89FD153F28C0EC5400CD4041 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -344,6 +373,7 @@
 				89661E1A28C8B3700085A8DE /* DefaultSlots.swift in Sources */,
 				897862ED28F039F40061273F /* VideoProgressView.swift in Sources */,
 				897862D028EAE9830061273F /* NativeBannerAd.swift in Sources */,
+				8A8CB4DB29C4E78C000AD2AF /* InstreamViewModel+State.swift in Sources */,
 				4F3B8A5D2948C58B0037367E /* InterstitialAd.swift in Sources */,
 				89A1EE3828FD6F9500F234FE /* NativeViewController.swift in Sources */,
 				89FD156328C6048F00CD4041 /* MenuViewModel.swift in Sources */,
@@ -367,9 +397,10 @@
 				89661E1728C782750085A8DE /* BannerAd.swift in Sources */,
 				895E29462949FD1F00420050 /* RewardedViewModel.swift in Sources */,
 				897862D628EB01790061273F /* NativeBannerView.swift in Sources */,
-				89FD154728C0EC5400CD4041 /* myTargetDemoApp.swift in Sources */,
+				89FD154728C0EC5400CD4041 /* MyTargetDemoApp.swift in Sources */,
 				89FD155F28C6012700CD4041 /* AdvertismentType.swift in Sources */,
 				89CB57E3298BB58B00CB28CA /* UIApplication+RootViewController.swift in Sources */,
+				8A8CB4DD29C4F1EA000AD2AF /* InstreamViewModel+Parameters.swift in Sources */,
 				4F3B8A5F2948C5AB0037367E /* InterstitialViewController.swift in Sources */,
 				897862CE28EADE710061273F /* SplashScreen.swift in Sources */,
 				897862D228EAEB4F0061273F /* NativeAd.swift in Sources */,

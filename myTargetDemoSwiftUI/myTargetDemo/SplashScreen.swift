@@ -10,26 +10,26 @@ import SwiftUI
 
 struct SplashView: View {
 
-	@State var isActive:Bool = false
+    @State var isActive: Bool = false
 
-	var body: some View {
-		VStack {
-			if self.isActive {
-				MainView(viewModel: MenuViewModel())
-			} else {
-				Spacer()
-				Text("myTarget Demo")
-					.font(Font.largeTitle)
-				Spacer()
-				Text("© VK")
-			}
-		}
-		.onAppear {
-			DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-				withAnimation {
-					self.isActive = true
-				}
-			}
-		}
-	}
+    var body: some View {
+	    VStack {
+    	    if self.isActive {
+	    	    MainView(viewModel: MenuViewModel())
+    	    } else {
+	    	    Spacer()
+	    	    Text("myTarget Demo")
+    	    	    .font(Font.largeTitle)
+	    	    Spacer()
+	    	    Text("© VK")
+    	    }
+	    }
+	    .onAppear {
+    	    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+	    	    withAnimation {
+    	    	    self.isActive = true
+	    	    }
+    	    }
+	    }
+    }
 }

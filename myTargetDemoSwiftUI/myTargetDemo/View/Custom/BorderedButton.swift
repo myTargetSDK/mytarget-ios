@@ -9,30 +9,30 @@
 import SwiftUI
 
 struct BorderedButton: View {
-	private let text: String
-	private let action: () -> Void
+    private let text: String
+    private let action: () -> Void
 
-	init(_ text: String, action: @escaping () -> Void) {
-		self.text = text
-		self.action = action
-	}
+    init(_ text: String, action: @escaping () -> Void) {
+	    self.text = text
+	    self.action = action
+    }
 
-	var body: some View {
-		Button {
-			action()
-		} label: {
-			Text(text)
-				.lineLimit(1)
-				.frame(maxWidth: .infinity)
-		}
-		.buttonStyle(.bordered)
-	}
+    var body: some View {
+	    Button {
+    	    action()
+	    } label: {
+    	    Text(text)
+	    	    .lineLimit(1)
+	    	    .frame(maxWidth: .infinity)
+	    }
+	    .buttonStyle(.bordered)
+    }
 }
 
 struct BorderedButton_Previews: PreviewProvider {
-	static var previews: some View {
-		BorderedButton("Text") {
-			//
-		}
-	}
+    static var previews: some View {
+	    BorderedButton("Text") {
+    	    //
+	    }
+    }
 }

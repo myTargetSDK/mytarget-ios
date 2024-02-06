@@ -62,7 +62,7 @@ final class NativeCloseManuallyViewController: UIViewController {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 
-		let safeAreaInsets = supportSafeAreaInsets
+        let safeAreaInsets = view.safeAreaInsets
 
 		if let adContainerView = adContainerView {
 			let adContainerSize = adContainerView.sizeThatFits(adViewMaxSize)
@@ -172,9 +172,9 @@ extension NativeCloseManuallyViewController: MTRGNativeAdDelegate {
 		notificationView.showMessage("onLoad() called")
 	}
 
-	func onNoAd(withReason reason: String, nativeAd: MTRGNativeAd) {
+    func onLoadFailed(error: Error, nativeAd: MTRGNativeAd) {
 		render(nativeAd: nativeAd)
-		notificationView.showMessage("onNoAd(\(reason)) called")
+		notificationView.showMessage("onLoadFailed(\(error)) called")
 	}
 
 }

@@ -15,13 +15,13 @@ enum NotificationAlignment {
 }
 
 final class NotificationView: UIView {
-	
+
     weak var view: UIView? {
 		didSet {
 			guard isActive else {
                 return
             }
-            
+
 			isActive = false
 			self.removeFromSuperview()
 			appear()
@@ -34,7 +34,7 @@ final class NotificationView: UIView {
 	private let margins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
 	private var cachedSize = CGSize.zero
     private var safeArea: UIEdgeInsets {
-        view?.supportSafeAreaInsets ?? .zero
+        view?.safeAreaInsets ?? .zero
     }
 	private var isActive = false
 	private var timer: Timer?
@@ -81,7 +81,7 @@ final class NotificationView: UIView {
 		guard let view = view, cachedSize != view.frame.size else {
             return
         }
-        
+
 		cachedSize = view.frame.size
 		adjustFrame()
 	}
@@ -134,7 +134,7 @@ final class NotificationView: UIView {
 		guard let view = view, !messages.isEmpty, let message = messages.first else {
             return
         }
-        
+
 		label.text = message
 
 		if !isActive {
@@ -166,12 +166,14 @@ final class NotificationView: UIView {
 	}
 
 	private func animate(toPoint point: CGPoint, size: CGSize, alpha: CGFloat, completion: (() -> Void)? = nil) {
-		UIView.animate(withDuration: 0.3, animations: {
-			self.frame = CGRect(origin: point, size: size)
-			self.alpha = alpha
-		}) { success in
-			completion?()
-		}
+        // swiftlint:disable:next multiline_arguments
+        UIView.animate(withDuration: 0.3) {
+            self.frame = CGRect(origin: point, size: size)
+            self.alpha = alpha
+        } completion: { _ in
+            completion?()
+        }
+
 	}
 
 	private func timerStart(interval: TimeInterval = 1.0) {

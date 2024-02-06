@@ -10,26 +10,26 @@ import SwiftUI
 import MyTargetSDK
 
 struct NativeAd: UIViewControllerRepresentable {
-	typealias UIViewControllerType = NativeViewController
-	private let nativeAd: MTRGNativeAd
+    typealias UIViewControllerType = NativeViewController
+    private let nativeAd: MTRGNativeAd
 
-	init(nativeAd: MTRGNativeAd) {
-		self.nativeAd = nativeAd
-	}
+    init(nativeAd: MTRGNativeAd) {
+	    self.nativeAd = nativeAd
+    }
 
-	func makeUIViewController(context: Context) -> NativeViewController {
-		return NativeViewController(nativeAd: nativeAd)
-	}
+    func makeUIViewController(context: Context) -> NativeViewController {
+	    return NativeViewController(nativeAd: nativeAd)
+    }
 
-	func updateUIViewController(_ uiViewController: NativeViewController, context: Context) {
-		//
-	}
+    func updateUIViewController(_ uiViewController: NativeViewController, context: Context) {
+	    //
+    }
 
-	func sizeThatFits(_ proposal: ProposedViewSize, uiViewController: NativeViewController, context: Context) -> CGSize? {
-		uiViewController.sizeThatFits(CGSize(width: proposal.width ?? 0, height: proposal.height ?? 0))
-	}
+    func sizeThatFits(_ proposal: ProposedViewSize, uiViewController: NativeViewController, context: Context) -> CGSize? {
+	    uiViewController.sizeThatFits(CGSize(width: proposal.width ?? 0, height: proposal.height ?? 0))
+    }
 }
 
 extension NativeAd: Hashable {
-	//
+    //
 }

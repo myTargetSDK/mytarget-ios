@@ -9,22 +9,22 @@
 import SwiftUI
 
 struct SubheadlineLabelText: View {
-	private let text: String
+    private let text: String
 
-	init(_ text: String) {
-		self.text = text
-	}
+    init(_ text: String) {
+	    self.text = text
+    }
 
-	var body: some View {
-		Text(text)
-			.lineLimit(1)
-			.frame(maxWidth: .infinity, alignment: .leading)
-			.font(.subheadline)
-	}
+    var body: some View {
+	    Text(text)
+    	    .lineLimit(1)
+    	    .frame(maxWidth: .infinity, alignment: .leading)
+    	    .font(.subheadline)
+    }
 }
 
 struct SubheadlineLabelText_Previews: PreviewProvider {
-	static var previews: some View {
-		SubheadlineLabelText("Text")
-	}
+    static var previews: some View {
+	    SubheadlineLabelText("Text")
+    }
 }

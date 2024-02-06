@@ -10,26 +10,26 @@ import SwiftUI
 import MyTargetSDK
 
 struct InstreamAd: UIViewControllerRepresentable {
-	typealias UIViewControllerType = InstreamViewController
+    typealias UIViewControllerType = InstreamViewController
 
-	private let playerView: UIView
-	@Binding var instreamViewController: InstreamViewController?
+    private let playerView: UIView
+    @Binding var instreamViewController: InstreamViewController?
 
-	init?(playerView: UIView?, instreamViewController: Binding<InstreamViewController?>) {
-		guard let playerView = playerView else {
-			return nil
-		}
-		self.playerView = playerView
-		self._instreamViewController = instreamViewController
-	}
+    init?(playerView: UIView?, instreamViewController: Binding<InstreamViewController?>) {
+	    guard let playerView = playerView else {
+    	    return nil
+	    }
+	    self.playerView = playerView
+	    self._instreamViewController = instreamViewController
+    }
 
-	func makeUIViewController(context: Context) -> InstreamViewController {
-		let instreamViewController = InstreamViewController(playerView: playerView)
-		self.instreamViewController = instreamViewController
-		return instreamViewController
-	}
+    func makeUIViewController(context: Context) -> InstreamViewController {
+	    let instreamViewController = InstreamViewController(playerView: playerView)
+	    self.instreamViewController = instreamViewController
+	    return instreamViewController
+    }
 
-	func updateUIViewController(_ uiViewController: InstreamViewController, context: Context) {
-		//
-	}
+    func updateUIViewController(_ uiViewController: InstreamViewController, context: Context) {
+	    //
+    }
 }

@@ -11,28 +11,28 @@ import MyTargetSDK
 
 final class RewardedViewController: UIViewController {
 
-	private let rewardedAd: MTRGRewardedAd
-	private var didShowAd = false
+    private let rewardedAd: MTRGRewardedAd
+    private var didShowAd = false
 
-	init(rewardedAd: MTRGRewardedAd) {
-		self.rewardedAd = rewardedAd
-		super.init(nibName: nil, bundle: nil)
-	}
+    init(rewardedAd: MTRGRewardedAd) {
+	    self.rewardedAd = rewardedAd
+	    super.init(nibName: nil, bundle: nil)
+    }
 
-	@available(*, unavailable)
-	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+	    fatalError("init(coder:) has not been implemented")
+    }
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+	    super.viewDidAppear(animated)
 
-		guard !didShowAd else {
-			return
-		}
+	    guard !didShowAd else {
+    	    return
+	    }
 
-		rewardedAd.show(with: self)
-		didShowAd = true
-	}
+	    rewardedAd.show(with: self)
+	    didShowAd = true
+    }
 
 }

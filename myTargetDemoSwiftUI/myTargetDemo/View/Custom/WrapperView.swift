@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct WrapperView: UIViewRepresentable {
-	typealias UIViewType = UIView
-	let view: UIView
+    typealias UIViewType = UIView
+    let view: UIView
 
-	func makeUIView(context: Context) -> UIView {
-		view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		return view
-	}
+    func makeUIView(context: Context) -> UIView {
+	    view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+	    return view
+    }
 
-	func updateUIView(_ uiView: UIView, context: Context) {
-		//
-	}
+    func updateUIView(_ uiView: UIView, context: Context) {
+	    //
+    }
 }

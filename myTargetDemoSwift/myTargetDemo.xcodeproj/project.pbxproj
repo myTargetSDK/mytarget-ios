@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,6 +28,16 @@
 		89F0E1DC22BA71FC006B8B93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F0E1DB22BA71FC006B8B93 /* AppDelegate.swift */; };
 		89F0E1E322BA71FD006B8B93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89F0E1E222BA71FD006B8B93 /* Assets.xcassets */; };
 		89F0E1E622BA71FD006B8B93 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F0E1E422BA71FD006B8B93 /* LaunchScreen.storyboard */; };
+		8A4F33C9299BC3CD00047F5A /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F33C8299BC3CD00047F5A /* MenuItem.swift */; };
+		8A4F33CB299BC6F600047F5A /* MainMenuCustomRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F33CA299BC6F600047F5A /* MainMenuCustomRoute.swift */; };
+		8A4F33CE299BC7D900047F5A /* AdvancedExamplesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F33CD299BC7D900047F5A /* AdvancedExamplesViewController.swift */; };
+		8A4F33D0299BC8B800047F5A /* AdvancedExamplesRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F33CF299BC8B800047F5A /* AdvancedExamplesRoute.swift */; };
+		8A4F33D2299BCA4A00047F5A /* CustomCarouselViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F33D1299BCA4A00047F5A /* CustomCarouselViewController.swift */; };
+		8A4F33D5299BCDD200047F5A /* CarouselCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F33D4299BCDD200047F5A /* CarouselCollectionView.swift */; };
+		8A4F33D7299BCEA200047F5A /* CarouselCollectionCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F33D6299BCEA200047F5A /* CarouselCollectionCellView.swift */; };
+		8A4F33DA299BD82500047F5A /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F33D9299BD82500047F5A /* ImageLoader.swift */; };
+		8A4F33DC299BDAE400047F5A /* UIImageView+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F33DB299BDAE400047F5A /* UIImageView+Loading.swift */; };
+		8A4F33DE299BEFF600047F5A /* CustomNativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F33DD299BEFF600047F5A /* CustomNativeAdView.swift */; };
 		8A56C88428A26C1800C8086A /* Advertisment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C88328A26C1800C8086A /* Advertisment.swift */; };
 		8A56C88628A26C3700C8086A /* AdvertismentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C88528A26C3700C8086A /* AdvertismentType.swift */; };
 		8A56C88828A26D2A00C8086A /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C88728A26D2A00C8086A /* TitleView.swift */; };
@@ -49,8 +59,6 @@
 		8A56C8B428B37AC300C8086A /* PlayerAdButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8B328B37AC300C8086A /* PlayerAdButton.swift */; };
 		8A56C8B628B5193700C8086A /* AddingAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8B528B5193700C8086A /* AddingAdViewController.swift */; };
 		8A56C8B828B51D8300C8086A /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8B728B51D8300C8086A /* InputView.swift */; };
-		8A56C8BA28B6536800C8086A /* UIViewController+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8B928B6536800C8086A /* UIViewController+SafeArea.swift */; };
-		8A56C8BC28B6541B00C8086A /* UIView+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8BB28B6541B00C8086A /* UIView+SafeArea.swift */; };
 		8A56C8BE28B6691600C8086A /* InstreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8BD28B6691600C8086A /* InstreamView.swift */; };
 		8A56C8C628B75AFC00C8086A /* CustomAdvertisment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56C8C528B75AFC00C8086A /* CustomAdvertisment.swift */; };
 /* End PBXBuildFile section */
@@ -81,6 +89,16 @@
 		89F0E1E222BA71FD006B8B93 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		89F0E1E522BA71FD006B8B93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89F0E1E722BA71FD006B8B93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8A4F33C8299BC3CD00047F5A /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
+		8A4F33CA299BC6F600047F5A /* MainMenuCustomRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuCustomRoute.swift; sourceTree = "<group>"; };
+		8A4F33CD299BC7D900047F5A /* AdvancedExamplesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedExamplesViewController.swift; sourceTree = "<group>"; };
+		8A4F33CF299BC8B800047F5A /* AdvancedExamplesRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedExamplesRoute.swift; sourceTree = "<group>"; };
+		8A4F33D1299BCA4A00047F5A /* CustomCarouselViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCarouselViewController.swift; sourceTree = "<group>"; };
+		8A4F33D4299BCDD200047F5A /* CarouselCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionView.swift; sourceTree = "<group>"; };
+		8A4F33D6299BCEA200047F5A /* CarouselCollectionCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionCellView.swift; sourceTree = "<group>"; };
+		8A4F33D9299BD82500047F5A /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		8A4F33DB299BDAE400047F5A /* UIImageView+Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Loading.swift"; sourceTree = "<group>"; };
+		8A4F33DD299BEFF600047F5A /* CustomNativeAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNativeAdView.swift; sourceTree = "<group>"; };
 		8A56C88328A26C1800C8086A /* Advertisment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advertisment.swift; sourceTree = "<group>"; };
 		8A56C88528A26C3700C8086A /* AdvertismentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertismentType.swift; sourceTree = "<group>"; };
 		8A56C88728A26D2A00C8086A /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
@@ -102,8 +120,6 @@
 		8A56C8B328B37AC300C8086A /* PlayerAdButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAdButton.swift; sourceTree = "<group>"; };
 		8A56C8B528B5193700C8086A /* AddingAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingAdViewController.swift; sourceTree = "<group>"; };
 		8A56C8B728B51D8300C8086A /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
-		8A56C8B928B6536800C8086A /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
-		8A56C8BB28B6541B00C8086A /* UIView+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeArea.swift"; sourceTree = "<group>"; };
 		8A56C8BD28B6691600C8086A /* InstreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstreamView.swift; sourceTree = "<group>"; };
 		8A56C8C528B75AFC00C8086A /* CustomAdvertisment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAdvertisment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -144,10 +160,9 @@
 			children = (
 				4FF5AD3428EDBEC700B79C89 /* CGSize+Resize.swift */,
 				89CEA60B22E6F67000D0CD1E /* UIColor+DarkMode.swift */,
+				8A4F33DB299BDAE400047F5A /* UIImageView+Loading.swift */,
 				4FAD1E5C298CF892006FE0A0 /* UIImage+Images.swift */,
 				4FAD1E5E298D1DC2006FE0A0 /* UIImageView+Download.swift */,
-				8A56C8BB28B6541B00C8086A /* UIView+SafeArea.swift */,
-				8A56C8B928B6536800C8086A /* UIViewController+SafeArea.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -178,6 +193,8 @@
 			children = (
 				8A56C88528A26C3700C8086A /* AdvertismentType.swift */,
 				89CEA61022E7072700D0CD1E /* DefaultSlots.swift */,
+				8A4F33CA299BC6F600047F5A /* MainMenuCustomRoute.swift */,
+				8A4F33CF299BC8B800047F5A /* AdvancedExamplesRoute.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -209,6 +226,7 @@
 				89CEA60F22E7070100D0CD1E /* Enums */,
 				8A56C88228A26C0900C8086A /* Models */,
 				89BB245D22DCBEB900610CFF /* Views */,
+				8A4F33D8299BD81100047F5A /* Managers */,
 				894F9AB122E5FDE3008D0064 /* Extensions */,
 				89F0E1ED22BA7379006B8B93 /* Supporting Files */,
 			);
@@ -236,9 +254,38 @@
 				8A56C8C228B67A1400C8086A /* Native */,
 				8A56C8C328B67A1F00C8086A /* Native banner */,
 				8A56C8C428B67A2B00C8086A /* Instream */,
+				8A4F33CC299BC75800047F5A /* Advanced */,
 				4FDFD986298BD86500D85FE7 /* InstreamAudio */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		8A4F33CC299BC75800047F5A /* Advanced */ = {
+			isa = PBXGroup;
+			children = (
+				8A4F33CD299BC7D900047F5A /* AdvancedExamplesViewController.swift */,
+				8A4F33D3299BCD9000047F5A /* Custom Carousel */,
+			);
+			path = Advanced;
+			sourceTree = "<group>";
+		};
+		8A4F33D3299BCD9000047F5A /* Custom Carousel */ = {
+			isa = PBXGroup;
+			children = (
+				8A4F33D6299BCEA200047F5A /* CarouselCollectionCellView.swift */,
+				8A4F33D4299BCDD200047F5A /* CarouselCollectionView.swift */,
+				8A4F33D1299BCA4A00047F5A /* CustomCarouselViewController.swift */,
+				8A4F33DD299BEFF600047F5A /* CustomNativeAdView.swift */,
+			);
+			path = "Custom Carousel";
+			sourceTree = "<group>";
+		};
+		8A4F33D8299BD81100047F5A /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				8A4F33D9299BD82500047F5A /* ImageLoader.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		8A56C88228A26C0900C8086A /* Models */ = {
@@ -246,6 +293,7 @@
 			children = (
 				8A56C88328A26C1800C8086A /* Advertisment.swift */,
 				8A56C8C528B75AFC00C8086A /* CustomAdvertisment.swift */,
+				8A4F33C8299BC3CD00047F5A /* MenuItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -321,6 +369,7 @@
 				89F0E1D422BA71FC006B8B93 /* Sources */,
 				89F0E1D522BA71FC006B8B93 /* Frameworks */,
 				89F0E1D622BA71FC006B8B93 /* Resources */,
+				8ADB70D229F967C00066F1ED /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -376,6 +425,28 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8ADB70D229F967C00066F1ED /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SWIFT_LINT=${SRCROOT}/../myTarget/scripts/swiftlint\nSWIFT_LINT_CONFIG=${SRCROOT}/../.swiftlint.yml\n\nif [ -f ${SWIFT_LINT} ] && [ -f ${SWIFT_LINT_CONFIG} ]; then\n    ${SWIFT_LINT} --fix --config ${SWIFT_LINT_CONFIG}\n    ${SWIFT_LINT} lint --config ${SWIFT_LINT_CONFIG}\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		89F0E1D422BA71FC006B8B93 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -388,42 +459,50 @@
 				4F814DFE2991429700A34F7F /* AudioPlayer+Loader.swift in Sources */,
 				8A56C8A628AD572400C8086A /* MenuTableViewCell.swift in Sources */,
 				8A56C8AC28AF6A9D00C8086A /* InterstitialViewController.swift in Sources */,
+				8A4F33CE299BC7D900047F5A /* AdvancedExamplesViewController.swift in Sources */,
+				8A4F33C9299BC3CD00047F5A /* MenuItem.swift in Sources */,
 				89CEA61122E7072700D0CD1E /* DefaultSlots.swift in Sources */,
 				89CEA61522E74A5100D0CD1E /* NotificationView.swift in Sources */,
 				8A56C89C28A6BADB00C8086A /* NativeViewController.swift in Sources */,
 				4FDFD988298BD94200D85FE7 /* InstreamAudioViewController.swift in Sources */,
 				4FAC0ED728CF396400DB535C /* AlertMenu.swift in Sources */,
+				8A4F33D5299BCDD200047F5A /* CarouselCollectionView.swift in Sources */,
 				891A13A122F9662A00AE192B /* ProgressView.swift in Sources */,
 				8A56C8B228AF834600C8086A /* InfoView.swift in Sources */,
 				4FF5AD3528EDBEC700B79C89 /* CGSize+Resize.swift in Sources */,
+				8A4F33D2299BCA4A00047F5A /* CustomCarouselViewController.swift in Sources */,
 				4FB1A9DF28F58A16008656D2 /* NativeCloseManuallyViewController.swift in Sources */,
 				89BB245F22DCBEE900610CFF /* RadioButtons.swift in Sources */,
 				8A56C8A228ACF38700C8086A /* MainViewController.swift in Sources */,
-				8A56C8BC28B6541B00C8086A /* UIView+SafeArea.swift in Sources */,
+				8A4F33DE299BEFF600047F5A /* CustomNativeAdView.swift in Sources */,
 				8A56C8A428ACFB9600C8086A /* SceneDelegate.swift in Sources */,
 				8A56C8A028AAC12000C8086A /* BannerViewController.swift in Sources */,
 				89537E3C246BFAA400224397 /* LoadingReusableView.swift in Sources */,
 				8A56C89828A4F71100C8086A /* GeneralCollectionCell.swift in Sources */,
 				89F0E1DC22BA71FC006B8B93 /* AppDelegate.swift in Sources */,
+				8A4F33D0299BC8B800047F5A /* AdvancedExamplesRoute.swift in Sources */,
+				8A4F33D7299BCEA200047F5A /* CarouselCollectionCellView.swift in Sources */,
 				8A56C8BE28B6691600C8086A /* InstreamView.swift in Sources */,
 				8A56C8AE28AF76D000C8086A /* RewardedViewController.swift in Sources */,
 				4FAD1E5F298D1DC2006FE0A0 /* UIImageView+Download.swift in Sources */,
 				8A56C89E28A6CB1800C8086A /* BottomBannerViewController.swift in Sources */,
 				89CEA60E22E7001000D0CD1E /* CustomButton.swift in Sources */,
 				8A56C88628A26C3700C8086A /* AdvertismentType.swift in Sources */,
+				8A4F33DC299BDAE400047F5A /* UIImageView+Loading.swift in Sources */,
 				4FAD1E5D298CF892006FE0A0 /* UIImage+Images.swift in Sources */,
 				8A56C88428A26C1800C8086A /* Advertisment.swift in Sources */,
 				8A56C8B428B37AC300C8086A /* PlayerAdButton.swift in Sources */,
 				8A56C88828A26D2A00C8086A /* TitleView.swift in Sources */,
-				8A56C8BA28B6536800C8086A /* UIViewController+SafeArea.swift in Sources */,
 				4F814DFC2991357000A34F7F /* AudioPlayer.swift in Sources */,
 				8A56C89628A3B57300C8086A /* NativeBannerViewController.swift in Sources */,
+				8A4F33DA299BD82500047F5A /* ImageLoader.swift in Sources */,
 				4FF5AD3128EDA52E00B79C89 /* NativeDrawingManualViewController.swift in Sources */,
 				4FDFD98A298BDA9500D85FE7 /* InstreamAudioView.swift in Sources */,
 				8A56C8B628B5193700C8086A /* AddingAdViewController.swift in Sources */,
 				891A138D22F2F11E00AE192B /* VideoPlayerView.swift in Sources */,
 				8A56C89A28A5474900C8086A /* AdCollectionCell.swift in Sources */,
 				8A56C8AA28AEAA0E00C8086A /* BannerSettingsViewController.swift in Sources */,
+				8A4F33CB299BC6F600047F5A /* MainMenuCustomRoute.swift in Sources */,
 				8A56C8A828AE2F0300C8086A /* NativeSettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,7 +574,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -552,7 +631,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -572,7 +651,7 @@
 				ENABLE_BITCODE = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "myTargetDemo/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -597,7 +676,7 @@
 				ENABLE_BITCODE = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "myTargetDemo/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

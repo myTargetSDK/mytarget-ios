@@ -1,5 +1,5 @@
 //
-//  myTargetDemoApp.swift
+//  MyTargetDemoApp.swift
 //  myTargetDemo
 //
 //  Created by Andrey Seredkin on 01.09.2022.
@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct myTargetDemoApp: App {
+struct MyTargetDemoApp: App {
     var body: some Scene {
         WindowGroup {
-			SplashView()
+            SplashView()
         }
     }
 }

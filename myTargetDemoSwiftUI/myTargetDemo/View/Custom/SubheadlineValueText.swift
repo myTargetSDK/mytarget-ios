@@ -9,25 +9,25 @@
 import SwiftUI
 
 struct SubheadlineValueText: View {
-	private let text: String
-	private let maxTextWidth: CGFloat
+    private let text: String
+    private let maxTextWidth: CGFloat
 
-	init(_ text: String, maxTextWidth: CGFloat = 75) {
-		self.text = text
-		self.maxTextWidth = maxTextWidth
-	}
+    init(_ text: String, maxTextWidth: CGFloat = 75) {
+	    self.text = text
+	    self.maxTextWidth = maxTextWidth
+    }
 
-	var body: some View {
-		Text(text)
-			.bold()
-			.lineLimit(1)
-			.frame(maxWidth: maxTextWidth, alignment: .trailing)
-			.font(.subheadline)
-	}
+    var body: some View {
+	    Text(text)
+    	    .bold()
+    	    .lineLimit(1)
+    	    .frame(maxWidth: maxTextWidth, alignment: .trailing)
+    	    .font(.subheadline)
+    }
 }
 
 struct SubheadlineValueText_Previews: PreviewProvider {
-	static var previews: some View {
-		SubheadlineValueText("Text")
-	}
+    static var previews: some View {
+	    SubheadlineValueText("Text")
+    }
 }

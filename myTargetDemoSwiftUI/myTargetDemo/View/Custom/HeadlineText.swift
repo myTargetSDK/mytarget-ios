@@ -9,22 +9,22 @@
 import SwiftUI
 
 struct HeadlineText: View {
-	private let text: String
+    private let text: String
 
-	init(_ text: String) {
-		self.text = text
-	}
+    init(_ text: String) {
+	    self.text = text
+    }
 
-	var body: some View {
-		Text(text)
-			.lineLimit(1)
-			.font(.headline)
-			.frame(maxWidth: .infinity, alignment: .leading)
-	}
+    var body: some View {
+	    Text(text)
+    	    .lineLimit(1)
+    	    .font(.headline)
+    	    .frame(maxWidth: .infinity, alignment: .leading)
+    }
 }
 
 struct HeadlineText_Previews: PreviewProvider {
-	static var previews: some View {
-		HeadlineText("Text")
-	}
+    static var previews: some View {
+	    HeadlineText("Text")
+    }
 }

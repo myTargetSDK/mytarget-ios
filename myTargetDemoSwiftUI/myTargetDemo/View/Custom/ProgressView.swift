@@ -9,19 +9,19 @@
 import SwiftUI
 
 struct ProgressView: UIViewRepresentable {
-	typealias UIViewType = VideoProgressView
+    typealias UIViewType = VideoProgressView
 
-	let duration: TimeInterval
+    let duration: TimeInterval
 
-	@Binding var position: TimeInterval
-	@Binding var points: [Double]
+    @Binding var position: TimeInterval
+    @Binding var points: [Double]
 
-	func makeUIView(context: Context) -> VideoProgressView {
-		VideoProgressView(duration: duration)
-	}
+    func makeUIView(context: Context) -> VideoProgressView {
+	    VideoProgressView(duration: duration)
+    }
 
-	func updateUIView(_ uiView: VideoProgressView, context: Context) {
-		uiView.position = position
-		uiView.points = points
-	}
+    func updateUIView(_ uiView: VideoProgressView, context: Context) {
+	    uiView.position = position
+	    uiView.points = points
+    }
 }

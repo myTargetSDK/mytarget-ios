@@ -64,7 +64,7 @@ final class InterstitialViewModel: NSObject, ObservableObject {
     }
 
     func show() {
-		guard let currentAd = currentAd else {
+	    guard let currentAd = currentAd else {
             state = .noAd
             return
         }
@@ -77,6 +77,12 @@ extension InterstitialViewModel: MTRGInterstitialAdDelegate {
     func onLoad(with interstitialAd: MTRGInterstitialAd) {
         print("InterstitialViewModel: onLoad() called")
         state = .loaded(interstitialAd)
+    }
+
+    func onLoadFailed(error: Error, interstitialAd: MTRGInterstitialAd) {
+        print("InterstitialViewModel: onLoadFailed() called")
+        state = .noAd
+        currentAd = nil
     }
 
     func onNoAd(withReason reason: String, interstitialAd: MTRGInterstitialAd) {
