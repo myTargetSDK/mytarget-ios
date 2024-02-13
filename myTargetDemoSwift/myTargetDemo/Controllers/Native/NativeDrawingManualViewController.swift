@@ -250,4 +250,7 @@ extension NativeDrawingManualViewController: MTRGNativeAdMediaDelegate {
 		notificationView.showMessage("onAdChoicesIconLoad() called")
 	}
 
+    func onMediaLoadFailed(with nativeAd: MTRGNativeAd) {
+        notificationView.showMessage("onMediaLoadFailed() called")
+    }
 }
