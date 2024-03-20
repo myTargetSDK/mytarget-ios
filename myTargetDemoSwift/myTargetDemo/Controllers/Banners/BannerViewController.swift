@@ -18,6 +18,7 @@ final class BannerViewController: UIViewController {
 
     private let slotId: UInt
     private let query: [String: String]?
+    private var adView: MTRGAdView?
     private let adSize: MTRGAdSize?
     private let adContentIndex: Int = 2
 
@@ -94,6 +95,9 @@ final class BannerViewController: UIViewController {
 
         query?.forEach { adView.customParams.setCustomParam($0.value, forKey: $0.key) }
 
+        self.adView = adView
+        isLoading = true
+
         adView.load()
         notificationView.showMessage("Loading...")
     }
@@ -111,7 +115,6 @@ final class BannerViewController: UIViewController {
             return
         }
 
-        isLoading = true
         loadBanner()
     }
 
@@ -137,6 +140,7 @@ extension BannerViewController: MTRGAdViewDelegate {
     }
 
     func onLoadFailed(error: Error, adView: MTRGAdView) {
+        self.adView = nil
         renderContent(for: nil)
         notificationView.showMessage("onLoadFailed(\(error)) called")
     }
