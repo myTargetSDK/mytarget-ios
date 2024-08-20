@@ -77,7 +77,7 @@ extension AudioPlayer {
                 }
 
                 // Move file to target location
-                let newLocation = self.documentDirectory.appendingPathExtension(url.lastPathComponent)
+                let newLocation = self.documentDirectory.appendingPathComponent(url.lastPathComponent)
 
                 let result: Result<URL, Error>
                 if let location = try? FileManager.default.replaceItemAt(newLocation, withItemAt: tmpLocation) {
