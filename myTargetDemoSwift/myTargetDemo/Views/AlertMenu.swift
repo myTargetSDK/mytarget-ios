@@ -34,16 +34,14 @@ final class AlertMenu: NSObject, MTRGMenu {
 }
 
 extension MTRGMenuActionStyle {
-
-	var alertAction: UIAlertAction.Style {
-		switch self {
-		case .default:
-			return .default
-		case .cancel:
-			return .cancel
-		@unknown default:
-			return .default
-		}
-	}
-
+    var alertAction: UIAlertAction.Style {
+        switch self {
+        case .default:
+            return .default
+        case .cancel:
+            return .cancel
+        default:
+            return .default
+        }
+    }
 }
