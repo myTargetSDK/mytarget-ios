@@ -100,6 +100,7 @@ final class NativeDrawingManualViewController: UIViewController {
 		let nativeAd = MTRGNativeAd(slotId: slotId, adChoicesMenuFactory: AlertMenuFactory())
 		query?.forEach { nativeAd.customParams.setCustomParam($0.value, forKey: $0.key) }
 		nativeAd.delegate = self
+        nativeAd.videoDelegate = self
 		nativeAd.mediaDelegate = self
 		nativeAd.adChoicesPlacement = MTRGAdChoicesPlacementDrawingManual
 		nativeAd.cachePolicy = MTRGCachePolicyNone // Load ad's images asynchronously
@@ -219,17 +220,39 @@ extension NativeDrawingManualViewController: MTRGNativeAdDelegate {
 		notificationView.showMessage("onLeaveApplication() called")
 	}
 
-	func onVideoPlay(with nativeAd: MTRGNativeAd) {
-		notificationView.showMessage("onVideoPlay() called")
-	}
+}
 
-	func onVideoPause(with nativeAd: MTRGNativeAd) {
-		notificationView.showMessage("onVideoPause() called")
-	}
+// MARK: - MTRGNativeAdVideoDelegate
 
-	func onVideoComplete(with nativeAd: MTRGNativeAd) {
-		notificationView.showMessage("onVideoComplete() called")
-	}
+extension NativeDrawingManualViewController: MTRGNativeAdVideoDelegate {
+
+    func onVideoStart(with nativeAd: MTRGNativeAd) {
+        notificationView.showMessage("onVideoStart() called")
+    }
+
+    func onVideoPause(with nativeAd: MTRGNativeAd) {
+        notificationView.showMessage("onVideoPause() called")
+    }
+
+    func onVideoResume(with nativeAd: MTRGNativeAd) {
+        notificationView.showMessage("onVideoResume() called")
+    }
+
+    func onVideoReplay(with nativeAd: MTRGNativeAd) {
+        notificationView.showMessage("onVideoReplay() called")
+    }
+
+    func onVideoProgress(withTime time: TimeInterval, duration: TimeInterval, nativeAd: MTRGNativeAd) {
+        // notificationView.showMessage("onVideoProgress() called")
+    }
+
+    func onVideoComplete(with nativeAd: MTRGNativeAd) {
+        notificationView.showMessage("onVideoComplete() called")
+    }
+
+    func onVideoError(_ error: any Error, nativeAd: MTRGNativeAd) {
+        notificationView.showMessage("onVideoError() called")
+    }
 
 }
 

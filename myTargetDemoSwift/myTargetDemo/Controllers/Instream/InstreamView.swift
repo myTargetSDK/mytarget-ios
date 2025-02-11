@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MyTargetSDK
 
 final class InstreamView: UIView {
 
@@ -18,6 +19,7 @@ final class InstreamView: UIView {
         case preparing(Video)
         case playing(Video)
         case onPause(Video)
+        case postView(Video, CallToActionData)
         case complete
         case error(reason: String)
 
@@ -75,6 +77,14 @@ final class InstreamView: UIView {
     private(set) lazy var skipButton: PlayerAdButton = .init(title: "Skip")
     private(set) lazy var skipAllButton: PlayerAdButton = .init(title: "Skip All")
     private(set) lazy var progressView = ProgressView(duration: InstreamViewController.mainVideoDuration)
+
+    private(set) lazy var postViewPlayer: PostViewPlayer = {
+        let postViewPlayer = PostViewPlayer()
+        postViewPlayer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        postViewPlayer.frame = containerView.bounds
+        return postViewPlayer
+    }()
+
     private(set) lazy var mainVideoView: VideoPlayerView = {
         let mainVideoView = VideoPlayerView()
         mainVideoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -148,6 +158,7 @@ final class InstreamView: UIView {
         containerView.addSubview(mainVideoView)
         containerView.addSubview(adChoicesButton)
         containerView.addSubview(advertisingLabel)
+        containerView.addSubview(postViewPlayer)
     }
 
     override func layoutSubviews() {
@@ -304,6 +315,7 @@ private extension InstreamView {
         skipAllButton.isHidden = true
         adChoicesButton.isHidden = true
         advertisingLabel.isHidden = true
+        postViewPlayer.isHidden = true
 
         playButton.isEnabled = false
         pauseButton.isEnabled = false
@@ -326,6 +338,8 @@ private extension InstreamView {
             applyPlayingState(video: video)
         case .onPause(let video):
             applyOnPauseState(video: video)
+        case .postView(_, let cta):
+            applyPostViewState(cta: cta)
         case .complete:
             applyCompleteState()
         case .error(let reason):
@@ -406,6 +420,11 @@ private extension InstreamView {
             adChoicesButton.isHidden = false
             advertisingLabel.isHidden = false
         }
+    }
+
+    func applyPostViewState(cta: CallToActionData) {
+        postViewPlayer.callToAction = cta
+        postViewPlayer.isHidden = false
     }
 
     func applyCompleteState() {

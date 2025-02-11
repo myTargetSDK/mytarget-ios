@@ -21,6 +21,7 @@ final class InstreamViewController: UIViewController {
     private var midpoints: [Double] = []
     private var timer: Timer?
     private var shouldSkipAllAds: Bool = false
+    private var bannerCallToAction: CallToActionData?
 
     private var customView: InstreamView {
         // swiftlint:disable:next force_cast
@@ -59,6 +60,7 @@ final class InstreamViewController: UIViewController {
         navigationItem.title = "In-stream video"
 
         customView.mainVideoView.delegate = self
+        customView.postViewPlayer.delegate = self
 
         customView.ctaButton.addTarget(self, action: #selector(ctaButtonTap(_:)), for: .touchUpInside)
         customView.skipButton.addTarget(self, action: #selector(skipButtonTap(_:)), for: .touchUpInside)
@@ -110,6 +112,7 @@ final class InstreamViewController: UIViewController {
 
         instreamAd = MTRGInstreamAd(slotId: slotId ?? Slot.instreamVideo.id, menuFactory: AlertMenuFactory())
         instreamAd?.useDefaultPlayer()
+        instreamAd?.postViewPlayer = customView.postViewPlayer
         instreamAd?.delegate = self
 
         instreamAd?.configureMidpoints(forVideoDuration: InstreamViewController.mainVideoDuration)
@@ -343,7 +346,8 @@ extension InstreamViewController: MTRGInstreamAdDelegate {
         }
 
         state = .playing(video)
-        customView.ctaButton.setTitle(banner.ctaText, for: .normal)
+        bannerCallToAction = banner.cta
+        customView.ctaButton.setTitle(banner.cta.buttonText, for: .normal)
         customView.advertisingLabel.text = banner.advertisingLabel
         customView.adChoicesButton.setImage(banner.adChoicesImage, for: .normal)
         notificationView.showMessage("onBannerStart() called")
@@ -426,4 +430,37 @@ extension InstreamViewController: VideoPlayerViewDelegate {
         notificationView.showMessage("Error: \(error)")
     }
 
+    func onPostViewStart() {
+        notificationView.showMessage("onPostViewStart() called")
+
+        guard case let .playing(video) = state, let bannerCallToAction else {
+            return
+        }
+
+        state = .postView(video, bannerCallToAction)
+    }
+
+    func onPostViewComplete() {
+        notificationView.showMessage("onPostViewComplete() called")
+
+        guard case let .postView(video, _) = state else {
+            return
+        }
+
+        switch video {
+        case .postroll:
+            state = .complete
+        default:
+            playMainVideo()
+        }
+    }
+}
+
+// MARK: - PostViewPlayerViewDelegate
+
+extension InstreamViewController: PostViewPlayerViewDelegate {
+    func onCtaButtonClick() {
+        notificationView.showMessage("onCtaButtonClick() called")
+        instreamAd?.handleClick(with: self)
+    }
 }
